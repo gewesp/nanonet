@@ -1,5 +1,23 @@
 # nanonet TODOs
 
+
+## Before anything else: Project setup / maintenance
+
+* Rename cpp-lib -> nanonet including namespaces
+* Have uniform directories, i.e. all shell scripts in scripts, only source code in src, include, testing etc.
+* Set up clang-format
+* Set up clang-tidy
+* Move to C++20
+
+
+## Features
+
+* Think of how to make it header only
+* Use C++20 features
+
+
+## Networking TODOs
+
 - Implement performance preferences?
 
   See Java implementation:
