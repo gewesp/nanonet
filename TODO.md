@@ -10,6 +10,7 @@
 * Set up clang-tidy
 * Get rid of boost: As of 6/2025, we still use predef.h and some trivial string
   functions (e.g. trim()). (almost done)
+* math-util: only `rate_estimator` is needed
 * Think of reasonable UTF8 support
 
 
