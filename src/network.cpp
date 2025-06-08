@@ -24,9 +24,6 @@
 #include "cpp-lib/detail/socket_lowlevel.h"
 #include "cpp-lib/sys/syslogger.h"
 
-#include "boost/lexical_cast.hpp"
-#include "boost/cast.hpp"
-
 #include <string>
 #include <sstream>
 #include <exception>
