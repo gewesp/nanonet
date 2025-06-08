@@ -50,7 +50,6 @@ set(public-headers
     "include/cpp-lib/xdr.h"
 
     "include/cpp-lib/sys/file.h"
-    "include/cpp-lib/sys/logger.h"
     "include/cpp-lib/sys/network.h"
     "include/cpp-lib/sys/server.h"
     "include/cpp-lib/sys/syslogger.h"
@@ -77,7 +76,6 @@ set(sources
     "src/detail/socket_lowlevel.cpp"
 
     "src/sys/file.cpp"
-    "src/sys/logger.cpp"
     "src/sys/net-util.cpp"
     "src/sys/server.cpp"
     "src/sys/syslogger.cpp"
