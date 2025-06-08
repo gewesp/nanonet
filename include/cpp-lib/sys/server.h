@@ -32,11 +32,10 @@
 
 #include "cpp-lib/sys/network.h"
 
-#include <boost/optional.hpp>
-
 #include <atomic>
 #include <functional>
 #include <iosfwd>
+#include <optional>
 #include <stdexcept>
 #include <thread>
 
@@ -282,7 +281,7 @@ std::string this_thread_id_paren();
 [[nodiscard]] server_manager run_server(
     input_handler_type const& handler,
     running_flag& running,
-    boost::optional<os_writer> welcome = boost::none,
+    std::optional<os_writer> welcome = std::nullopt,
     server_parameters const& params = server_parameters(),
     std::ostream* sl = nullptr);
 

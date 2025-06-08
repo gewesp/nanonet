@@ -14,6 +14,15 @@
 // limitations under the License.
 //
 
+#include "cpp-lib/error.h"
+#include "cpp-lib/http.h"
+#include "cpp-lib/registry.h"
+#include "cpp-lib/util.h"
+#include "cpp-lib/sys/network.h"
+#include "cpp-lib/sys/server.h"
+#include "cpp-lib/sys/syslogger.h"
+#include "cpp-lib/sys/util.h"
+
 #include <iostream>
 #include <iterator>
 #include <string>
@@ -21,22 +30,12 @@
 #include <exception>
 #include <stdexcept>
 #include <algorithm>
+#include <optional>
 #include <memory>
 #include <random>
 #include <thread>
 
 #include <cassert>
-
-#include "cpp-lib/error.h"
-// #include "cpp-lib/gnss.h"
-#include "cpp-lib/http.h"
-// #include "cpp-lib/map.h"
-#include "cpp-lib/registry.h"
-#include "cpp-lib/util.h"
-#include "cpp-lib/sys/network.h"
-#include "cpp-lib/sys/server.h"
-#include "cpp-lib/sys/syslogger.h"
-#include "cpp-lib/sys/util.h"
 
 
 // Daytime server, note that these may be replaced by UDP sometime soon,
@@ -347,7 +346,7 @@ void run_http_server(std::ostream& sl, const std::string& port) {
   // returned server_manager (otherwise [[nodiscard]]).
   cpl::util::mark_unused(
       cpl::util::run_server(
-          http_service_handle_line, run, boost::none, p, &sl));
+          http_service_handle_line, run, std::nullopt, p, &sl));
 }
 
 

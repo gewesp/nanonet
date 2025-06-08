@@ -18,11 +18,6 @@
 
 #include "cpp-lib/exception.h"
 
-#include "boost/lexical_cast.hpp"
-#include "boost/property_tree/ptree.hpp"
-#include "boost/property_tree/xml_parser.hpp"
-
-
 
 void cpl::util::throw_timeout_exception(
     const double t, const std::string& op) {

@@ -27,6 +27,7 @@
 #include <iostream>
 #include <functional>
 #include <stdexcept>
+#include <string>
 #include <thread>
 
 using namespace cpl::util          ;
@@ -34,10 +35,10 @@ using namespace cpl::util::log     ;
 using namespace cpl::util::network ;
 
 std::string cpl::util::this_thread_id_paren() {
-  return
-      "(thread " 
-    + boost::lexical_cast<std::string>(std::this_thread::get_id())
-    + ")";
+  // TODO: Replace by std::format(); requires full C++23 support
+  std::ostringstream oss;
+  oss << "(thread " << std::this_thread::get_id() << ")";
+  return oss.str();
 }
 
 namespace {
@@ -56,7 +57,7 @@ struct connection_thread {
       count_sentry sentry_in,
       server_parameters const& params,
       input_handler_type const& handler,
-      boost::optional<os_writer> const welcome,
+      std::optional<os_writer> const welcome,
       std::reference_wrapper<cpl::util::running_flag> running_in,
       std::reference_wrapper<cpl::util::server_status> status_in)
     : c{std::move(c)},
@@ -78,7 +79,7 @@ private:
   count_sentry sentry;
   server_parameters params;
   input_handler_type handler;
-  boost::optional<os_writer> welcome;
+  std::optional<os_writer> welcome;
   std::reference_wrapper<cpl::util::running_flag> running;
   std::reference_wrapper<cpl::util::server_status> status;
 };
@@ -106,14 +107,14 @@ void handle_connection(
     std::ostream& sl, 
     const server_parameters& params,
     const cpl::util::server_status& status,
-    boost::optional<os_writer> const welcome,
+    std::optional<os_writer> const welcome,
     input_handler_type const& handler,
     std::istream& is,
     std::ostream& os,
     cpl::util::running_flag& running) {
 
   if (welcome) {
-    (welcome.get())(os, status);
+    (welcome.value())(os, status);
   }
 
   std::string line;
@@ -189,7 +190,7 @@ struct server_thread {
   server_thread(
       acceptor&& a_in,
       input_handler_type const& handler_in,
-      boost::optional<os_writer> const welcome_in,
+      std::optional<os_writer> const welcome_in,
       const server_parameters& params_in,
       std::reference_wrapper<cpl::util::running_flag> running_in)
   : a(std::move(a_in)),
@@ -204,7 +205,7 @@ struct server_thread {
 private:
   acceptor a;
   input_handler_type handler;
-  boost::optional<os_writer> welcome;
+  std::optional<os_writer> welcome;
   server_parameters params;
   std::reference_wrapper<cpl::util::running_flag> running;
 };
@@ -337,7 +338,7 @@ void ::connection_rates::update_status(server_status& s) const {
 cpl::util::server_manager cpl::util::run_server(
     input_handler_type const& handler,
     cpl::util::running_flag& running,
-    boost::optional<os_writer> const welcome,
+    std::optional<os_writer> const welcome,
     server_parameters const& params,
     std::ostream* sl) {
   if ("test:stdio" == params.service) {
