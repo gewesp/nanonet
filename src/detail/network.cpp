@@ -19,6 +19,8 @@
 #include "cpp-lib/detail/platform_net_impl.h"
 #include "cpp-lib/detail/socket_lowlevel.h"
 
+#include "cpp-lib/math-util.h"
+
 using cpl::detail_::socketfd_t;
 using cpl::detail_::invalid_socket;
 
