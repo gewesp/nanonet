@@ -8,7 +8,7 @@ cmake_minimum_required(VERSION 3.20)
 message("-- Nanonet cmake file")
 message("-- Project source directory: ${PROJECT_SOURCE_DIR}")
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(MY_WARNING_FLAGS -Wall -Wextra -Werror)
 
 project(nanonet VERSION 0.0.2)
