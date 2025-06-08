@@ -42,7 +42,6 @@ set(public-headers
     include/cpp-lib/error.h
     include/cpp-lib/exception.h
     include/cpp-lib/http.h
-    include/cpp-lib/memory.h
     include/cpp-lib/registry.h
     include/cpp-lib/util.h
     include/cpp-lib/xdr.h
@@ -63,7 +62,6 @@ set(sources
     src/error.cpp
     src/http.cpp
     src/math-util.cpp
-    src/memory.cpp
     src/network.cpp
     src/registry.cpp
     src/util.cpp
