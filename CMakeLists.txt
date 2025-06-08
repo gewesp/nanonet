@@ -1,5 +1,4 @@
 # TODOs
-# - C++20
 # - No Boost dependency
 # - Simplify / modernize this cmake file
 
@@ -11,14 +10,14 @@ message("-- Project source directory: ${PROJECT_SOURCE_DIR}")
 set(CMAKE_CXX_STANDARD 20)
 set(MY_WARNING_FLAGS -Wall -Wextra -Werror)
 
-project(nanonet VERSION 0.0.2)
+project(nanonet VERSION 0.0.3)
 
-# Some of our own modules
-set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 # Required 3rd party stuff
+# NOTE: Boost will be removed shortly
+
 set(Boost_USE_STATIC_LIBS ON)
-find_package(Boost 1.65.0 REQUIRED serialization)
+find_package(Boost 1.65.0 REQUIRED)
 
 message("-- Boost libraries version:  ${Boost_VERSION}"            )
 message("-- Boost include directory:  ${Boost_INCLUDE_DIRS}"       )
@@ -27,8 +26,6 @@ message("-- Boost include directory:  ${Boost_INCLUDE_DIRS}"       )
 set(TESTS 
     dispatch-test
     error-test
-    # iowait
-    # netutil
     tcp-test
     udp-test
     util-test)
@@ -37,54 +34,54 @@ set(TESTS
 ############################################################################
 
 set(public-headers
-    "include/cpp-lib/assert.h"
-    "include/cpp-lib/command_line.h"
-    "include/cpp-lib/container-util.h"
-    "include/cpp-lib/dispatch.h"
-    "include/cpp-lib/error.h"
-    "include/cpp-lib/exception.h"
-    "include/cpp-lib/http.h"
-    "include/cpp-lib/memory.h"
-    "include/cpp-lib/registry.h"
-    "include/cpp-lib/util.h"
-    "include/cpp-lib/xdr.h"
+    include/cpp-lib/assert.h
+    include/cpp-lib/command_line.h
+    include/cpp-lib/container-util.h
+    include/cpp-lib/dispatch.h
+    include/cpp-lib/error.h
+    include/cpp-lib/exception.h
+    include/cpp-lib/http.h
+    include/cpp-lib/memory.h
+    include/cpp-lib/registry.h
+    include/cpp-lib/util.h
+    include/cpp-lib/xdr.h
 
-    "include/cpp-lib/sys/file.h"
-    "include/cpp-lib/sys/network.h"
-    "include/cpp-lib/sys/server.h"
-    "include/cpp-lib/sys/syslogger.h"
-    "include/cpp-lib/sys/util.h"
+    include/cpp-lib/sys/file.h
+    include/cpp-lib/sys/network.h
+    include/cpp-lib/sys/server.h
+    include/cpp-lib/sys/syslogger.h
+    include/cpp-lib/sys/util.h
     )
-set(private-headers
-    "")
+
+set(private-headers)
+
 set(sources
-    "src/assert.cpp"
-    "src/command_line.cpp"
-    "src/database.cpp"
-    "src/dispatch.cpp"
-    "src/error.cpp"
-    "src/http.cpp"
-    "src/math-util.cpp"
-    "src/memory.cpp"
-    "src/network.cpp"
-    # "src/random.cpp"
-    "src/registry.cpp"
-    "src/util.cpp"
+    src/assert.cpp
+    src/command_line.cpp
+    src/database.cpp
+    src/dispatch.cpp
+    src/error.cpp
+    src/http.cpp
+    src/math-util.cpp
+    src/memory.cpp
+    src/network.cpp
+    src/registry.cpp
+    src/util.cpp
 
-    "src/detail/network.cpp"
-    "src/detail/socket.cpp"
-    "src/detail/socket_lowlevel.cpp"
+    src/detail/network.cpp
+    src/detail/socket.cpp
+    src/detail/socket_lowlevel.cpp
 
-    "src/sys/file.cpp"
-    "src/sys/net-util.cpp"
-    "src/sys/server.cpp"
-    "src/sys/syslogger.cpp"
-    "src/sys/util.cpp"
+    src/sys/file.cpp
+    src/sys/net-util.cpp
+    src/sys/server.cpp
+    src/sys/syslogger.cpp
+    src/sys/util.cpp
     )
 
 if (UNIX)
   list(APPEND sources
-    "src/posix/wrappers.cpp"
+    src/posix/wrappers.cpp
   )
 endif()
 
