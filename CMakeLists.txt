@@ -3,16 +3,15 @@
 # - No Boost dependency
 # - Simplify / modernize this cmake file
 
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.20)
 
-message("-- Cpp-lib cmake file")
+message("-- Nanonet cmake file")
 message("-- Project source directory: ${PROJECT_SOURCE_DIR}")
 
-# This is a C++17 project
 set(CMAKE_CXX_STANDARD 17)
 set(MY_WARNING_FLAGS -Wall -Wextra -Werror)
 
-project(cpp-lib VERSION 0.88.2)
+project(nanonet VERSION 0.0.2)
 
 # Some of our own modules
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
@@ -38,11 +37,6 @@ set(TESTS
     udp-test
     util-test)
 
-# The serial library is only implemented using a Windows API
-# TODO: Append that to cpp-lib sources as well
-if (WINDOWS)
-  list(APPEND TESTS serial-test)
-endif()
 
 ############################################################################
 
@@ -141,11 +135,6 @@ include_directories(SYSTEM
   ${png++_INCLUDE_DIRS}/png++
 )
 
-# for library export definitions.
-include(GenerateExportHeader)
-generate_export_header(cpp-lib)
-
-# install section.
 
 # variables used in the install section.
 set(config_install_dir "lib/cmake")
@@ -153,10 +142,6 @@ set(include_install_dir "include")
 set(generated_dir "${CMAKE_CURRENT_BINARY_DIR}/generated")
 set(version_config "${generated_dir}/${PROJECT_NAME}ConfigVersion.cmake")
 set(project_config "${generated_dir}/${PROJECT_NAME}Config.cmake")
-set(targets_export_name "${PROJECT_NAME}Targets")
-
-# not using namespaces yet.
-set(namespace "${PROJECT_NAME}::")
 
 # include tools for cmake packagins.
 include(CMakePackageConfigHelpers)
@@ -173,37 +158,8 @@ configure_package_config_file(
     INSTALL_DESTINATION "${config_install_dir}"
 )
 
-# export targets
-install(
-    TARGETS cpp-lib
-    EXPORT "${targets_export_name}"
-    LIBRARY DESTINATION "lib"
-    ARCHIVE DESTINATION "lib"
-    RUNTIME DESTINATION "bin"
-    INCLUDES DESTINATION "${include_install_dir}"
-)
-
-# install headers.
-install(
-    DIRECTORY "include/cpp-lib"
-    DESTINATION "${include_install_dir}"
-    FILES_MATCHING PATTERN "*.h"
-    )
-
-# library export.
-install(
-    FILES "${CMAKE_CURRENT_BINARY_DIR}/cpp-lib_export.h"
-    DESTINATION "${include_install_dir}"
-    )
-
 # config and version files.
 install(
     FILES "${project_config}" "${version_config}"
-    DESTINATION "${config_install_dir}"
-    )
-
-# target files.
-install(
-    EXPORT "${targets_export_name}"
     DESTINATION "${config_install_dir}"
     )

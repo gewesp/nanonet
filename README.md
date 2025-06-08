@@ -13,7 +13,7 @@ using namespace nn = nanonet;
 
 void run_hello_server(std::string const& port) {
   nn::acceptor a(port);
-  std::cerr << "Hello world server version 1.01 listening on "
+  std::clog << "Hello world server version 1.01 listening on "
             << a.local()
             << std::endl;
 
@@ -33,7 +33,7 @@ void run_hello_server(std::string const& port) {
 Nanonet requires a modern C++ compiler such as `g++` or `clang++`.
 
 ```
-./scripts/build.sh
+./scripts/compile.sh
 cd build
 ./tcp-test wget http://www.github.com/
 ```
