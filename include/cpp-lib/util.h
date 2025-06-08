@@ -36,7 +36,6 @@
 #include <sstream>
 #include <string>
 #include <type_traits>
-#include <queue>
 #include <vector>
 
 #include <cstdlib>
@@ -795,127 +794,6 @@ private:
   std::ostream& redirected ;
 
 } ;
-
-//
-// DEPRECATED.  This was only used in the logfile manager,
-// but turned out to be too complicated.  May go away
-// in future versions.
-//
-// A file_name_queue stores up to n file names and begins
-// deleting files at the end of the queue as soon as the
-// limit is reached.
-//
-// Use case:  
-// * Log file rotation
-// * Temporary files which should exist for a while after being closed.
-//
-
-struct file_name_queue {
-
-  //
-  // Creates a file_name_queue handling at most n files.
-  //
-
-  file_name_queue( const long n )
-  : maxsize_( n ) {
-    always_assert( maxsize_ > 0 ) ;
-  }
-
-  //
-  // If size() == n, deletes the file at the tail of the
-  // queue and removes its name from the queue.
-  // Inserts filename at the head of the queue.
-  // 
-  // Returns true iff a file was deleted.
-  //
-
-  bool add( std::string const& filename ) ;
-
-  long size() const { return q.size(); }
-
-  long maxsize() const { return maxsize_; }
-
-private:
-  std::deque< std::string > q ;
-
-  long maxsize_ ;
-
-} ;
-
-struct logfile_manager {
-
-  //
-  // Initializes a logfile_manager for at most keep_days daily logfiles, 
-  // the given base name and current time.
-  //
-  // Files will be named basename.YYYY-MM-DD
-  //
-  // If remove_old is true, removes old logfiles with the same pattern
-  // between n and 2n days ago.
-  //
-  // If bzip2_old is > 0, compresses files older than bzip2_days days
-  // using bzip2.
-  //
-
-  logfile_manager(
-      long keep_days ,
-      std::string const& basename ,
-      double utc_now ,
-      bool remove_old = false ,
-      long bzip2_days = 0) ;
-
-  //
-  // Returns <basename>.YYYY-MM-DD[.bz2] for day_number days
-  // since 1970, UTC.
-  //
-
-  std::string filename( long day_number, bool bzip2 ) const ;
-
-  //
-  // Updates UTC and internal day number.  If a new day has started:
-  // * Closes the current and opens the next file in append mode
-  // * Compresses and/or removes old files
-  // * Returns true iff a new file has been opened
-  //
-
-  bool update( double utc ) ;
-
-  // Compresses the file i days old (from current day), i >= 1
-  void compress_file( long i ) const;
-
-  //
-  // Returns the current file which is always open.
-  //
-
-  std::ostream& stream() { return os ; }
-
-private:
-
-  // Opens new file for the current day
-  cpl::util::file::owning_ofstream newfile();
-
-  // Removes old files for day number: (current day) - i;
-  // i >= 1.
-  void remove_old_files(long i) ;
-
-  std::string basename ;
-
-  // Keep files for that many days
-  long keep_days = 0 ;
-
-  // Compress files older than that (days)
-  long bzip2_days = 0 ;
-
-  // The current day number (days since 1970)
-  long current_day = 0 ;
-
-  cpl::util::file::owning_ofstream os ;
-} ;
-
-template< typename T >
-std::ostream& operator<<( cpl::util::file::logfile_manager& lfm, T const& t ) {
-  return lfm.stream() << t ;
-}
 
 } // namespace file
 
