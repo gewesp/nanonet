@@ -17,15 +17,14 @@
 #ifndef CPP_LIB_DETAIL_PATFORM_NET_IMPL_H
 #define CPP_LIB_DETAIL_PATFORM_NET_IMPL_H
 
-// This is .h, not .hpp like everything else in boost.  WTF.
-#include "boost/predef.h"
+#include "./platform_definition.h"
 
 #if (BOOST_OS_LINUX || BOOST_OS_MACOS)
 #  include "cpp-lib/posix/net_impl.h"
 #elif (BOOST_OS_WINDOWS)
 #  include "cpp-lib/windows/net_impl.h"
 #else
-#  error "This operating system platform is not supported by cpp-lib."
+#  error "This operating system platform is not supported by nanonet."
 #endif
 
 #endif // CPP_LIB_DETAIL_PATFORM_NET_IMPL_H
