@@ -1,0 +1,8 @@
+"foo": 123
+"bar": "xx '\""
+"tab": "space\tis big"
+"std::string": "im string"
+"std::string with Ctrl-C": "im\u0003string"
+"pi": 3.14
+"minus1": -1
+"witch": 3735928559

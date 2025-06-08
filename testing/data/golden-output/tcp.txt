@@ -1,0 +1,32 @@
+Starting reverse server; background = 0
+1987-02-10T00:58:43Z (NOTICE) Starting service: REVERSE-SERVER-0.92
+1987-02-10T00:58:43Z (NOTICE) Mode: Test
+1987-02-10T00:58:43Z (NOTICE) Maximum backlog: 0
+1987-02-10T00:58:43Z (NOTICE) Connection timeout [s]: 20
+1987-02-10T00:58:43Z (NOTICE) Maximum line length: 1000
+1987-02-10T00:58:43Z (NOTICE) Running in background: 0
+500 Welcome to REVERSE-SERVER-0.92
+500 Current number of connections: 0
+501 Max idle time: 20s
+501
+501 Please type the strings you would like to have reversed.
+501
+501 Type ``close'' to end the session.
+501 Type ``shutdown'' or ``sd'' to kill the server.
+501 Type ``status'' for server status.
+
+olleh
+dlrow
+woH
+era
+?uoy
+101 server status:
+101 server name: REVERSE-SERVER-0.92
+101 current number of connections: 0
+101 total number of connections: 0
+101 connections per second (slow estimate)  : 0
+101 connections per second (medium estimate): 0
+101 connections per second (fast estimate)  : 0
+sutats
+550 Goodbye!
+Server shutdown completed; exiting

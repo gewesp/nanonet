@@ -1,0 +1,2 @@
+The next assertion should fail:
+expected assertion failure was caught
