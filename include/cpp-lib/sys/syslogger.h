@@ -21,14 +21,13 @@
 #ifndef CPP_LIB_SYSLOGGER_H
 #define CPP_LIB_SYSLOGGER_H
 
+#include "cpp-lib/util.h"
+
 #include <functional>
 #include <ostream>
 #include <vector>
 
-#include "boost/lexical_cast.hpp"
-
-#include "cpp-lib/util.h"
-
+// TODO: Reduce levels of namespaces
 namespace cpl {
 
 namespace util {
@@ -176,7 +175,6 @@ typedef cpl::util::ostreambuf< cpl::detail_::syslog_writer > syslogstreambuf ;
 struct syslogger : cpl::util::file::owning_ostream<syslogstreambuf> { 
 
   //
-  // Converts the given tag to a string using boost::lexical_cast<>.
   // Pass "" for no tag.  Pass &std::cout or similar to echo
   // log messages to the given stream.
   //
@@ -185,13 +183,12 @@ struct syslogger : cpl::util::file::owning_ostream<syslogstreambuf> {
   // are added by the syslog daemon and cannot be modified.
   //
 
-  template< typename T >
-  syslogger(T const& tag, std::ostream* echo = NULL,
+  syslogger(const std::string& tag, std::ostream* echo = NULL,
       std::function<double()> const& echo_clock = cpl::util::utc)
     : cpl::util::file::owning_ostream<syslogstreambuf>(
          syslogstreambuf(
              std::make_shared<cpl::detail_::syslog_writer>(
-                 boost::lexical_cast<std::string>(tag), echo)))
+                 tag, echo)))
   { buffer().reader_writer().set_echo_clock(echo_clock); }
 
   syslogger() : syslogger("") {}
