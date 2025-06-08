@@ -16,7 +16,12 @@
 
 #include "cpp-lib/util.h"
 
-#include "boost/io/ios_state.hpp"
+
+#include "cpp-lib/error.h"
+#include "cpp-lib/exception.h"
+
+#include "cpp-lib/detail/platform_wrappers.h"
+#include "cpp-lib/sys/syslogger.h"
 
 #include <chrono>
 #include <codecvt>
@@ -35,12 +40,6 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-
-#include "cpp-lib/error.h"
-#include "cpp-lib/exception.h"
-
-#include "cpp-lib/detail/platform_wrappers.h"
-#include "cpp-lib/sys/syslogger.h"
 
 
 using namespace cpl::util ;
@@ -770,25 +769,4 @@ std::string cpl::util::file::logfile_manager::filename(
     ret += ".bz2" ;
   }
   return ret;
-}
-
-void cpl::util::write_statistics_value(
-    std::ostream& sl,
-    const char* const name,
-    const char* const description,
-    long const total,
-    long const counter) {
-  boost::io::ios_precision_saver const s(sl);
-
-  sl << log::prio::NOTICE
-     << name
-     << ": "
-     << description
-     << ": "
-     << counter 
-     << " ("
-     << std::setprecision(3)
-     << cpl::math::percentage(counter, total)
-     << "%)"
-     << std::endl;
 }

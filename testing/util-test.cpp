@@ -229,15 +229,6 @@ void test_increment_sentry() {
   always_assert(1 == x);
 }
 
-void test_output(std::ostream& os) {
-  const std::vector<int> test({47, 11, 1, 2, 3});
-  cpl::util::write_list(os, test.begin(), test.end());
-  os << std::endl;
-
-  cpl::util::write_statistics_value(
-      os, "Test statistics", "Half of elements", 100, 50);
-}
-
 template <typename T>
 void is_container_test(const bool expected) {
   if (::cpl::util::is_container<T>::value != expected) {
@@ -666,8 +657,6 @@ int main(int argc, const char* const* const argv) {
   test_xdr(std::cout);
 
   test_increment_sentry();
-
-  test_output(std::cout);
 
         {
                 int a1[20];

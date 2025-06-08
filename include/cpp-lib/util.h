@@ -1109,17 +1109,6 @@ std::ostream& operator<<(std::ostream& os, json_wrapper<T, IsString> const& j) {
   return os;
 }
 
-/// Writes a value with priority prio::NOTICE (see
-/// syslogger.h) with
-/// <name>: <description>: <counter> (percentage%)
-/// where percentage is relative to <total>
-void write_statistics_value(
-    std::ostream& sl,
-    const char* const name,
-    const char* const description,
-    long const total,
-    long const counter);
-
 //
 // Read characters from is until either is goes bad or the given
 // character sequence string is encountered.

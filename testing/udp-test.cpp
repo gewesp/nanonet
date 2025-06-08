@@ -15,6 +15,9 @@
 //
 
 
+#include "cpp-lib/sys/network.h"
+#include "cpp-lib/util.h"
+
 #include <iostream>
 #include <string>
 #include <exception>
@@ -27,10 +30,6 @@
 #include <cassert>
 #include <cstdlib>
 
-#include "boost/lexical_cast.hpp"
-
-#include "cpp-lib/sys/network.h"
-#include "cpp-lib/util.h"
 
 // Timeout for ping replies [s]
 long const TIMEOUT = 5;
@@ -160,7 +159,7 @@ void pong(std::string const& proto ,
     s.receive( source , std::back_inserter( msg ) ) ;
     std::cout << "Received from " << source << ": " << msg << std::endl ;
     std::string reply = "Re: " + msg 
-      + " (#" + boost::lexical_cast<std::string>(n) + ")" ;
+      + " (#" + std::to_string(n) + ")" ;
     std::cout << "Sending reply: " << reply << std::endl ;
     s.send( reply.begin() , reply.end() , source ) ;
     ++n;
