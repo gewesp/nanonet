@@ -30,7 +30,7 @@ void run_hello_server(std::string const& port) {
 
 ## Compile the library, tests and examples
 
-Nanonet requires a modern C++ compiler such as `g++` or `clang++`.
+Nanonet requires a modern C++-20 capable compiler such as `g++` or `clang++`.
 
 ```
 ./scripts/compile.sh
