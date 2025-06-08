@@ -1,7 +1,7 @@
 # Intuitive and idiomatic UDP and TCP sockets in modern C++
 
 
-## Example: Hello world on a TCP socket
+## Server example: Hello world on a TCP socket
 
 ```
 #include "nanonet/tcp.h"
@@ -28,6 +28,17 @@ void run_hello_server(std::string const& port) {
 }
 ```
 
+## Compile the library, tests and examples
+
+Nanonet requires a modern C++ compiler such as `g++` or `clang++`.
+
+```
+./scripts/build.sh
+cd build
+./tcp-test wget http://www.github.com/
+```
+
+
 ## IPv4 and IPv6 support 
 
 IP addresses can be constructed from strings, so no IPv4 or IPv6 specific code
@@ -50,12 +61,9 @@ Differences to the TR2 proposal:
 - I/O multiplexing (`iowait()`) is not implemented.
 
 
-## More examples
+## More client and server examples
 
-Please see `testing/tcp-test.cpp` and `testing/udp-test.cpp` for very
-straightforward server and client code.  Execute `make` and `make tests`
-first.
-
+Please see [tcp-test.cpp](testing/tcp-test.cpp) and [udp-test.cpp](testing/udp-test.cpp).
 
 ### TCP
 
