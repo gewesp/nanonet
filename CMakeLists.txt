@@ -59,7 +59,6 @@ set(private-headers)
 set(sources
     src/assert.cpp
     src/command_line.cpp
-    src/database.cpp
     src/dispatch.cpp
     src/error.cpp
     src/http.cpp
