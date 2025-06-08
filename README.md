@@ -28,28 +28,29 @@ void run_hello_server(std::string const& port) {
 }
 ```
 
+## IPv4 and IPv6 support 
+
+IP addresses can be constructed from strings, so no IPv4 or IPv6 specific code
+is required.
+
+IPv6 notation is as follows:
+```
+  `[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443`
+```
 
 ## More information
 
-The implementation is roughly based on the [Networking Proposal for TR2] [1].
+The implementation is roughly based on the
+[Networking Proposal for TR2](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1925.pdf)
 
-The implementation supports IPv4 and IPv6 with no specific code required.
-
-
-### Differences with [1]
-
+Differences to the TR2 proposal:
 - nanonet uses uses the namespace `nanonet`, not `std::tr2`.
 - nanonet doesn't implement the `network_error` exceptions, but throws
   `std::runtime_error` instead.
 - I/O multiplexing (`iowait()`) is not implemented.
 
 
-IPv6 addresses with port numbers use square brackets as described 
-[here] [2]:
-  `[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443`
-
-
-### More examples
+## More examples
 
 Please see `testing/tcp-test.cpp` and `testing/udp-test.cpp` for very
 straightforward server and client code.  Execute `make` and `make tests`
@@ -121,7 +122,7 @@ support IPv6.
 
 See [TODO](TODO.md). 
 
+
 # References 
 
-[1]: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1925.pdf
-[2]: http://en.wikipedia.org/wiki/IPv6_address
+* [Networking Proposal for TR2](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1925.pdf)
