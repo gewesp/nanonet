@@ -46,7 +46,7 @@ is required.
 
 IPv6 notation is as follows:
 ```
-  `[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443`
+[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443
 ```
 
 ## More information
