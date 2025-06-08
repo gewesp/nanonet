@@ -7,7 +7,9 @@
 * Have uniform directories, i.e. all shell scripts in scripts, only source code in src, include, testing etc.
 * Set up clang-format
 * Set up clang-tidy
-* Move to C++20
+* Get rid of boost: As of 6/2025, we still use predef.h and some trivial string
+  functions (e.g. trim()).
+* Think of reasonable UTF8 support
 
 
 ## Features
