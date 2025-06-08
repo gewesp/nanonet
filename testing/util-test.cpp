@@ -315,7 +315,7 @@ void test_safe_queue(long long const n) {
   std::thread t1{
     [n, &q]{
       for (long i = 0; i < n; ++i) {
-        q.push(boost::lexical_cast<std::string>(i));
+        q.push(std::to_string(i));
         // std::cout << "push " << i << std::endl;
       }
     }
@@ -328,7 +328,7 @@ void test_safe_queue(long long const n) {
         long long prev = -10;
 
         for (long i = 0; i < n; ++i) {
-          long long const l = boost::lexical_cast<long long>(q.pop());
+          long long const l = std::stoll(q.pop());
           // std::cerr << "pop " << l << std::endl;
           if (prev >= 0) {
             always_assert(prev + 1 == l);

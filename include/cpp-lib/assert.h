@@ -23,8 +23,6 @@
 
 #include "cpp-lib/exception.h"
 
-#include "boost/lexical_cast.hpp"
-
 namespace cpl {
 
 namespace util {
@@ -47,24 +45,6 @@ void assertion(
 
 void verify( bool expression , std::string const& message ) ;
 
-
-//
-// If x is outside the given bounds, throws a cpl::util::bounds_error with 
-// an appropriate error message.
-//
-
-template<typename T>
-void verify_bounds(T const& x, std::string const& name,
-    T const& minval, T const& maxval) {
-  if (minval <= x && x <= maxval) {
-    return;
-  } else {
-    throw cpl::util::bounds_error(name + " must be between "
-        + boost::lexical_cast<std::string>(minval)
-        + " and "
-        + boost::lexical_cast<std::string>(maxval));
-  }
-}
 
 /// Throws a cpl::util::timeout_exception with empty message.
 [[noreturn]] void throw_timeout_exception();

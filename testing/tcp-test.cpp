@@ -422,7 +422,7 @@ void tiles(std::ostream& sl, std::string const& config) {
   auto const  local_pattern = reg.check_string("local_pattern");
   auto const tmpfile        = reg.check_string("tmpfile" );
   double const max_delay = reg.get_default("max_delay", 1.0);
-  cpl::util::verify_bounds(max_delay, "max_delay", 0.0, 1e9);
+  always_assert(max_delay >= 0);
 
   cpl::map::tile_mapper const tm(tsp);
 

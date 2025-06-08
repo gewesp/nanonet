@@ -26,8 +26,6 @@
 
 #include "boost/algorithm/string.hpp"
 #include "boost/algorithm/string/split.hpp"
-#include "boost/multi_array.hpp"
-#include "boost/range/iterator_range.hpp"
 
 #include <condition_variable>
 #include <fstream>
@@ -198,9 +196,6 @@ inline std::string format_time_no_z( double const t )
 
 double parse_datetime( 
     std::string const& , const char* const format = "%FT%TZ" ) ;
-
-/// Can be used with Boost string algorithms, e.g. split()
-typedef boost::iterator_range<std::string::iterator> stringpiece;
 
 /// @return True iff s is empty or "-"
 bool is_trivial_string( std::string const& s );
@@ -484,32 +479,6 @@ inline void stream_copy( std::istream& is , std::ostream& os ) {
     std::ostreambuf_iterator< char >( os )
   ) ;
 
-}
-
-
-//
-// Writes a 2-dimensional boost multi_array to an ostream.
-//
-
-template<typename T>
-std::ostream& write_array(std::ostream& os, boost::multi_array<T, 2> const& A) {
-
-  for (unsigned long i = 0; i < A.shape()[0]; ++i) {
-  for (unsigned long j = 0; j < A.shape()[1]; ++j) {
-    if (!os) {
-      return os;
-    }
-
-    os << A[i][j];
-
-    if (j + 1 < A.shape()[1]) {
-      os << ' ';
-    }
-  }
-  os << '\n' ;
-  }
-
-  return os ;
 }
 
 

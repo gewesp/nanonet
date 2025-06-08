@@ -36,8 +36,6 @@
 #include <cassert>
 #include <cctype>
 
-#include "boost/shared_ptr.hpp"
-
 #include "cpp-lib/sys/network.h"
 #include "cpp-lib/util.h"
 
@@ -97,8 +95,8 @@ void usage( std::string const& name ) {
 
 struct conn_sb {
 
-  boost::shared_ptr< connection     > c  ;
-  boost::shared_ptr< std::streambuf > sb ;
+  std::shared_ptr< connection     > c  ;
+  std::shared_ptr< std::streambuf > sb ;
 
   std::streambuf& operator*() { return *sb ; }
 
