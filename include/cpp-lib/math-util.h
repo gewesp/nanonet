@@ -45,99 +45,11 @@
 
 namespace cpl {
 
-namespace detail_ {
-
-//
-// Helper class as a default argument to solver step() function.
-//
-
-template< typename M > struct noop_inspector_type {
-
-  void operator()( M const& , double const& ) const {}
-
-} ;
-
-} // namespace detail_
-
 
 namespace math     {
 
 
 
-/// Default precision (number of decimal digits) for writing to streams.
-enum { DEFAULT_PRECISION = 16 } ;
-
-
-//
-// sin(x)/x and (cos(x) - 1) / x, sanitized around zero.
-//
-
-
-
-/// A sane modulo function. 
-/// \return x modulo m with the result in [0, m)
-inline double modulo( double const& x , double const& m ) {
-
-  assert( m > 0 ) ;
-
-  double const y = std::fmod( x , m ) ;
-
-  if( y < 0 ) { return y + m ; }
-  else        { return y     ; }
-
-}
-
-/// A 'symmetric' modulo function. 
-/// \return x modulo m with the result in [-m/2, m)
-inline double symmetric_modulo( double const& x , double const& m ) {
-
-  assert( m > 0 ) ;
-
-  double const y = modulo( x , m ) ;
-
-  if ( y < m / 2 ) { return y     ; }
-  else             { return y - m ; }
-
-}
-
-/// \return The angle equivalent to a [degrees] in [-180 , 180).
-inline double angle_m180_180( double const& a ) {
-  double const m = std::fmod(a, 360.0);
-  if (m < -180.0) { return m + 360.0; }
-  if (m >  180.0) { return m - 360.0; }
-  return m;
-}
-
-//
-// Declare our own isnan() and isinf() functions.  They're *not* in C89, and
-// hence also not in C++, even if some systems do define them.  Future versions
-// of C++ might include them in which case they need to be removed here.
-//
-
-inline bool isnan( double const x ) {
-  return x != x ;
-}
-
-
-inline bool isinf( double const x ) {
-  return 0 == 1/x ;
-}
-
-
-// Sign function with optional threshold.
-
-// Returns sign of x or 0 if |\a x| <= \a threshold.
-
-template< typename T >
-inline int sign( T const& x , T const& threshold = 0 ) {
-
-  assert( threshold >= 0 ) ;
-
-  if( x < -threshold ) return -1 ;
-  if( x >  threshold ) return  1 ;
-  return 0 ;
-
-}
 
 
 /// Maximum of three values.

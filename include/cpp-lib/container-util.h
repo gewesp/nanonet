@@ -459,25 +459,6 @@ void cpl::util::container::write_sequence(
 }
 
 
-template< class C >
-void cpl::util::container::to_file(
-  const C& cont ,
-  std::string const& filename
-) {
-
-  auto os = cpl::util::file::open_write( filename ) ;
-
-  os.precision( cpl::math::DEFAULT_PRECISION ) ;
-
-  std::copy(
-    cont.begin() ,
-    cont.end() ,
-    std::ostream_iterator< typename C::value_type >( os , "\n" )
-  ) ;
-
-}
-
-
 
 template< typename C1 , typename C2 >
 void cpl::util::container::append( C1& c1 , C2 const& c2 ) {
