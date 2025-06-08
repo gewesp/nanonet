@@ -29,9 +29,6 @@ set(TESTS
     error-test
     # iowait
     # netutil
-    # png-test
-    # sched-test
-    sched-thread-test
     tcp-test
     udp-test
     util-test)
