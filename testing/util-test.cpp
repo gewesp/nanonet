@@ -24,7 +24,6 @@
 
 #include <cstdlib>
 
-#include "cpp-lib/cgi.h"
 #include "cpp-lib/container-util.h"
 #include "cpp-lib/error.h"
 #include "cpp-lib/random.h"
@@ -286,72 +285,6 @@ void testChop(int i) {
     always_assert(s.size() == n-1);
 }
 
-void test_cgi(std::ostream& os, std::string const& query) {
-  os << "CGI query: " << query << std::endl;
-  try {
-    auto const keyval = cpl::cgi::parse_query(query);
-    for (auto const& kv : keyval) {
-      os << kv.first << " = " << kv.second << std::endl;
-    }
-  } catch (std::exception const& e) {
-    os << "ERROR: " << e.what() << std::endl;
-  }
-}
-
-void test_cgi(std::ostream& os) {
-  os << "CGI parameter parsing" << std::endl;
-
-  test_cgi(os, "bounds_sw=46.949049%2C7.887476&bounds_ne=47.050902%2C8.112524");
-  test_cgi(os, "x=y");
-  test_cgi(os, "x=y&a=b");
-  test_cgi(os, "x=1.234y&a=b");
-  test_cgi(os, "x=1.234y");
-  test_cgi(os, "1=2");
-  test_cgi(os, "q=2");
-
-  // OK: "" = ""
-  test_cgi(os, "=");
-  // OK: "" = y
-  test_cgi(os, "=y");
-  // OK: a = "", "" = ""
-  test_cgi(os, "a=&=");
-
-  // OK: Empty query
-  test_cgi(os, "");
-  test_cgi(os, " ");
-
-  // OK: Whitespace trimmed 
-  test_cgi(os, " x  =     0815 ");
-  test_cgi(os, " x  =     0815  & y    = 4711");
-
-  // OK: Whitespace
-  test_cgi(os, " x  =     0815 ");
-
-  // OK: Escaped whitespace
-  test_cgi(os, "Param%20with%20whitespace = foo%20bar");
-
-  os << "The following should FAIL:" << std::endl;
-  test_cgi(os, "&abc&x=1.234");
-  test_cgi(os, "y");
-  test_cgi(os, "&=");
-  test_cgi(os, "=&");
-  test_cgi(os, "&");
-  test_cgi(os, "&   & &&");
-  test_cgi(os, "& ");
-  test_cgi(os, " &");
-  test_cgi(os, "x=1.234y&");
-
-  // OK: Plus -> whitespace
-  test_cgi(os, "x=hello+world");
-  test_cgi(os, "foo+bar=hello+++world");
-  test_cgi(os, "foo+bar=+++world");
-  test_cgi(os, "foo+bar=+++");
-
-  // Duplicates
-  test_cgi(os, "=&=");
-  test_cgi(os, "a=&a=b");
-}
-
 void test_getline() {
   std::string s;
   while (cpl::util::getline(std::cin, s, 10)) {
@@ -549,35 +482,6 @@ void test_capped_vector() {
   always_assert(!v5.full());
 }
 
-void test_uri(std::ostream& os, std::string const& uri) {
-  os << uri << " -> " << cpl::cgi::uri_decode(uri) << std::endl;
-}
-
-void test_uri_throws(
-    std::ostream& os,
-    std::string const& uri, std::string const& whattext) {
-  os << uri << " should trigger exception with: " << whattext << std::endl;
-  verify_throws(whattext, 
-                cpl::cgi::uri_decode, uri, true);
-}
-
-void test_uri(std::ostream& os) {
-  test_uri_throws(os, "ege%", "syntax");
-  test_uri_throws(os, "ege%2", "syntax");
-  test_uri_throws(os, "ege%%", "syntax");
-  test_uri_throws(os, "%33%%", "syntax");
-
-  test_uri_throws(os, "ege%2 ", "hex");
-  test_uri_throws(os, "ege%%1", "hex");
-  test_uri_throws(os, "ege%% 123", "hex");
-
-  test_uri(os, "demo%3amain");
-  test_uri(os, "demo%3Amain");
-  test_uri(os, "demo%3A%50ain");
-  test_uri(os, "%3A%50");
-  test_uri(os, "%3a%50");
-}
-
 using sv = std::vector<std::string>;
 void test_split(std::ostream& os, std::string const& s, sv const& expected) {
   sv actual;
@@ -749,13 +653,9 @@ int main(int argc, const char* const* const argv) {
 
   test_type_traits();
 
-  test_cgi(std::cout);
-
   test_stringutils(std::cout);
 
   test_utf8(std::cout);
-
-  test_uri(std::cout);
 
   test_xdr(std::cout);
 

@@ -17,7 +17,6 @@ project(nanonet VERSION 0.0.2)
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 # Required 3rd party stuff
-# png++ is found using stuff in CMAKE_MODULE_PATH
 set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost 1.65.0 REQUIRED serialization)
 
@@ -44,7 +43,6 @@ set(public-headers
     "include/cpp-lib/array_ops.h"
     "include/cpp-lib/assert.h"
     "include/cpp-lib/bg-typedefs.h"
-    "include/cpp-lib/cgi.h"
     "include/cpp-lib/command_line.h"
     "include/cpp-lib/container-util.h"
     "include/cpp-lib/dispatch.h"
@@ -68,7 +66,6 @@ set(private-headers
     "")
 set(sources
     "src/assert.cpp"
-    "src/cgi.cpp"
     "src/command_line.cpp"
     "src/database.cpp"
     "src/dispatch.cpp"
