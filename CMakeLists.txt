@@ -40,9 +40,7 @@ set(TESTS
 ############################################################################
 
 set(public-headers
-    "include/cpp-lib/array_ops.h"
     "include/cpp-lib/assert.h"
-    "include/cpp-lib/bg-typedefs.h"
     "include/cpp-lib/command_line.h"
     "include/cpp-lib/container-util.h"
     "include/cpp-lib/dispatch.h"
