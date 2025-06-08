@@ -131,35 +131,4 @@ endforeach()
 include_directories(SYSTEM
   ${PROJECT_SOURCE_DIR}/include
   ${Boost_INCLUDE_DIRS}
-  ${EIGEN3_INCLUDE_DIRS}
-  ${png++_INCLUDE_DIRS}/png++
 )
-
-
-# variables used in the install section.
-set(config_install_dir "lib/cmake")
-set(include_install_dir "include")
-set(generated_dir "${CMAKE_CURRENT_BINARY_DIR}/generated")
-set(version_config "${generated_dir}/${PROJECT_NAME}ConfigVersion.cmake")
-set(project_config "${generated_dir}/${PROJECT_NAME}Config.cmake")
-
-# include tools for cmake packagins.
-include(CMakePackageConfigHelpers)
-
-# configure project versionning.
-write_basic_package_version_file(
-    "${version_config}" COMPATIBILITY SameMajorVersion
-)
-
-# configure project to be included using cmake.
-configure_package_config_file(
-    "cmake/Config.cmake.in"
-    "${project_config}"
-    INSTALL_DESTINATION "${config_install_dir}"
-)
-
-# config and version files.
-install(
-    FILES "${project_config}" "${version_config}"
-    DESTINATION "${config_install_dir}"
-    )
