@@ -1,11 +1,11 @@
-if [ -d ../build ] ; then
-  BIN_DIR=../build
+if [ -d ./build ] ; then
+  BIN_DIR=./build
 else
-  echo "Build directory ../build not present!"
+  echo "Build directory ./build not present!"
   exit 1
 fi
 
-GOLDEN_DIR=data/golden-output
-INPUT_DIR=data/input
+GOLDEN_DIR=./testdata/golden-output
+INPUT_DIR=./testdata/input
 
 set -x

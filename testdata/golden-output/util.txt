@@ -147,100 +147,6 @@ string size: 3; string: 222
 string size: 3; string: EOF
 Testing safe_queue
 OK
-CGI parameter parsing
-CGI query: bounds_sw=46.949049%2C7.887476&bounds_ne=47.050902%2C8.112524
-bounds_ne = 47.050902,8.112524
-bounds_sw = 46.949049,7.887476
-CGI query: x=y
-x = y
-CGI query: x=y&a=b
-a = b
-x = y
-CGI query: x=1.234y&a=b
-a = b
-x = 1.234y
-CGI query: x=1.234y
-x = 1.234y
-CGI query: 1=2
-1 = 2
-CGI query: q=2
-q = 2
-CGI query: =
- = 
-CGI query: =y
- = y
-CGI query: a=&=
- = 
-a = 
-CGI query: 
-CGI query:  
-CGI query:  x  =     0815 
-x   =      0815
-CGI query:  x  =     0815  & y    = 4711
- y     =  4711
-x   =      0815  
-CGI query:  x  =     0815 
-x   =      0815
-CGI query: Param%20with%20whitespace = foo%20bar
-Param with whitespace  =  foo bar
-The following should FAIL:
-CGI query: &abc&x=1.234
-ERROR: CGI parse key/value pair: : syntax error
-CGI query: y
-ERROR: CGI parse key/value pair: y: syntax error
-CGI query: &=
-ERROR: CGI parse key/value pair: : syntax error
-CGI query: =&
-ERROR: CGI parse key/value pair: : syntax error
-CGI query: &
-ERROR: CGI parse key/value pair: : syntax error
-CGI query: &   & &&
-ERROR: CGI parse key/value pair: : syntax error
-CGI query: & 
-ERROR: CGI parse key/value pair: : syntax error
-CGI query:  &
-ERROR: CGI parse key/value pair: : syntax error
-CGI query: x=1.234y&
-ERROR: CGI parse key/value pair: : syntax error
-CGI query: x=hello+world
-x = hello world
-CGI query: foo+bar=hello+++world
-foo bar = hello   world
-CGI query: foo+bar=+++world
-foo bar =    world
-CGI query: foo+bar=+++
-foo bar =    
-CGI query: =&=
-ERROR: CGI parse: duplicate key: 
-CGI query: a=&a=b
-ERROR: CGI parse: duplicate key: a
-Original grüßEN
-Upper GRÜßEN
-Lower grüßen
-Upper: 
-FOO
-#FOO
-ßFOO
-ÉFOO
-ÉFOO
-Lower: 
-foo
-#foo
-ßfoo
-éfoo
-éfoo
-ege% should trigger exception with: syntax
-ege%2 should trigger exception with: syntax
-ege%% should trigger exception with: syntax
-%33%% should trigger exception with: syntax
-ege%2  should trigger exception with: hex
-ege%%1 should trigger exception with: hex
-ege%% 123 should trigger exception with: hex
-demo%3amain -> demo:main
-demo%3Amain -> demo:main
-demo%3A%50ain -> demo:Pain
-%3A%50 -> :P
-%3a%50 -> :P
 Testing marshalling, 16 bits unsigned
 Testing marshalling, 32 bits unsigned
 Testing marshalling, 64 bits unsigned
@@ -251,8 +157,6 @@ Testing float marshalling, 32 bits
 Testing float marshalling, 64 bits
 Testing float marshalling IEEE
 Testing string marshalling
-47,11,1,2,3
-(NOTICE) Test statistics: Half of elements: 50 (50%)
 check_iterator< std::list  < int > >()
 iterator advance:
 2

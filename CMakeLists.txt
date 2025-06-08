@@ -26,6 +26,7 @@ message("-- Boost include directory:  ${Boost_INCLUDE_DIRS}"       )
 set(TESTS 
     dispatch-test
     error-test
+    syslogger-test
     tcp-test
     udp-test
     util-test)
