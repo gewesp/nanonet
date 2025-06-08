@@ -52,7 +52,6 @@ set(public-headers
     "include/cpp-lib/sys/file.h"
     "include/cpp-lib/sys/logger.h"
     "include/cpp-lib/sys/network.h"
-    "include/cpp-lib/sys/realtime.h"
     "include/cpp-lib/sys/server.h"
     "include/cpp-lib/sys/syslogger.h"
     "include/cpp-lib/sys/util.h"
@@ -87,7 +86,6 @@ set(sources
 
 if (UNIX)
   list(APPEND sources
-    "src/posix/realtime.cpp"
     "src/posix/wrappers.cpp"
   )
 endif()
