@@ -16,8 +16,8 @@
 // Component: DB
 //
 
-#ifndef CPP_LIB_DATABASE_H
-#define CPP_LIB_DATABASE_H
+#ifndef NANONET_DATABASE_H
+#define NANONET_DATABASE_H
 
 #include <iosfwd>
 #include <string>
@@ -55,4 +55,4 @@ void write(std::ostream&, const table_statistics&);
 
 } // cpl
 
-#endif // CPP_LIB_DATABASE_H
+#endif // NANONET_DATABASE_H

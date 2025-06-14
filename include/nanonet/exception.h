@@ -22,10 +22,10 @@
 //
 
 
-#ifndef CPP_LIB_EXCEPTION_H
-#define CPP_LIB_EXCEPTION_H
+#ifndef NANONET_EXCEPTION_H
+#define NANONET_EXCEPTION_H
 
-#define CPP_LIB_DETAIL_DECLARE_EXCEPTION(type, base)                  \
+#define NANONET_DETAIL_DECLARE_EXCEPTION(type, base)                  \
 struct type : base {                                                  \
   explicit type(std::string const& what_arg) : base(what_arg) {}      \
   explicit type(const char* const  what_arg) : base(what_arg) {}      \
@@ -39,20 +39,20 @@ namespace nanonet {
 namespace util {
 
 // A parser detects a syntax or parse error, e.g. in registry
-CPP_LIB_DETAIL_DECLARE_EXCEPTION(parse_error, std::runtime_error)
+NANONET_DETAIL_DECLARE_EXCEPTION(parse_error, std::runtime_error)
 
 // Assertion failure, e.g. from always_assert()
-CPP_LIB_DETAIL_DECLARE_EXCEPTION(assertion_failure, std::runtime_error)
+NANONET_DETAIL_DECLARE_EXCEPTION(assertion_failure, std::runtime_error)
 
 // Timeout
-CPP_LIB_DETAIL_DECLARE_EXCEPTION(timeout_exception, std::runtime_error)
+NANONET_DETAIL_DECLARE_EXCEPTION(timeout_exception, std::runtime_error)
 
 // Signal a (service) shutdown, exit etc.
-CPP_LIB_DETAIL_DECLARE_EXCEPTION(shutdown_exception, std::runtime_error)
+NANONET_DETAIL_DECLARE_EXCEPTION(shutdown_exception, std::runtime_error)
 
 } // namespace util
 
 } // namespace nanonet
 
 
-#endif // CPP_LIB_EXCEPTION_H
+#endif // NANONET_EXCEPTION_H

@@ -16,8 +16,8 @@
 // Component: REGISTRY
 //
 
-#ifndef CPP_LIB_REGISTRY_H
-#define CPP_LIB_REGISTRY_H
+#ifndef NANONET_REGISTRY_H
+#define NANONET_REGISTRY_H
 
 #include <any>
 #include <string>
@@ -1090,4 +1090,4 @@ void nanonet::util::read_numbers
 }
 
 
-#endif // CPP_LIB_REGISTRY_H
+#endif // NANONET_REGISTRY_H

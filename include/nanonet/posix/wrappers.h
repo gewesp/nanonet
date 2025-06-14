@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
-#ifndef CPP_LIB_POSIX_WRAPPERS
-#define CPP_LIB_POSIX_WRAPPERS
+#ifndef NANONET_POSIX_WRAPPERS
+#define NANONET_POSIX_WRAPPERS
 
 //
 // Somebody already seems to define this...
@@ -238,4 +238,4 @@ inline void socket_shutdown_write(const socketfd_t s)
 } // namespace nanonet
 
 
-#endif // CPP_LIB_POSIX_WRAPPERS
+#endif // NANONET_POSIX_WRAPPERS

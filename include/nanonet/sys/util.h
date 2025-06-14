@@ -28,8 +28,8 @@
 //
 
 
-#ifndef CPP_LIB_UTIL_SYS_H
-#define CPP_LIB_UTIL_SYS_H
+#ifndef NANONET_UTIL_SYS_H
+#define NANONET_UTIL_SYS_H
 
 #include "nanonet/util.h"
 
@@ -66,4 +66,4 @@ double time() ;
 } // namespace nanonet
 
 
-#endif // CPP_LIB_UTIL_SYS_H
+#endif // NANONET_UTIL_SYS_H

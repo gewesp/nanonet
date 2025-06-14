@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
-#ifndef CPP_LIB_DETAIL_NET_ADDRESS_H
-#define CPP_LIB_DETAIL_NET_ADDRESS_H
+#ifndef NANONET_DETAIL_NET_ADDRESS_H
+#define NANONET_DETAIL_NET_ADDRESS_H
 
 #include "nanonet/assert.h"
 #include "nanonet/sys/net-util.h"
@@ -430,4 +430,4 @@ nanonet::detail_::address< type >::port() const {
 
 }
 
-#endif // CPP_LIB_DETAIL_NET_ADDRESS_H
+#endif // NANONET_DETAIL_NET_ADDRESS_H

@@ -19,8 +19,8 @@
 // - Test after the streambuf_traits -> reader_writer refactor.
 //
 
-#ifndef CPP_LIB_WINDOWS_WRAPPERS
-#define CPP_LIB_WINDOWS_WRAPPERS
+#ifndef NANONET_WINDOWS_WRAPPERS
+#define NANONET_WINDOWS_WRAPPERS
 
 #ifndef WIN32
   #error "Sorry: The feature requested is only available on Windows."
@@ -256,4 +256,4 @@ inline void socket_shutdown_write(const socketfd_t s)
 } // namespace nanonet
 
 
-#endif // CPP_LIB_WINDOWS_WRAPPERS
+#endif // NANONET_WINDOWS_WRAPPERS

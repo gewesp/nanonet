@@ -27,8 +27,8 @@
 //   This requires support in the network data structures.
 //
 
-#ifndef CPP_LIB_SYS_SERVER_H
-#define CPP_LIB_SYS_SERVER_H
+#ifndef NANONET_SYS_SERVER_H
+#define NANONET_SYS_SERVER_H
 
 #include "nanonet/sys/network.h"
 
@@ -289,4 +289,4 @@ std::string this_thread_id_paren();
 
 } // namespace nanonet
 
-#endif // CPP_LIB_UTIL_SYS_H
+#endif // NANONET_UTIL_SYS_H

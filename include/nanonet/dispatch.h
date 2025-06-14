@@ -64,8 +64,8 @@
 //
 
 
-#ifndef CPP_LIB_DISPATCH_H
-#define CPP_LIB_DISPATCH_H
+#ifndef NANONET_DISPATCH_H
+#define NANONET_DISPATCH_H
 
 #include "nanonet/safe_queue.h"
 #include "nanonet/sys/syslogger.h"
@@ -216,4 +216,4 @@ T nanonet::dispatch::thread_pool::dispatch_returning(returning_task<T>&& t) {
   return T();
 }
 
-#endif // CPP_LIB_DISPATCH_H
+#endif // NANONET_DISPATCH_H

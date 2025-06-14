@@ -39,8 +39,8 @@
 // * Remove 16 bit variants?  XDR is always on multiples of 4...
 //
 
-#ifndef CPP_LIB_XDR_H
-#define CPP_LIB_XDR_H
+#ifndef NANONET_XDR_H
+#define NANONET_XDR_H
 
 #include "nanonet/assert.h"
 #include "nanonet/units.h"
@@ -217,4 +217,4 @@ template<typename IT> uint16_t read_u64(IT& it)
 
 } // namespace nanonet
 
-#endif // CPP_LIB_XDR_H
+#endif // NANONET_XDR_H

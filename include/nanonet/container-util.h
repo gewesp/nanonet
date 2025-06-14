@@ -17,8 +17,8 @@
 //
 
 
-#ifndef CPP_LIB_CONTAINER_UTIL_H
-#define CPP_LIB_CONTAINER_UTIL_H
+#ifndef NANONET_CONTAINER_UTIL_H
+#define NANONET_CONTAINER_UTIL_H
 
 #include <array>
 #include <iostream>
@@ -559,4 +559,4 @@ inline void nanonet::util::container::check_strictly_ascending
 
 }
 
-#endif // CPP_LIB_CONTAINER_UTIL_H
+#endif // NANONET_CONTAINER_UTIL_H

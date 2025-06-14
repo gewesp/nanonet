@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
-#ifndef CPP_LIB_DETAIL_SOCKET_H
-#define CPP_LIB_DETAIL_SOCKET_H
+#ifndef NANONET_DETAIL_SOCKET_H
+#define NANONET_DETAIL_SOCKET_H
 
 #include "nanonet/assert.h"
 #include "nanonet/sys/net-util.h"
@@ -154,4 +154,4 @@ long nanonet::detail_::socket< type >::write
 
 }
 
-#endif // CPP_LIB_DETAIL_SOCKET_H
+#endif // NANONET_DETAIL_SOCKET_H

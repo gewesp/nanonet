@@ -16,8 +16,8 @@
 // Component: UTIL
 //
 
-#ifndef CPP_LIB_ASSERT_H
-#define CPP_LIB_ASSERT_H
+#ifndef NANONET_ASSERT_H
+#define NANONET_ASSERT_H
 
 #include <string>
 
@@ -129,4 +129,4 @@ template< typename F , typename... ARGs > void verify_throws(
     }                                                                  \
   }
 
-#endif // CPP_LIB_ASSERT_H
+#endif // NANONET_ASSERT_H

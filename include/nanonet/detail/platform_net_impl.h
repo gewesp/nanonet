@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
-#ifndef CPP_LIB_DETAIL_PATFORM_NET_IMPL_H
-#define CPP_LIB_DETAIL_PATFORM_NET_IMPL_H
+#ifndef NANONET_DETAIL_PATFORM_NET_IMPL_H
+#define NANONET_DETAIL_PATFORM_NET_IMPL_H
 
 #include "./platform_definition.h"
 
@@ -27,4 +27,4 @@
 #  error "This operating system platform is not supported by nanonet."
 #endif
 
-#endif // CPP_LIB_DETAIL_PATFORM_NET_IMPL_H
+#endif // NANONET_DETAIL_PATFORM_NET_IMPL_H

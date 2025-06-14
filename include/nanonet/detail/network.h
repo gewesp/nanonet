@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
-#ifndef CPP_LIB_DETAIL_NETWORK_H
-#define CPP_LIB_DETAIL_NETWORK_H
+#ifndef NANONET_DETAIL_NETWORK_H
+#define NANONET_DETAIL_NETWORK_H
 
 
 #include "nanonet/detail/platform_wrappers.h"
@@ -48,4 +48,4 @@ long my_sendto(socketfd_t const fd , const sockaddr* a, socklen_t len, char cons
 
 } // cpl
 
-#endif // CPP_LIB_DETAIL_NETWORK_H
+#endif // NANONET_DETAIL_NETWORK_H

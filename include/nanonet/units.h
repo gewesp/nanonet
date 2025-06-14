@@ -20,8 +20,8 @@
 //
 
 
-#ifndef CPP_LIB_UNITS_H
-#define CPP_LIB_UNITS_H
+#ifndef NANONET_UNITS_H
+#define NANONET_UNITS_H
 
 namespace nanonet {
 
@@ -42,4 +42,4 @@ inline double constexpr millisecond() { return 1e-3; }
 } // namespace nanonet
 
 
-#endif // CPP_LIB_UNITS_H
+#endif // NANONET_UNITS_H

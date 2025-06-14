@@ -16,8 +16,8 @@
 // Component: UTIL
 //
 
-#ifndef CPP_LIB_SAFE_QUEUE_H
-#define CPP_LIB_SAFE_QUEUE_H
+#ifndef NANONET_SAFE_QUEUE_H
+#define NANONET_SAFE_QUEUE_H
 
 
 #include <condition_variable>
@@ -148,4 +148,4 @@ private:
 
 } // namespace nanonet
 
-#endif // CPP_LIB_SAFE_QUEUE_H
+#endif // NANONET_SAFE_QUEUE_H

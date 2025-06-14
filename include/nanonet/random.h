@@ -19,8 +19,8 @@
 //
 
 
-#ifndef CPP_LIB_RANDOM_H
-#define CPP_LIB_RANDOM_H
+#ifndef NANONET_RANDOM_H
+#define NANONET_RANDOM_H
 
 
 namespace nanonet {
@@ -51,4 +51,4 @@ cont random_sequence(rng& rand, sizedist& sd, valdist& vd) {
 } // end namespace cpl
 
 
-#endif // CPP_LIB_RANDOM_H
+#endif // NANONET_RANDOM_H

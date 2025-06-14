@@ -18,8 +18,8 @@
 // TODO: This is UNIX only.  Provide a Windows implementation
 //
 
-#ifndef CPP_LIB_SYSLOGGER_H
-#define CPP_LIB_SYSLOGGER_H
+#ifndef NANONET_SYSLOGGER_H
+#define NANONET_SYSLOGGER_H
 
 #include "nanonet/util.h"
 
@@ -264,4 +264,4 @@ struct testmode_sentry {
 
 } // namespace nanonet
 
-#endif // CPP_LIB_SYSLOGGER_H
+#endif // NANONET_SYSLOGGER_H

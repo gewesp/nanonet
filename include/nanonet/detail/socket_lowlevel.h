@@ -18,8 +18,8 @@
 // TODO: Implementations in .cpp, avoid inlining
 //
 
-#ifndef CPP_LIB_DETAIL_SOCKET_LOWLEVEL_H
-#define CPP_LIB_DETAIL_SOCKET_LOWLEVEL_H
+#ifndef NANONET_DETAIL_SOCKET_LOWLEVEL_H
+#define NANONET_DETAIL_SOCKET_LOWLEVEL_H
 
 #include "nanonet/detail/platform_wrappers.h"
 
@@ -69,4 +69,4 @@ void setup_stream_socket( socketfd_t fd ) ;
 } // cpl
 
 
-#endif // CPP_LIB_DETAIL_SOCKET_LOWLEVEL_H
+#endif // NANONET_DETAIL_SOCKET_LOWLEVEL_H

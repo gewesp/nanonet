@@ -16,8 +16,8 @@
 // Component: NETWORK
 //
 
-#ifndef CPP_LIB_NET_UTIL_H
-#define CPP_LIB_NET_UTIL_H
+#ifndef NANONET_NET_UTIL_H
+#define NANONET_NET_UTIL_H
 
 #include <string>
 
@@ -57,4 +57,4 @@ std::string any_ipv6();
 } // namespace util
 } // namespace nanonet
 
-#endif // CPP_LIB_NET_UTIL_H
+#endif // NANONET_NET_UTIL_H

@@ -17,8 +17,8 @@
 //
 
 
-#ifndef CPP_LIB_MATH_UTIL_H
-#define CPP_LIB_MATH_UTIL_H
+#ifndef NANONET_MATH_UTIL_H
+#define NANONET_MATH_UTIL_H
 
 #include "nanonet/assert.h"
 
@@ -135,4 +135,4 @@ INTEGER round_to_integer(const double x) {
 } // namespace nanonet
 
 
-#endif // CPP_LIB_MATH_UTIL_H
+#endif // NANONET_MATH_UTIL_H

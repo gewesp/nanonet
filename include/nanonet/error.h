@@ -20,8 +20,8 @@
 // exception types.
 //
 
-#ifndef CPP_LIB_ERROR_H
-#define CPP_LIB_ERROR_H
+#ifndef NANONET_ERROR_H
+#define NANONET_ERROR_H
 
 #include <string>
 
@@ -45,4 +45,4 @@ void throw_parse_error(const std::string& message);
 
 } // namespace nanonet
 
-#endif // CPP_LIB_ERROR_H
+#endif // NANONET_ERROR_H

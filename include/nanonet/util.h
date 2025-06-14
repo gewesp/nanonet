@@ -17,8 +17,8 @@
 //
 
 
-#ifndef CPP_LIB_UTIL_H
-#define CPP_LIB_UTIL_H
+#ifndef NANONET_UTIL_H
+#define NANONET_UTIL_H
 
 #include "nanonet/assert.h"
 #include "nanonet/units.h"
@@ -970,4 +970,4 @@ nanonet::util::istreambuf< RW >::underflow() {
 
 }
 
-#endif // CPP_LIB_UTIL_H
+#endif // NANONET_UTIL_H

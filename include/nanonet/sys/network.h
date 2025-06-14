@@ -40,8 +40,8 @@
 // * Define an options struct instead of individual parameters?
 //
 
-#ifndef CPP_LIB_NETWORK_H
-#define CPP_LIB_NETWORK_H
+#ifndef NANONET_NETWORK_H
+#define NANONET_NETWORK_H
 
 #include "nanonet/util.h"
 #include "nanonet/sys/net-util.h"
@@ -719,4 +719,4 @@ void nanonet::util::network::datagram_socket::send(
 
 }
 
-#endif // CPP_LIB_NETWORK_H
+#endif // NANONET_NETWORK_H

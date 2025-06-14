@@ -17,8 +17,8 @@
 //
 
 
-#ifndef CPP_LIB_HTTP_H
-#define CPP_LIB_HTTP_H
+#ifndef NANONET_HTTP_H
+#define NANONET_HTTP_H
 
 #include <iosfwd>
 #include <string>
@@ -154,4 +154,4 @@ get_request parse_get_request(
 } // namespace nanonet
 
 
-#endif // CPP_LIB_HTTP_H
+#endif // NANONET_HTTP_H
