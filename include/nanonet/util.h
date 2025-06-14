@@ -521,14 +521,6 @@ std::string utf8_canonical(
     std::string const& extra = std::string(),
     int convert = 0);
 
-/// Verifies that a string contains only alphanumeric and
-/// possibly extra characters.  If throw_on_invalid is true,
-/// throws nanonet::util::value_error on violation.  Otherwise,
-/// returns false.
-bool verify_alnum(
-    std::string const& s, std::string const& extra = std::string(),
-    bool throw_on_invalid = true);
-
 // Remove any non-alphanumeric or non-extra characters from s
 // and convert the remaining ones to upper case.  Returns the
 // result.

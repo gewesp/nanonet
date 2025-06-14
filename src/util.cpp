@@ -330,21 +330,6 @@ void nanonet::util::chop( std::string& s ) {
 
 }
 
-bool nanonet::util::verify_alnum(std::string const& s, std::string const& extra, const bool throw_on_invalid) {
-  for (char c : s) {
-    if (not std::isalnum(c) && std::string::npos == extra.find(c)) {
-      if (throw_on_invalid) {
-        throw nanonet::util::value_error(
-              "invalid character in " + s 
-            + ": must be alphanumeric or in " + extra);
-      } else {
-        return false;
-      }
-    }
-  }
-  return true;
-}
-
 std::string nanonet::util::canonical(
     std::string const& s, std::string const& extra) {
   std::string ret;

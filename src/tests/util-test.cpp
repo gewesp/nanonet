@@ -505,13 +505,6 @@ void test_stringutils(std::ostream& os) {
   nanonet::util::tolower(h);
   always_assert("hello world!" == h);
 
-  // verify_alnum()
-  nanonet::util::verify_alnum("");
-  nanonet::util::verify_alnum("abc1234");
-  nanonet::util::verify_alnum("abc1234+.", "+.,");
-  nanonet::util::verify_alnum("abc1234\"+.", "\"+.,");
-  nanonet::util::verify_alnum("abc1234\"+.", "\"+.,");
-
   // canonical()
   always_assert("" == nanonet::util::canonical(""));
   always_assert("" == nanonet::util::canonical("", "-+"));
@@ -525,9 +518,6 @@ void test_stringutils(std::ostream& os) {
   test_split(os, "1, 2", sv{"1", " 2"});
   test_split(os, ", 2", sv{"", " 2"});
   test_split(os, ", ,", sv{"", " ", ""});
-
-  verify_throws("invalid", nanonet::util::verify_alnum, "adsf+", "", true);
-  verify_throws("invalid", nanonet::util::verify_alnum, "adsf+", "-", true);
 
   using namespace std::string_literals;
   always_assert(std::pair("k"s, "v"s) == nanonet::util::split_colon_blank("k: v"));
