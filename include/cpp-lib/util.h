@@ -201,13 +201,11 @@ long check_long
 ( double const& x , double const& min , double const& max ) ;
 
 
-/// This tag can be used as a constructor argument to
-/// signal that the constructor leaves fields uninitialized.
-struct uninitialized {} ;
-
 
 //
 // Marks a value as being unused in order to avoid compiler warnings.
+//
+// TODO: modernize
 //
 
 template< typename T >
