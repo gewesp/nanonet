@@ -607,52 +607,6 @@ inline owning_ofstream open_write(
 { return open_writebuf( name , mode ) ; }
 
 
-// Strip suffix from filename.
-
-// If name ends in suffix, return name with suffix removed.
-// Otherwise, return name.
-
-std::string basename( std::string const& name , std::string const& suffix ) ;
-
-// A class to redirect an existing ostream to a file.
-// TODO: What's the use of this?
-
-struct redirector {
-
-  //
-  // As long as the redirector exists, os is redirected to file name
-  // by switching the buffer.
-  //
-
-  redirector( std::ostream& os , std::string const& name ) :
-    file( nanonet::util::file::open_write( name ) ) ,
-    saved( os.rdbuf() ) ,
-    redirected( os )
-  { os.rdbuf( file.rdbuf() ) ; }
-
-  /// Restore the original buffer.
-
-  ~redirector() {
-    always_assert( saved != 0 ) ;
-    redirected.rdbuf( saved ) ;
-  }
-
-private:
-
-  /// The file to redirect to.
-
-  owning_ofstream file ;
-
-  /// The saved stream buffer.
-
-  std::streambuf* saved ;
-
-  /// The redirected stream.
-
-  std::ostream& redirected ;
-
-} ;
-
 } // namespace file
 
 
@@ -662,11 +616,6 @@ private:
 
 inline void toggle( bool& b ) { b = !b ; }
 
-
-/// Lexical cast of arbitrary type to std::string.
-
-template< typename T >
-std::string string_cast( T const& ) ;
 
 //
 // Chop whitespace at the end of a string.
@@ -727,18 +676,6 @@ bool verify_alnum(
 // and convert the remaining ones to upper case.  Returns the
 // result.
 std::string canonical(std::string const& s, std::string const& extra = "");
-
-//
-// Converts a std::vector< char > into an integer.
-//
-// The most significant byte must be the first element in the vector!
-// The vector's size must be the same as type T's in byte!
-//
-// Author:  Marco Leuenberger.
-//
-
-template< typename T >
-T to_integer( std::vector< char > const& ) ;
 
 
 //
@@ -1181,37 +1118,6 @@ nanonet::util::istreambuf< RW >::underflow() {
   ) ;
 
   return traits_type::to_int_type( *gptr() ) ;
-
-}
-
-//
-// Template definitions.
-//
-
-template< typename T >
-std::string nanonet::util::string_cast( T const& x ) {
-
-  std::ostringstream os ;
-  os << x ;
-  return os.str() ;
-
-}
-
-
-template< typename T >
-T nanonet::util::to_integer( std::vector< char > const& vec ) {
-
-  assert( vec.size() == sizeof( T ) );
-
-  T x = static_cast< T >( static_cast< unsigned char > ( vec[0] ) );
-  
-  for( unsigned int i = 1 ; i < vec.size() ; ++i )
-  {
-    x <<= 8;
-    x = x + static_cast< T >( static_cast< unsigned char > ( vec[i] ) );
-  }
-  
-  return x ;
 
 }
 

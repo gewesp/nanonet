@@ -126,7 +126,7 @@ void nanonet::detail_::throw_should_have
 ( long const n , std::string const& thing ) {
 
   throw std::runtime_error
-  ( "should have " + string_cast( n ) + " " + thing ) ;
+  ( "should have " + std::to_string( n ) + " " + thing ) ;
 
 }
 

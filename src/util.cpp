@@ -492,21 +492,3 @@ nanonet::util::file::open_writebuf(
   return ret ;
 
 }
-
-
-std::string nanonet::util::file::basename(
-  std::string const& name ,
-  std::string const& suffix
-) {
-
-  if(
-       name.size() >= suffix.size()
-    && std::equal( name.end() - suffix.size() , name.end() , suffix.begin() )
-  )
-  { return std::string( name.begin() , name.end() - suffix.size() ) ; }
-  else
-  { return name ; }
-
-}
-
-

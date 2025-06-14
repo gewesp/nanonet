@@ -959,7 +959,7 @@ void convert(
     catch( std::runtime_error const& e ) {
 
       throw std::runtime_error
-      ( "element " + nanonet::util::string_cast( i + 1 ) + e.what() ) ;
+      ( "element " + std::to_string( i + 1 ) + e.what() ) ;
 
     }
 
