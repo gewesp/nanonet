@@ -473,7 +473,9 @@ void nanonet::util::registry::read_from(
   bool throw_on_redefinition
 ) {
 
-  auto is = nanonet::util::file::open_read( filename_.c_str() ) ;
+  auto is = std::ifstream(filename_);
+  util::verify(not not is, "could not open: " + filename_);
+
   lexer lex( is , filename_ ) ;
   read_from( lex , ls , ps , throw_on_redefinition ) ;
 
