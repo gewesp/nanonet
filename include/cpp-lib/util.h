@@ -865,64 +865,6 @@ write_list(
   }
 }
 
-// Writes a JSON string with escaping
-std::ostream& json_escape(std::ostream&, const std::string&);
-
-// Writes a JSON string with escaping
-std::ostream& json_escape(std::ostream&, const char*);
-
-//
-// Writes a JSON style key-value pair, for simple value types
-// and strings
-//
-// Usage:
-// std::cout << nanonet::util::json("foo", 123);
-// -> "foo": 123
-// std::cout << nanonet::util::json("hello", "world");
-// -> "hello": "world"
-//
-// FIXME: Maybe dangerous?
-//
-
-template <typename T, bool IsString> struct json_wrapper {
-  // Memorize the template argument
-  static constexpr bool isString = IsString;
-
-  json_wrapper(std::string const& k, T const& v)
-  : key(k), value(v) {}
-
-  std::string const& key;
-  T value;
-};
-
-template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T> > >
-inline json_wrapper<const T&, false> json(std::string const& key, T const& value) {
-  return json_wrapper<const T&, false>(key, value);
-}
-
-inline json_wrapper<const std::string&, true> json(std::string const& key, std::string const& value) {
-  return json_wrapper<const std::string&, true>(key, value);
-}
-
-inline json_wrapper<const char*, true> json(std::string const& key, const char* const value) {
-  return json_wrapper<const char*, true>(key, value);
-}
-
-template<typename T, bool IsString>
-std::ostream& operator<<(std::ostream& os, json_wrapper<T, IsString> const& j) {
-  os << '"' << j.key << "\": ";
-
-  if constexpr(json_wrapper<T, IsString>::isString) {
-    os << '"';
-    json_escape(os, j.value);
-    os << '"';
-  } else {
-    os << j.value;
-  }
-
-  return os;
-}
-
 //
 // Read characters from is until either is goes bad or the given
 // character sequence string is encountered.
