@@ -68,11 +68,6 @@ std::string to_string(std::wstring const& s) {
   return conv.to_bytes(s);
 }
 
-std::string const allowed_characters_1_ = ",.-/() ";
-std::string const allowed_characters_2_ = ",.:/-"  ;
-std::string const allowed_characters_3_ = "-"      ;
-std::string const allowed_characters_4_ = "-_"     ;
-
 } // anonymous namespace
 
 
@@ -377,24 +372,6 @@ std::string nanonet::util::canonical(
     }
   }
   return ret;
-}
-
-// TODO: Is this thread-safe?  I guess OK, as long as no
-// COW is used...
-std::string const& nanonet::util::allowed_characters_1() {
-  return allowed_characters_1_;
-}
-
-std::string const& nanonet::util::allowed_characters_2() {
-  return allowed_characters_2_;
-}
-
-std::string const& nanonet::util::allowed_characters_3() {
-  return allowed_characters_3_;
-}
-
-std::string const& nanonet::util::allowed_characters_4() {
-  return allowed_characters_4_;
 }
 
 ////////////////////////////////////////////////////////////////////////

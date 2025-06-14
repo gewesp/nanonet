@@ -715,18 +715,6 @@ std::string utf8_canonical(
     std::string const& extra = std::string(),
     int convert = 0);
 
-// Returns: ",.-/() "
-std::string const& allowed_characters_1();
-
-// Returns: ",.:/-"
-std::string const& allowed_characters_2();
-
-// Returns: "-"
-std::string const& allowed_characters_3();
-
-// Returns: "-_"
-std::string const& allowed_characters_4();
-
 /// Verifies that a string contains only alphanumeric and
 /// possibly extra characters.  If throw_on_invalid is true,
 /// throws nanonet::util::value_error on violation.  Otherwise,
