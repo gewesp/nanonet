@@ -481,49 +481,6 @@ inline void stream_copy( std::istream& is , std::ostream& os ) {
 
 
 ///
-/// A per-thread death class for fatal situations.  The purpose is to
-/// get a message across to the user through a variety of channels
-/// before exiting.  These channels are std::cout, std::cerr and a
-/// instance-specific channel that may be specified in the constructor
-/// and defaults to the syslog.
-///
-
-struct death {
-
-  /// Constructs with an instance-specific channel of syslog.
-  death();
-
-  /// Constructs with an instance-specific channel of \a os.
-  death( std::ostream* os ) : os( os ) {}
-
-  virtual ~death() {}
-
-  /// Changes the instance-specific channel to os_in.
-  void set_output( std::ostream* os_in ) { os = os_in ; }
-
-  /// Exit method; May be overridden by the user.
-  virtual void exit( int const code ) { std::exit( code ) ; }
-
-  ///
-  /// Tries to write \a msg to the instance-specific channel,
-  /// std::cerr, std::clog and name.
-  /// If \a name == "", tries to write to "CPP_LIB_DIE_OUTPUT".
-  /// Finally, calls exit() with \a exit_code.
-
-  void die(
-    std::string msg ,
-    std::string name = "" ,
-    int const exit_code = 1
-  ) ;
-
-private:
-
-  std::ostream* os ;
-
-} ;
-
-
-///
 /// @return True iff name equals "-", "stdin" or "STDIN".
 ///
 
@@ -795,26 +752,6 @@ private:
 } ;
 
 } // namespace file
-
-
-//
-// Set stream where die() should write its message.  \a os must
-// point to a valid open ostream or be zero.
-//
-
-void set_die_output( std::ostream* os ) ;
-
-//
-// Construct a death object with the ostream given in set_die_output()
-// and call its die() method with the given parameters.  Backward
-// compatibility function, use of death class is preferred.
-//
-
-void die(
-  std::string const& msg ,
-  std::string name = "" ,
-  int const exit_code = 1
-) ;
 
 
 //

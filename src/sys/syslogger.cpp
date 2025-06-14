@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-// TODO: A variant of that for windows, or put it in the POSIX component.
+// TODO: Create a variant of that for windows
 //
 
 #include "cpp-lib/sys/syslogger.h"

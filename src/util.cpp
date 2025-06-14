@@ -47,9 +47,7 @@ using namespace nanonet::util ;
 
 namespace {
 
-std::ostream* die_output = 0 ;
 
-std::string const die_output_name() { return "CPP_LIB_DIE_OUTPUT" ; }
 
 // Locale to use for UTF-8 stuff.
 // Argh. C.UTF-8 doesn't work on modern MacOS
@@ -78,8 +76,6 @@ std::string const allowed_characters_4_ = "-_"     ;
 } // anonymous namespace
 
 
-void nanonet::util::set_die_output( std::ostream* os )
-{ die_output = os ; }
 
 // TODO: Templatize, etc?
 // http://en.cppreference.com/w/cpp/string/basic_string/getline
@@ -166,53 +162,6 @@ std::pair<std::string, std::string> nanonet::util::split_colon_blank(
 
   return ret;
 }
-
-death::death()
-: os( nullptr )
-{}
-
-void nanonet::util::death::die(
-  std::string msg ,
-  std::string name ,
-  int const exit_code
-) {
-
-  using namespace nanonet::util::log;
-
-  if( nullptr != os ) {
-    *os << prio::EMERG << msg << std::endl ;
-  } else {
-    try {
-      syslogger sl ;
-      sl << prio::EMERG << msg << std::endl ;
-    } catch ( std::exception const& e ) {
-      msg += "(Writing to syslog failed: " ;
-      msg += e.what()                      ;
-      msg += ")"                           ;
-    }
-  }
-
-  std::cerr << prio::EMERG << msg << std::endl;
-  std::clog << prio::EMERG << msg << std::endl;
-
-  if( name == "" )
-  { name = die_output_name() ; }
-
-  {
-    // If the following fails, we're really f**cked up :-)
-    std::ofstream last_chance( name.c_str() ) ;
-    last_chance << prio::EMERG << msg << std::endl ;
-  }
-
-  this->exit( exit_code ) ;
-}
-
-void nanonet::util::die(
-  std::string const& msg ,
-  std::string name ,
-  int const exit_code
-)
-{ death( die_output ).die( msg , name , exit_code ) ; }
 
 bool nanonet::util::is_stdin(const std::string& f) {
   return "-" == f or "stdin" == f or "STDIN" == f;
