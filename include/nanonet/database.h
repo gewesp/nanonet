@@ -53,6 +53,6 @@ void write(std::ostream&, const table_statistics&);
 
 } // db
 
-} // cpl
+} // nanonet
 
 #endif // NANONET_DATABASE_H

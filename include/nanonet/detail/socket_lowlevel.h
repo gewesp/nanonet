@@ -66,7 +66,7 @@ void setup_stream_socket( socketfd_t fd ) ;
 
 } // detail_
 
-} // cpl
+} // nanonet
 
 
 #endif // NANONET_DETAIL_SOCKET_LOWLEVEL_H

@@ -46,6 +46,6 @@ long my_sendto(socketfd_t const fd , const sockaddr* a, socklen_t len, char cons
 
 } // detail_
 
-} // cpl
+} // nanonet
 
 #endif // NANONET_DETAIL_NETWORK_H

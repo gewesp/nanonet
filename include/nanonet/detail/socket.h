@@ -114,7 +114,7 @@ typedef socket< SOCK_STREAM >   stream_socket_reader_writer ;
 
 } // detail_
 
-} // cpl
+} // nanonet
 
 
 ////////////////////////////////////////////////////////////////////////

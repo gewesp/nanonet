@@ -48,7 +48,7 @@ cont random_sequence(rng& rand, sizedist& sd, valdist& vd) {
 
 } // namespace util
 
-} // end namespace cpl
+} //  nanonet
 
 
 #endif // NANONET_RANDOM_H
