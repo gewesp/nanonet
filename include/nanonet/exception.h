@@ -41,12 +41,6 @@ namespace util {
 // A parser detects a syntax or parse error, e.g. in registry
 CPP_LIB_DETAIL_DECLARE_EXCEPTION(parse_error, std::runtime_error)
 
-// A value error, e.g. where a string contains illegal characters
-CPP_LIB_DETAIL_DECLARE_EXCEPTION(value_error, std::runtime_error)
-
-// An error where a numeric value is out of bounds
-CPP_LIB_DETAIL_DECLARE_EXCEPTION(bounds_error, std::runtime_error)
-
 // Assertion failure, e.g. from always_assert()
 CPP_LIB_DETAIL_DECLARE_EXCEPTION(assertion_failure, std::runtime_error)
 
@@ -55,9 +49,6 @@ CPP_LIB_DETAIL_DECLARE_EXCEPTION(timeout_exception, std::runtime_error)
 
 // Signal a (service) shutdown, exit etc.
 CPP_LIB_DETAIL_DECLARE_EXCEPTION(shutdown_exception, std::runtime_error)
-
-// An unrecoverable error, program needs to abort.
-CPP_LIB_DETAIL_DECLARE_EXCEPTION(unrecoverable_error, std::logic_error)
 
 } // namespace util
 

@@ -46,8 +46,3 @@ void nanonet::util::throw_runtime_error(
     const std::string& what) {
   throw std::runtime_error(what);
 }
-
-void nanonet::util::throw_unrecoverable_error(
-    const std::string& what) {
-  throw nanonet::util::unrecoverable_error(what);
-}
