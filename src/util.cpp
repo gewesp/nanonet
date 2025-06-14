@@ -386,14 +386,6 @@ double nanonet::util::parse_datetime(
 }
 
 
-bool nanonet::util::simple_scheduler::action( double const& t ) {
-
-  if( t_last <= t && t < t_last + dt ) { return false ; }
-  t_last = t ; return true ;
-
-}
-
-
 // The cast is necessary because std::isspace(int) is undefined for
 // value other than EOF or unsigned char
 
@@ -524,13 +516,6 @@ int nanonet::util::update_if_nontrivial(std::string& s, std::string const& r)
   }
 }
 
-
-nanonet::util::simple_scheduler::simple_scheduler( double const& dt_ )
-: t_last( -std::numeric_limits< double >::max() )
-{ reconfigure( dt_ ) ; }
-
-void nanonet::util::simple_scheduler::reconfigure( double const& dt_ )
-{ always_assert( dt_ >= 0 ) ; dt = dt_ ; }
 
 
 //

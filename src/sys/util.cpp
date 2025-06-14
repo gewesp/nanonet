@@ -25,17 +25,3 @@
 using namespace nanonet::util ;
 
 
-double nanonet::util::sleep_scheduler::wait_next() {
-
-  double const n = ( this->time() - t_0 ) * hz ;
-
-  if( n > n_next ) {   n_next = std::ceil( n ) ; } // Missed a slice.
-  else             { ++n_next ;                  }
-
-  assert( n_next >= n ) ;
-
-  nanonet::util::sleep( dt * ( n_next - n ) ) ;
-
-  return t_0 + dt * n_next ;
-
-}

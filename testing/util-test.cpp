@@ -615,28 +615,8 @@ void test_utf8(std::ostream& os) {
 }
 #endif
 
-struct heartbeat_tester {
-  heartbeat_tester(std::ostream& os) : os_(os) {}
-  void heartbeat(const double& t) {
-    os_ << "TIME " << std::setprecision(16) << t << std::endl;
-  }
-  std::ostream& os_;
-};
 
-void test_pacemaker(std::ostream& os) {
-  heartbeat_tester tester(os);
-
-  nanonet::util::pacemaker<heartbeat_tester> hb(tester, 1.0);
-  nanonet::util::sleep(5);
-  // Destructor should join the thread
-}
-
-int main(int argc, const char* const* const argv) {
-  if (2 == argc && "pacemaker" == std::string(argv[1])) {
-    test_pacemaker(std::cout);
-    return 0;
-  }
-
+int main() {
   test_datetime();
   test_format_time(nanonet::util::format_time_hh_mmt, std::cout);
   test_format_time(nanonet::util::format_time_hh_mm , std::cout);
