@@ -234,6 +234,10 @@ void mark_unused( T const& t ) {
 std::istream& getline(std::istream&, std::string& s, long maxsize,
     long size_hint = 0);
 
+
+// Removes whitespace at the beginning and end of s
+std::string trim(const std::string& s);
+
 //
 // Splits s on separator and inserts it into the given sequence.
 //

@@ -3,6 +3,7 @@
 
 ## Before anything else: Project setup / maintenance
 
+* Make sure examples work exactly as specified.
 * Have uniform directories, i.e. all shell scripts in scripts, only source code in src, include, testing etc.
   (mostly done)
 * Set up clang-format

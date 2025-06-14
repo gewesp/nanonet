@@ -112,9 +112,14 @@ std::istream& nanonet::util::getline(
   return is ;
 }
 
-std::vector<std::string> nanonet::util::split(
-    std::string const& str,
-    char const sep) {
+std::string nanonet::util::trim(const std::string& s) {
+  auto ret = s;
+  ret.erase(0, ret.find_first_not_of(" \n\r\t"));
+  ret.erase(ret.find_last_not_of(" \n\r\t") + 1);
+  return s;
+}
+
+std::vector<std::string> nanonet::util::split(std::string const& str, char const sep) {
   std::string back;
   nanonet::util::splitter s(str, sep);
 

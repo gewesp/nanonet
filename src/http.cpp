@@ -23,8 +23,6 @@
 #include "nanonet/error.h"
 #include "nanonet/util.h"
 
-#include "boost/algorithm/string.hpp"
-
 
 using namespace nanonet::util;
 using namespace nanonet::util::network;
@@ -33,7 +31,6 @@ using namespace nanonet::util::log;
 namespace {
 
 std::string const newline = "\r\n" ;
-
 
 std::string const whitespace = "\t\n\r " ;
 
@@ -133,9 +130,9 @@ void nanonet::http::write_content_type_csv(
 }
 
 std::string nanonet::http::content_type_from_file_name(const std::string& name) {
-         if (boost::ends_with(name, ".html")) {
+         if (name.ends_with(".html")) {
     return "text/html";
-  } else if (boost::ends_with(name, ".txt")) {
+  } else if (name.ends_with(".txt")) {
     return "text/plain";
   } else {
     return "application/octet-stream";
@@ -239,8 +236,7 @@ nanonet::http::parse_get_request(
     std::istream& is,
     std::ostream* log) {
   nanonet::http::get_request ret;
-  std::string line = first_line;
-  boost::trim(line);
+  const auto line = util::trim(first_line);
   {
     std::istringstream iss(line);
     std::string get, ver;
@@ -264,8 +260,9 @@ nanonet::http::parse_get_request(
     ret.version = ver1.at(1);
   }
 
-  while (std::getline(is, line)) {
-    boost::trim(line);
+  std::string l;
+  while (std::getline(is, l)) {
+    const auto line = util::trim(l);
     if (line.empty()) {
       break;
     }
