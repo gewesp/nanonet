@@ -44,52 +44,6 @@ namespace file {
 // Utilities forwarding to the respective system functions with
 // exceptions in case of errors.
 
-// Changes working directory for this process, throws in case of errors.
-void chdir( std::string const& ) ;
-
-// Creates a directory.  If allow_existing is true, does not do anything
-// if it already exists.
-// TODO: allow_existing currently also allows for a file
-void mkdir( std::string const& name , bool allow_existing = false ) ;
-
-// Gets current working directory (absolute path name).
-std::string getcwd() ;
-
-// Returns true iff the given file or directory exists and is readable.
-bool exists( std::string const& ) ;
-
-// Links source to destination (hard link), throws in case of errors.
-// Destination must not exist.
-void link( std::string const& source , std::string const& destination ) ;
-
-// Links source to destination (symbolic link), throws in case of errors.
-// Destination must not exist.
-void symlink( std::string const& source , std::string const& destination ) ;
-
-// Removes the specified file, throws in case of errors.
-// If ignore_missing is set to true, a nonexistent file is *not*
-// considered an error.
-void unlink( std::string const& , bool ignore_missing = false ) ;
-
-// Renames source to destination (hard link), throws in case of errors.
-// If destination exists, it will be overwritten.
-void rename( std::string const& source , std::string const& destination ) ;
-
-// A sentry object to reset the working directory to what it was
-// at construction time.
-struct dir_sentry {
-  // Stores current working directory
-  dir_sentry();
-
-  // Returns working directory at construction time
-  std::string const& directory() const { return stored ; } 
-
-  // Restores working directory to what it was at construction time
-  ~dir_sentry();
-
-private:
-  std::string const stored;
-};
 
 
 } // namespace file
