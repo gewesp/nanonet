@@ -153,11 +153,12 @@ bool http_service_handle_line(
                       << std::endl;
 
   try {
-    auto file = nanonet::util::file::open_read("." + request.abs_path);
+    const auto filename = "." + request.abs_path;
+    auto file = std::ifstream{filename};
     // Try to read one character
     file.peek();
     if (file.bad() or file.fail()) {
-      nanonet::util::throw_error("Failed to open: " + request.abs_path);
+      nanonet::util::throw_error("Failed to open: " + filename);
     }
 
     nanonet::http::write_http_header_200(

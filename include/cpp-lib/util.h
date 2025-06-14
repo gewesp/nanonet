@@ -530,64 +530,6 @@ private:
 
 } ;
 
-typedef owning_istream< std::filebuf > owning_ifstream;
-typedef owning_ostream< std::filebuf > owning_ofstream;
-
-
-//
-// Open a file buffer for reading.
-//
-// Open the file.  If the operation fails, a std::runtime_error
-// containing an appropriate message is thrown.
-//
-// The function tries all path names path[ i ] + name starting from
-// i = 0 and finally tries name alone.
-//
-// After a successful open, which contains the full pathname of the
-// opened file.
-//
-
-std::filebuf open_readbuf(
-  std::string const& name  ,
-  std::string      & which ,
-  std::vector< std::string > const& path = std::vector< std::string >()
-) ;
-
-
-//
-// Equivalent to the above function but without information about
-// the opened file.
-//
-
-inline std::filebuf open_readbuf(
-  std::string const& name ,
-  std::vector< std::string > const& path = std::vector< std::string >()
-) { std::string dummy ; return open_readbuf( name , dummy , path ) ; }
-
-
-//
-// Open a file by delegating to open_readbuf().
-//
-
-inline owning_ifstream open_read(
-  std::string const& name  ,
-  std::string      & which ,
-  std::vector< std::string > const& path = std::vector< std::string >()
-) 
-{ return open_readbuf( name , which , path ) ; }
-
-
-//
-// Equivalent to the above function but without information about
-// the opened file.
-//
-
-inline owning_ifstream open_read(
-  std::string const& name ,
-  std::vector< std::string > const& path = std::vector< std::string >()
-) { std::string dummy ; return open_read( name , dummy , path ) ; }
-
-
 } // namespace file
 
 
