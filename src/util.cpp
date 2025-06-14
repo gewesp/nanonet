@@ -400,27 +400,3 @@ std::string nanonet::util::utf8_canonical(
   }
   return to_string(wret);
 }
-
-
-////////////////////////////////////////////////////////////////////////
-// End UTF-8 stuff; Begin String stuff
-////////////////////////////////////////////////////////////////////////
-
-bool nanonet::util::is_trivial_string( std::string const& s )
-{
-  return s.empty() or (1 == s.size() and '-' == s[0]);
-}
-
-int nanonet::util::update_if_nontrivial(std::string& s, std::string const& r)
-{
-  if (not nanonet::util::is_trivial_string(r)) { 
-    const int ret =
-        nanonet::util::is_trivial_string(s) ?
-            2
-          : (s == r ? 1 : -1);
-    s = r; 
-    return ret;
-  } else {
-    return 0;
-  }
-}

@@ -545,24 +545,6 @@ void test_stringutils(std::ostream& os) {
   verify_throws("No colon found", nanonet::util::split_colon_blank, "k;v");
   verify_throws("No colon found", nanonet::util::split_colon_blank, "k v");
   verify_throws("No colon found", nanonet::util::split_colon_blank, "");
-
-  {
-    std::string s;
-    always_assert(0 == nanonet::util::update_if_nontrivial(s, "-"));
-    always_assert("" == s);
-    always_assert(2 == nanonet::util::update_if_nontrivial(s, "s"));
-    always_assert("s" == s);
-    always_assert(0 == nanonet::util::update_if_nontrivial(s, "-"));
-    always_assert("s" == s);
-    always_assert(0 == nanonet::util::update_if_nontrivial(s, ""));
-    always_assert("s" == s);
-    always_assert(-1 == nanonet::util::update_if_nontrivial(s, "new_s"));
-    always_assert("new_s" == s);
-    always_assert(1 == nanonet::util::update_if_nontrivial(s, "new_s"));
-    always_assert("new_s" == s);
-    always_assert(-1 == nanonet::util::update_if_nontrivial(s, "even_newer_s"));
-    always_assert("even_newer_s" == s);
-  }
 }
 
 #if 0

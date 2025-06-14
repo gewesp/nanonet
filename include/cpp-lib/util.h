@@ -195,19 +195,8 @@ inline std::string format_time_no_z( double const t )
 double parse_datetime( 
     std::string const& , const char* const format = "%FT%TZ" ) ;
 
-/// @return True iff s is empty or "-"
-bool is_trivial_string( std::string const& s );
-
-/// If r is trivial (see is_trivial_string()), returns 0.
-/// Otherwise, sets s = r.  If, before the operation,
-/// s was trivial, returns 2.  Otherwise, if
-/// s was equal to r, returns 1.  Otherwise, returns -1.
-int update_if_nontrivial(std::string& s, std::string const& r);
-
-
 // Check if argument is an integer and is in [ min , max ], throw an
 // exception if not.
-
 long check_long
 ( double const& x , double const& min , double const& max ) ;
 
