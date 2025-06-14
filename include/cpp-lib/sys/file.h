@@ -112,50 +112,6 @@ private:
 } ;
 
 
-//
-// An object watching the modification status of a file.
-//
-// (Necessary because Windows doesn't correctly report modification
-// times once file is opened.)
-//
-
-struct file_name_watcher {
-
-  file_name_watcher( std::string const& name )
-  : name( name ) , t( File( name ).modification_time() ) {}
-
-  // True iff the file was written to since last modified() call.  If
-  // the file no longer exists, returns false.  If it reappears on a
-  // later call, returns true.
-  bool modified() ;
-
-private:
-
-  std::string const name ;
-  double t ;
-
-} ;
-
-
-//
-// An object watching the modification status of a file.
-//
-
-struct file_watcher {
-
-  file_watcher( std::string const& name )
-  : f( name ) , t( f.modification_time() ) {}
-
-  // True iff the file was written to since last modified() call.
-  bool modified() ;
-
-private:
-
-  File f ;
-  double t ;
-
-} ;
-
 } // namespace file
 
 } // namespace util

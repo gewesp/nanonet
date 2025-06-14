@@ -72,7 +72,6 @@ set(sources
     src/sys/net-util.cpp
     src/sys/server.cpp
     src/sys/syslogger.cpp
-    src/sys/util.cpp
     )
 
 if (UNIX)
