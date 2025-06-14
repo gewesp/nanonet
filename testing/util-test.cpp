@@ -621,15 +621,6 @@ int main() {
   test_increment_sentry();
 
         {
-                int a1[20];
-                int a2[1];
-                int a3[0];
-                always_assert(20 == nanonet::util::size(a1));
-                always_assert(1  == nanonet::util::size(a2));
-                always_assert(0  == nanonet::util::size(a3));
-        }
-
-        {
                 for (int i=1; i < 256; ++i)
                         testChop(i);
         }

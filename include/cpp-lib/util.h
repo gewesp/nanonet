@@ -201,13 +201,6 @@ long check_long
 ( double const& x , double const& min , double const& max ) ;
 
 
-/// \return Size of a built-in array (compile-time constant).
-
-template< class T >
-inline std::size_t size( T const& a )
-{ return sizeof( a ) / sizeof( a[ 0 ] ) ; }
-
-
 /// This tag can be used as a constructor argument to
 /// signal that the constructor leaves fields uninitialized.
 struct uninitialized {} ;
@@ -221,43 +214,6 @@ template< typename T >
 void mark_unused( T const& t ) {
   static_cast< void >( t ) ;
 }
-
-//
-// Pair operators
-//
-
-template< typename T1 , typename T2 > struct pair_less_first {
-  
-  bool operator()( 
-    std::pair< T1 , T2 > const& p1 ,
-    std::pair< T1 , T2 > const& p2
-  ) const
-  { return p1.first < p2.first ; }
-
-} ;
-
-template< typename T1 , typename T2 > struct pair_equal_first {
-  
-  bool operator()( 
-    std::pair< T1 , T2 > const& p1 ,
-    std::pair< T1 , T2 > const& p2
-  ) const
-  { return p1.first == p2.first ; }
-
-} ;
-
-template< typename T1 , typename T2 >
-struct pair_access_first : std::unary_function< std::pair< T1 , T2 >& , T1& > {
-
-  // 
-  // operator() MUST be const.  This means that the object doesn't
-  // change state.  (Easy if it doesn't have any :-)
-  //
-
-  T1& operator()( std::pair< T1 , T2 >& p ) const { return p.first ; }
-
-} ;
-
 
 //
 // A safe getline() function with maximum number of characters.  Should

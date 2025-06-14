@@ -99,7 +99,7 @@ token char_token( char const c ) {
 std::string token_name( token const t ) {
 
   always_assert
-  ( size( token_name_table ) == static_cast< unsigned long >( NO_TOKEN ) ) ;
+  ( sizeof( token_name_table ) / sizeof(token_name_table[0]) == static_cast< unsigned long >( NO_TOKEN ) ) ;
 
   always_assert( t < NO_TOKEN ) ;
 
