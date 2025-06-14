@@ -588,25 +588,6 @@ inline owning_ifstream open_read(
 ) { std::string dummy ; return open_read( name , dummy , path ) ; }
 
 
-// Open a file buffer for writing.
-
-// Open the file.  If the operation fails, a std::runtime_error
-// containing an appropriate message is thrown.
-
-std::filebuf open_writebuf( 
-    std::string const& name ,
-    std::ios_base::openmode = std::ios_base::out | std::ios_base::binary ) ;
-
-
-// Open a file for writing by delegating to open_writebuf().
-
-inline owning_ofstream open_write( 
-    std::string const& name ,
-    std::ios_base::openmode const mode = 
-        std::ios_base::out | std::ios_base::binary )
-{ return open_writebuf( name , mode ) ; }
-
-
 } // namespace file
 
 
@@ -622,15 +603,6 @@ inline void toggle( bool& b ) { b = !b ; }
 //
 
 void chop( std::string& ) ;
-
-//
-// Tail (i.e., last n characters) of a string.
-//
-
-inline std::string tail(std::string const& s, std::size_t const n) {
-  if (n >= s.size()) { return s;                      }
-  else               { return s.substr(s.size() - n); }
-}
 
 //
 // tolower/toupper for strings

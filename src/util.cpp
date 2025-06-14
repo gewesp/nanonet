@@ -470,25 +470,3 @@ std::filebuf nanonet::util::file::open_readbuf(
   ( "couldn't open " + file + " for reading:" + tried ) ;
 
 }
-
-
-std::filebuf
-nanonet::util::file::open_writebuf(
-    std::string const& file ,
-    std::ios_base::openmode const mode ) {
-
-  std::filebuf ret;
-
-  ret.open( file.c_str() , mode ) ;
-
-  if( !ret.is_open() ) {
-
-    throw std::runtime_error(
-      "couldn't open " + file + " for writing: " + nanonet::detail_::get_strerror_message( errno )
-    ) ;
-
-  }
-
-  return ret ;
-
-}
