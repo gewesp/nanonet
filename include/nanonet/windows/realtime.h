@@ -18,7 +18,7 @@
 // DO NOT DIRECTLY INCLUDE FROM APPLICATION CODE.
 //
 
-#include "cpp-lib/windows/wrappers.h"
+#include "nanonet/windows/wrappers.h"
 
 
 namespace nanonet {

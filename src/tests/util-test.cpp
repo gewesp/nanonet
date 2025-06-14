@@ -24,15 +24,15 @@
 
 #include <cstdlib>
 
-#include "cpp-lib/container-util.h"
-#include "cpp-lib/error.h"
-#include "cpp-lib/random.h"
-#include "cpp-lib/safe_queue.h"
-#include "cpp-lib/type_traits.h"
-#include "cpp-lib/util.h"
-#include "cpp-lib/xdr.h"
+#include "nanonet/container-util.h"
+#include "nanonet/error.h"
+#include "nanonet/random.h"
+#include "nanonet/safe_queue.h"
+#include "nanonet/type_traits.h"
+#include "nanonet/util.h"
+#include "nanonet/xdr.h"
 
-#include "cpp-lib/sys/util.h"
+#include "nanonet/sys/util.h"
 
 using namespace nanonet::util            ;
 using namespace nanonet::util::container ;

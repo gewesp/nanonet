@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#include "cpp-lib/assert.h"
+#include "nanonet/assert.h"
 
-#include "cpp-lib/exception.h"
+#include "nanonet/exception.h"
 
 
 void nanonet::util::throw_timeout_exception(

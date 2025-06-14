@@ -14,14 +14,14 @@
 // limitations under the License.
 //
 
-#include "cpp-lib/util.h"
+#include "nanonet/util.h"
 
 
-#include "cpp-lib/error.h"
-#include "cpp-lib/exception.h"
+#include "nanonet/error.h"
+#include "nanonet/exception.h"
 
-#include "cpp-lib/detail/platform_wrappers.h"
-#include "cpp-lib/sys/syslogger.h"
+#include "nanonet/detail/platform_wrappers.h"
+#include "nanonet/sys/syslogger.h"
 
 #include <chrono>
 #include <codecvt>

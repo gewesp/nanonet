@@ -18,7 +18,7 @@
 #define CPP_LIB_DETAIL_NETWORK_H
 
 
-#include "cpp-lib/detail/platform_wrappers.h"
+#include "nanonet/detail/platform_wrappers.h"
 
 
 namespace nanonet {

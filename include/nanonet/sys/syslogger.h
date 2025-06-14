@@ -21,7 +21,7 @@
 #ifndef CPP_LIB_SYSLOGGER_H
 #define CPP_LIB_SYSLOGGER_H
 
-#include "cpp-lib/util.h"
+#include "nanonet/util.h"
 
 #include <functional>
 #include <ostream>

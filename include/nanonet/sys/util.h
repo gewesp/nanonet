@@ -31,7 +31,7 @@
 #ifndef CPP_LIB_UTIL_SYS_H
 #define CPP_LIB_UTIL_SYS_H
 
-#include "cpp-lib/util.h"
+#include "nanonet/util.h"
 
 #include <atomic>
 #include <thread>

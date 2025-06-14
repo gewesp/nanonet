@@ -25,8 +25,8 @@
 #include <cassert>
 
 
-#include "cpp-lib/sys/network.h"
-#include "cpp-lib/util.h"
+#include "nanonet/sys/network.h"
+#include "nanonet/util.h"
 
 using namespace nanonet::util::network ;
 

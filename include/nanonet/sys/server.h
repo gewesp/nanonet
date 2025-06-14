@@ -30,7 +30,7 @@
 #ifndef CPP_LIB_SYS_SERVER_H
 #define CPP_LIB_SYS_SERVER_H
 
-#include "cpp-lib/sys/network.h"
+#include "nanonet/sys/network.h"
 
 #include <atomic>
 #include <functional>

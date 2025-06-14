@@ -14,13 +14,13 @@
 // limitations under the License.
 //
 
-#include "cpp-lib/sys/server.h"
+#include "nanonet/sys/server.h"
 
-#include "cpp-lib/math-util.h"
-#include "cpp-lib/util.h"
+#include "nanonet/math-util.h"
+#include "nanonet/util.h"
 
-#include "cpp-lib/sys/util.h"
-#include "cpp-lib/sys/syslogger.h"
+#include "nanonet/sys/util.h"
+#include "nanonet/sys/syslogger.h"
 
 
 #include <exception>

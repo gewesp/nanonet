@@ -42,8 +42,8 @@
 #ifndef CPP_LIB_XDR_H
 #define CPP_LIB_XDR_H
 
-#include "cpp-lib/assert.h"
-#include "cpp-lib/units.h"
+#include "nanonet/assert.h"
+#include "nanonet/units.h"
 
 #include <cstdint>
 #include <fstream>

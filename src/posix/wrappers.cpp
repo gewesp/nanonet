@@ -2,10 +2,10 @@
 // This is only compiled on POSIX platforms
 //
 
-#include "cpp-lib/util.h"
-#include "cpp-lib/posix/wrappers.h"
-#include "cpp-lib/sys/util.h"
-#include "cpp-lib/detail/platform_definition.h"
+#include "nanonet/util.h"
+#include "nanonet/posix/wrappers.h"
+#include "nanonet/sys/util.h"
+#include "nanonet/detail/platform_definition.h"
 
 #include <exception>
 #include <stdexcept>

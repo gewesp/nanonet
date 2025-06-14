@@ -20,7 +20,7 @@
 #ifndef CPP_LIB_MATH_UTIL_H
 #define CPP_LIB_MATH_UTIL_H
 
-#include "cpp-lib/assert.h"
+#include "nanonet/assert.h"
 
 #include <algorithm>
 #include <functional>

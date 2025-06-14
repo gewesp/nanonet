@@ -26,8 +26,8 @@
 
 #include <cassert>
 
-#include "cpp-lib/registry.h"
-#include "cpp-lib/util.h"
+#include "nanonet/registry.h"
+#include "nanonet/util.h"
 
 
 using namespace nanonet::util    ;

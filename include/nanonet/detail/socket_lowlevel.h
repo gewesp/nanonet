@@ -21,7 +21,7 @@
 #ifndef CPP_LIB_DETAIL_SOCKET_LOWLEVEL_H
 #define CPP_LIB_DETAIL_SOCKET_LOWLEVEL_H
 
-#include "cpp-lib/detail/platform_wrappers.h"
+#include "nanonet/detail/platform_wrappers.h"
 
 
 namespace nanonet {

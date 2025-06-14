@@ -2,12 +2,12 @@
 // C++ wrappers around low-level socket operations
 //
 
-#include "cpp-lib/detail/socket_lowlevel.h"
+#include "nanonet/detail/socket_lowlevel.h"
 
-#include "cpp-lib/assert.h"
-#include "cpp-lib/detail/platform_wrappers.h"
+#include "nanonet/assert.h"
+#include "nanonet/detail/platform_wrappers.h"
 
-#include "cpp-lib/detail/platform_definition.h"
+#include "nanonet/detail/platform_definition.h"
 
 using nanonet::detail_::socketfd_t;
 

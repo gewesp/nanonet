@@ -26,7 +26,7 @@
 
 #include <cassert>
 
-#include "cpp-lib/util.h"
+#include "nanonet/util.h"
 
 namespace nanonet {
 
@@ -426,8 +426,8 @@ void erase_if( C& items, P const& predicate ) {
 #include <cassert>
 #include <cstdlib>
 
-#include "cpp-lib/util.h"
-#include "cpp-lib/math-util.h"
+#include "nanonet/util.h"
+#include "nanonet/math-util.h"
 
 
 template< class it >

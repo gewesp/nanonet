@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
-#include "cpp-lib/dispatch.h"
-#include "cpp-lib/util.h"
+#include "nanonet/dispatch.h"
+#include "nanonet/util.h"
 
 namespace {
 

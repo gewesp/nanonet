@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#include "cpp-lib/error.h"
+#include "nanonet/error.h"
 
-#include "cpp-lib/exception.h"
+#include "nanonet/exception.h"
 
 #include <string>
 

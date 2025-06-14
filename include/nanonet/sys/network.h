@@ -43,13 +43,13 @@
 #ifndef CPP_LIB_NETWORK_H
 #define CPP_LIB_NETWORK_H
 
-#include "cpp-lib/util.h"
-#include "cpp-lib/sys/net-util.h"
+#include "nanonet/util.h"
+#include "nanonet/sys/net-util.h"
 
-#include "cpp-lib/detail/network.h"
-#include "cpp-lib/detail/net-address.h"
-#include "cpp-lib/detail/socket.h"
-#include "cpp-lib/detail/socket_lowlevel.h"
+#include "nanonet/detail/network.h"
+#include "nanonet/detail/net-address.h"
+#include "nanonet/detail/socket.h"
+#include "nanonet/detail/socket_lowlevel.h"
 
 
 #include <vector>

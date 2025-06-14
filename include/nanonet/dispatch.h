@@ -67,8 +67,8 @@
 #ifndef CPP_LIB_DISPATCH_H
 #define CPP_LIB_DISPATCH_H
 
-#include "cpp-lib/safe_queue.h"
-#include "cpp-lib/sys/syslogger.h"
+#include "nanonet/safe_queue.h"
+#include "nanonet/sys/syslogger.h"
 
 #include <iostream>
 #include <string>

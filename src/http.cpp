@@ -16,12 +16,12 @@
 // See reference [3] in README for a quick HTTP intro. 
 //
 
-#include "cpp-lib/http.h"
+#include "nanonet/http.h"
 
-#include "cpp-lib/sys/network.h"
-#include "cpp-lib/sys/syslogger.h"
-#include "cpp-lib/error.h"
-#include "cpp-lib/util.h"
+#include "nanonet/sys/network.h"
+#include "nanonet/sys/syslogger.h"
+#include "nanonet/error.h"
+#include "nanonet/util.h"
 
 #include "boost/algorithm/string.hpp"
 

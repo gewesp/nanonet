@@ -18,9 +18,9 @@
 #include <exception>
 #include <stdexcept>
 
-#include "cpp-lib/registry.h"
-#include "cpp-lib/util.h"
-#include "cpp-lib/sys/syslogger.h"
+#include "nanonet/registry.h"
+#include "nanonet/util.h"
+#include "nanonet/sys/syslogger.h"
 
 
 using namespace nanonet::util::log;

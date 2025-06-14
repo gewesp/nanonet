@@ -22,9 +22,9 @@
 
 #include <cstdlib>
 
-#include "cpp-lib/dispatch.h"
+#include "nanonet/dispatch.h"
 
-#include "cpp-lib/assert.h"
+#include "nanonet/assert.h"
 
 
 namespace {

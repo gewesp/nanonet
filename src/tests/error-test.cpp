@@ -16,8 +16,8 @@
 
 #include <iostream>
 
-#include "cpp-lib/assert.h"
-#include "cpp-lib/error.h"
+#include "nanonet/assert.h"
+#include "nanonet/error.h"
 
 // int main(int argc, const char* const* const argv) {
 int main() {

@@ -20,8 +20,8 @@
 #ifndef CPP_LIB_UTIL_H
 #define CPP_LIB_UTIL_H
 
-#include "cpp-lib/assert.h"
-#include "cpp-lib/units.h"
+#include "nanonet/assert.h"
+#include "nanonet/units.h"
 
 #include "boost/algorithm/string.hpp"
 #include "boost/algorithm/string/split.hpp"

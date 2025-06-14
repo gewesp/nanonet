@@ -17,11 +17,11 @@
 #ifndef CPP_LIB_DETAIL_SOCKET_H
 #define CPP_LIB_DETAIL_SOCKET_H
 
-#include "cpp-lib/assert.h"
-#include "cpp-lib/sys/net-util.h"
+#include "nanonet/assert.h"
+#include "nanonet/sys/net-util.h"
 
-#include "cpp-lib/detail/platform_wrappers.h"
-#include "cpp-lib/detail/socket_lowlevel.h"
+#include "nanonet/detail/platform_wrappers.h"
+#include "nanonet/detail/socket_lowlevel.h"
 
 namespace nanonet {
 

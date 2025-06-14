@@ -21,11 +21,11 @@
 
 #include <cmath>
 
-#include "cpp-lib/util.h"
-#include "cpp-lib/sys/file.h"
-#include "cpp-lib/sys/util.h"
+#include "nanonet/util.h"
+#include "nanonet/sys/file.h"
+#include "nanonet/sys/util.h"
   
-#include "cpp-lib/windows/wrappers.h"
+#include "nanonet/windows/wrappers.h"
 
 
 using namespace nanonet::detail_ ;

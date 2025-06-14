@@ -21,7 +21,7 @@
 
 #include <string>
 
-#include "cpp-lib/exception.h"
+#include "nanonet/exception.h"
 
 namespace nanonet {
 

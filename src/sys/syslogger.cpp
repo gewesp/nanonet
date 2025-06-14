@@ -16,7 +16,7 @@
 // TODO: Create a variant of that for windows
 //
 
-#include "cpp-lib/sys/syslogger.h"
+#include "nanonet/sys/syslogger.h"
 
 #include <array>
 #include <iostream>
@@ -24,7 +24,7 @@
 
 #include <syslog.h>
 
-#include "cpp-lib/util.h"
+#include "nanonet/util.h"
 
 
 using namespace nanonet::util::log ;

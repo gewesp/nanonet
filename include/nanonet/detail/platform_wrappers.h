@@ -14,17 +14,17 @@
 // limitations under the License.
 //
 
-#ifndef CPP_LIB_DETAIL_PATFORM_NET_IMPL_H
-#define CPP_LIB_DETAIL_PATFORM_NET_IMPL_H
+#ifndef CPP_LIB_DETAIL_PATFORM_WRAPPERS_H
+#define CPP_LIB_DETAIL_PATFORM_WRAPPERS_H
 
 #include "./platform_definition.h"
 
 #if (BOOST_OS_LINUX || BOOST_OS_MACOS)
-#  include "cpp-lib/posix/net_impl.h"
+#  include "nanonet/posix/wrappers.h"
 #elif (BOOST_OS_WINDOWS)
-#  include "cpp-lib/windows/net_impl.h"
+#  include "nanonet/windows/wrappers.h"
 #else
 #  error "This operating system platform is not supported by nanonet."
 #endif
 
-#endif // CPP_LIB_DETAIL_PATFORM_NET_IMPL_H
+#endif // CPP_LIB_DETAIL_PATFORM_WRAPPERS_H

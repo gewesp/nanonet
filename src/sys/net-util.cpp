@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#include "cpp-lib/sys/net-util.h"
+#include "nanonet/sys/net-util.h"
 
-#include "cpp-lib/assert.h"
+#include "nanonet/assert.h"
 
 
 nanonet::util::network::address_family_type

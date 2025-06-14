@@ -35,20 +35,20 @@ set(TESTS
 ############################################################################
 
 set(public-headers
-    include/cpp-lib/assert.h
-    include/cpp-lib/container-util.h
-    include/cpp-lib/dispatch.h
-    include/cpp-lib/error.h
-    include/cpp-lib/exception.h
-    include/cpp-lib/http.h
-    include/cpp-lib/registry.h
-    include/cpp-lib/util.h
-    include/cpp-lib/xdr.h
+    include/nanonet/assert.h
+    include/nanonet/container-util.h
+    include/nanonet/dispatch.h
+    include/nanonet/error.h
+    include/nanonet/exception.h
+    include/nanonet/http.h
+    include/nanonet/registry.h
+    include/nanonet/util.h
+    include/nanonet/xdr.h
 
-    include/cpp-lib/sys/network.h
-    include/cpp-lib/sys/server.h
-    include/cpp-lib/sys/syslogger.h
-    include/cpp-lib/sys/util.h
+    include/nanonet/sys/network.h
+    include/nanonet/sys/server.h
+    include/nanonet/sys/syslogger.h
+    include/nanonet/sys/util.h
     )
 
 set(private-headers)
@@ -88,18 +88,18 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DBOOST_DISABLE_ASSERTS"
 # TARGET CONFIGURATION
 ############################################################################
 
-add_library(cpp-lib
+add_library(nanonet
     ${public-headers}
     ${private-headers}
     ${sources}
     )
 
-target_compile_options(cpp-lib PRIVATE ${MY_WARNING_FLAGS})
+target_compile_options(nanonet PRIVATE ${MY_WARNING_FLAGS})
 
 
 foreach(TEST ${TESTS})
   add_executable(${TEST} src/tests/${TEST}.cpp)
-  target_link_libraries(${TEST} cpp-lib pthread)
+  target_link_libraries(${TEST} nanonet pthread)
   target_compile_options(${TEST} PRIVATE ${MY_WARNING_FLAGS})
   if (UNIX AND NOT APPLE)
     target_link_libraries(${TEST} rt)

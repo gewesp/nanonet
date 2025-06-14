@@ -32,7 +32,7 @@
 #include <cassert>
 #include <cstdlib>
 
-#include "cpp-lib/util.h"
+#include "nanonet/util.h"
 
 
 namespace nanonet {

@@ -14,12 +14,12 @@
 // limitations under the License.
 //
 
-#include "cpp-lib/detail/network.h"
+#include "nanonet/detail/network.h"
 
-#include "cpp-lib/detail/platform_net_impl.h"
-#include "cpp-lib/detail/socket_lowlevel.h"
+#include "nanonet/detail/platform_net_impl.h"
+#include "nanonet/detail/socket_lowlevel.h"
 
-#include "cpp-lib/math-util.h"
+#include "nanonet/math-util.h"
 
 using nanonet::detail_::socketfd_t;
 using nanonet::detail_::invalid_socket;

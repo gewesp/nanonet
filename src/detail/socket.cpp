@@ -14,10 +14,10 @@
 // limitations under the License.
 //
 
-#include "cpp-lib/detail/socket.h"
+#include "nanonet/detail/socket.h"
 
-#include "cpp-lib/assert.h"
-#include "cpp-lib/detail/platform_wrappers.h"
+#include "nanonet/assert.h"
+#include "nanonet/detail/platform_wrappers.h"
 
 
 int nanonet::detail_::check_socktype( int const type )
