@@ -22,7 +22,7 @@ find_package(Boost 1.65.0 REQUIRED)
 message("-- Boost libraries version:  ${Boost_VERSION}"            )
 message("-- Boost include directory:  ${Boost_INCLUDE_DIRS}"       )
 
-# Test targets (see testing/)
+# Test targets (see src/test)
 set(TESTS 
     dispatch-test
     error-test
@@ -45,7 +45,6 @@ set(public-headers
     include/cpp-lib/util.h
     include/cpp-lib/xdr.h
 
-    include/cpp-lib/sys/file.h
     include/cpp-lib/sys/network.h
     include/cpp-lib/sys/server.h
     include/cpp-lib/sys/syslogger.h
@@ -99,7 +98,7 @@ target_compile_options(cpp-lib PRIVATE ${MY_WARNING_FLAGS})
 
 
 foreach(TEST ${TESTS})
-  add_executable(${TEST} testing/${TEST}.cpp)
+  add_executable(${TEST} src/tests/${TEST}.cpp)
   target_link_libraries(${TEST} cpp-lib pthread)
   target_compile_options(${TEST} PRIVATE ${MY_WARNING_FLAGS})
   if (UNIX AND NOT APPLE)
