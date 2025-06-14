@@ -4,7 +4,6 @@
 
 #include "cpp-lib/util.h"
 #include "cpp-lib/posix/wrappers.h"
-#include "cpp-lib/sys/file.h"
 #include "cpp-lib/sys/util.h"
 #include "cpp-lib/detail/platform_definition.h"
 
