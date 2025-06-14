@@ -210,23 +210,6 @@ long nanonet::util::check_long
 }
 
 
-void nanonet::util::scan_past( std::istream& is , char const* const s ) {
-
-  char c ;
-
-restart:
-
-  char const* p = s ;
-
-  while( *p && is.get( c ) ) {
-
-    if( *p != c ) { goto restart ; }
-    ++p ;
-
-  }
-
-}
-
 double nanonet::util::utc() {
   return 
     std::chrono::duration<double>(

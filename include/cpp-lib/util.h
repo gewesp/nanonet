@@ -728,54 +728,6 @@ bool verify_alnum(
 // result.
 std::string canonical(std::string const& s, std::string const& extra = "");
 
-// Writes a list of objects to os, optionally quoted by quote_char
-// and with separators specified by sep.
-template <typename IT> void
-write_list(
-    std::ostream& os, 
-    IT it, IT const end,
-    std::string const& sep = ",", 
-    char const quote_char = 0) {
-
-  if (end == it) {
-    return;
-  }
-
-  while (true) {
-    if (quote_char) { os << quote_char; }
-    os << *it;
-    if (quote_char) { os << quote_char; }
-
-    ++it;
-    if (it == end) {
-      break;
-    } else {
-      os << sep;
-    }
-  }
-}
-
-//
-// Read characters from is until either is goes bad or the given
-// character sequence string is encountered.
-//
-
-void scan_past( std::istream& is , char const* const string ) ;
-
-
-//
-// Converts an integer into a std::vector< char >.
-//
-// The most significant byte is put into the first element in the vector!
-// The vector's size will be the same as type T's in byte.
-//
-// Author:  Marco Leuenberger.
-//
-
-template< typename T >
-std::vector< char > to_char_vector( T const& ) ;
-
-
 //
 // Converts a std::vector< char > into an integer.
 //
@@ -1242,33 +1194,6 @@ std::string nanonet::util::string_cast( T const& x ) {
   std::ostringstream os ;
   os << x ;
   return os.str() ;
-
-}
-
-
-template< typename T >
-std::vector< char > nanonet::util::to_char_vector( T const& x ) {
-
-  assert( std::numeric_limits< T >::is_integer );
-
-  std::vector< char > vec;
-  unsigned int size;
-
-  if( std::numeric_limits< T >::is_signed )
-  {
-    size = ( std::numeric_limits< T >::digits + 1 ) / 8 ;
-  }
-  else
-  {
-    size = std::numeric_limits< T >::digits / 8 ;
-  }
-     
-  for( unsigned int i = size ; i > 0 ; --i )
-  {
-    vec.push_back( static_cast< char >( ( x >> ( ( i-1 ) * 8 ) ) & 0xFF ) );      
-  }
-  
-  return vec ;
 
 }
 
