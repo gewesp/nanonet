@@ -20,8 +20,8 @@
 #include "cpp-lib/detail/platform_wrappers.h"
 
 
-int cpl::detail_::check_socktype( int const type )
+int nanonet::detail_::check_socktype( int const type )
 { always_assert( SOCK_DGRAM == type || SOCK_STREAM == type ) ; return type ; }
 
-int cpl::detail_::check_family( int const family )
+int nanonet::detail_::check_family( int const family )
 { always_assert( AF_INET == family || AF_INET6 == family ) ; return family ; }

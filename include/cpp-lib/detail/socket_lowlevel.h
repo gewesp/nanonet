@@ -24,7 +24,7 @@
 #include "cpp-lib/detail/platform_wrappers.h"
 
 
-namespace cpl {
+namespace nanonet {
 
 namespace detail_ {
 

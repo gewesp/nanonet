@@ -23,7 +23,7 @@
 #ifndef CPP_LIB_UNITS_H
 #define CPP_LIB_UNITS_H
 
-namespace cpl {
+namespace nanonet {
 
 namespace units {
 
@@ -39,7 +39,7 @@ inline double constexpr millisecond() { return 1e-3; }
 
 } // namespace units
 
-} // namespace cpl
+} // namespace nanonet
 
 
 #endif // CPP_LIB_UNITS_H

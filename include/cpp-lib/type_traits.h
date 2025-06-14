@@ -37,7 +37,7 @@
 #include <vector>
 #include <type_traits>
 
-namespace cpl::detail_ {
+namespace nanonet::detail_ {
 
 template <typename T> struct is_container : std::false_type {};
 template <typename T> struct is_pair      : std::false_type {};
@@ -61,18 +61,18 @@ template <typename... ARGS> struct is_container<std::priority_queue    <ARGS...>
 
 template <typename... ARGS> struct is_pair<std::pair<ARGS...>> : std::true_type {};
 
-} // namespace cpl::detail_
+} // namespace nanonet::detail_
 
-namespace cpl::util {
+namespace nanonet::util {
 
 /// is_container<T>::value is true iff T is one of the standard containers
 template <typename T> struct is_container {
-  static constexpr bool const value = ::cpl::detail_::is_container<std::decay_t<T>>::value;
+  static constexpr bool const value = ::nanonet::detail_::is_container<std::decay_t<T>>::value;
 };
 
 /// is_pair<T>::value is true iff T is a std::pair<>
 template <typename T> struct is_pair {
-  static constexpr bool const value = ::cpl::detail_::is_pair<std::decay_t<T>>::value;
+  static constexpr bool const value = ::nanonet::detail_::is_pair<std::decay_t<T>>::value;
 };
 
-} // namespace cpl::util
+} // namespace nanonet::util

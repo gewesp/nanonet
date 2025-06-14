@@ -19,35 +19,35 @@
 #include "cpp-lib/exception.h"
 
 
-void cpl::util::throw_timeout_exception(
+void nanonet::util::throw_timeout_exception(
     const double t, const std::string& op) {
-  throw cpl::util::timeout_exception(
+  throw nanonet::util::timeout_exception(
       "Operation \"" + op
       + "\" timed out after "
       + std::to_string(t)
       + " second(s)");
 }
 
-void cpl::util::throw_timeout_exception() {
-  throw cpl::util::timeout_exception("");
+void nanonet::util::throw_timeout_exception() {
+  throw nanonet::util::timeout_exception("");
 }
 
-void cpl::util::throw_shutdown_exception(
+void nanonet::util::throw_shutdown_exception(
     const std::string& what) {
-  throw cpl::util::shutdown_exception(what);
+  throw nanonet::util::shutdown_exception(what);
 }
 
-void cpl::util::throw_assertion_failure(
+void nanonet::util::throw_assertion_failure(
     const std::string& what) {
-  throw cpl::util::assertion_failure(what);
+  throw nanonet::util::assertion_failure(what);
 }
 
-void cpl::util::throw_runtime_error(
+void nanonet::util::throw_runtime_error(
     const std::string& what) {
   throw std::runtime_error(what);
 }
 
-void cpl::util::throw_unrecoverable_error(
+void nanonet::util::throw_unrecoverable_error(
     const std::string& what) {
-  throw cpl::util::unrecoverable_error(what);
+  throw nanonet::util::unrecoverable_error(what);
 }

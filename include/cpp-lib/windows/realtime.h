@@ -21,7 +21,7 @@
 #include "cpp-lib/windows/wrappers.h"
 
 
-namespace cpl {
+namespace nanonet {
 
 namespace util {
 
@@ -39,15 +39,15 @@ struct realtime_scheduler {
   double wait_next() ;
 
   // Get current time [s].
-  double time() { return cpl::detail_::windows_time() ; }
+  double time() { return nanonet::detail_::windows_time() ; }
 
 private:
 
-  cpl::detail_::auto_handle timer ;
+  nanonet::detail_::auto_handle timer ;
 
 } ;
 
 
 } // namespace util
 
-} // namespace cpl
+} // namespace nanonet

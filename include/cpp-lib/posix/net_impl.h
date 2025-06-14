@@ -15,7 +15,7 @@
 //
 
 
-namespace cpl {
+namespace nanonet {
 
 namespace detail_ {
 
@@ -25,4 +25,4 @@ inline socketfd_t invalid_socket() { return -1 ; }
 
 } // namespace detail_
 
-} // namespace cpl
+} // namespace nanonet

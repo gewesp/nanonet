@@ -44,7 +44,7 @@
 #include <cstring>
 
 
-namespace cpl {
+namespace nanonet {
 
   
 namespace detail_ {
@@ -101,7 +101,7 @@ std::tm utc_tm(double utc);
 
 inline long day_number( double const utc ) {
   assert( utc >= 0 ) ;
-  return static_cast< long >( utc / cpl::units::day() ) ;
+  return static_cast< long >( utc / nanonet::units::day() ) ;
 }
 
 inline long long llmilliseconds( double const t ) {
@@ -138,7 +138,7 @@ inline const char* default_datetime_format() {
 std::string format_datetime(
     double t, 
     const char* format = default_datetime_format(),
-    const double past_limit = -1970 * cpl::units::year(),
+    const double past_limit = -1970 * nanonet::units::year(),
     const char* const default_result = "-");
 
 //
@@ -395,7 +395,7 @@ std::istream& getline(std::istream&, std::string& s, long maxsize,
 //
 // Usage e.g.:
 //   std::vector< std::string > strs;
-//   cpl::util::split(strs, "x,y,2");
+//   nanonet::util::split(strs, "x,y,2");
 // Result: a vector containing "x", "y" and "2".
 //
 
@@ -767,7 +767,7 @@ struct redirector {
   //
 
   redirector( std::ostream& os , std::string const& name ) :
-    file( cpl::util::file::open_write( name ) ) ,
+    file( nanonet::util::file::open_write( name ) ) ,
     saved( os.rdbuf() ) ,
     redirected( os )
   { os.rdbuf( file.rdbuf() ) ; }
@@ -891,7 +891,7 @@ std::string const& allowed_characters_4();
 
 /// Verifies that a string contains only alphanumeric and
 /// possibly extra characters.  If throw_on_invalid is true,
-/// throws cpl::util::value_error on violation.  Otherwise,
+/// throws nanonet::util::value_error on violation.  Otherwise,
 /// returns false.
 bool verify_alnum(
     std::string const& s, std::string const& extra = std::string(),
@@ -940,9 +940,9 @@ std::ostream& json_escape(std::ostream&, const char*);
 // and strings
 //
 // Usage:
-// std::cout << cpl::util::json("foo", 123);
+// std::cout << nanonet::util::json("foo", 123);
 // -> "foo": 123
-// std::cout << cpl::util::json("hello", "world");
+// std::cout << nanonet::util::json("hello", "world");
 // -> "hello": "world"
 //
 // FIXME: Maybe dangerous?
@@ -1350,7 +1350,7 @@ private:
 //
 
 template
-< typename R , typename T = cpl::detail_::auto_resource_traits< R > >
+< typename R , typename T = nanonet::detail_::auto_resource_traits< R > >
 struct auto_resource {
 
   auto_resource(                   ) : h( T::invalid()  ) {}
@@ -1402,7 +1402,7 @@ private:
 
 } // namespace util
 
-} // namespace cpl
+} // namespace nanonet
 
 
 //
@@ -1410,7 +1410,7 @@ private:
 //
 
 template< typename RW >
-bool cpl::util::ostreambuf< RW >::flush() {
+bool nanonet::util::ostreambuf< RW >::flush() {
 
   if (!rw) { return true ; }
 
@@ -1435,8 +1435,8 @@ bool cpl::util::ostreambuf< RW >::flush() {
 
 
 template< typename RW >
-typename cpl::util::istreambuf< RW >::int_type
-cpl::util::istreambuf< RW >::underflow() {
+typename nanonet::util::istreambuf< RW >::int_type
+nanonet::util::istreambuf< RW >::underflow() {
 
   if( gptr() < egptr() ) 
   { return traits_type::to_int_type( *gptr() ) ; }
@@ -1469,7 +1469,7 @@ cpl::util::istreambuf< RW >::underflow() {
 //
 
 template< typename T >
-std::string cpl::util::string_cast( T const& x ) {
+std::string nanonet::util::string_cast( T const& x ) {
 
   std::ostringstream os ;
   os << x ;
@@ -1479,7 +1479,7 @@ std::string cpl::util::string_cast( T const& x ) {
 
 
 template< typename T >
-std::vector< char > cpl::util::to_char_vector( T const& x ) {
+std::vector< char > nanonet::util::to_char_vector( T const& x ) {
 
   assert( std::numeric_limits< T >::is_integer );
 
@@ -1506,7 +1506,7 @@ std::vector< char > cpl::util::to_char_vector( T const& x ) {
 
 
 template< typename T >
-T cpl::util::to_integer( std::vector< char > const& vec ) {
+T nanonet::util::to_integer( std::vector< char > const& vec ) {
 
   assert( vec.size() == sizeof( T ) );
 

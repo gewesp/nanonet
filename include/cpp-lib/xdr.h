@@ -26,11 +26,11 @@
 //   to char.
 // * The iterator is passed by reference and advanced to the next item.
 // * Write is templatized on the value type:
-//     cpl::xdr::write(it, value);
+//     nanonet::xdr::write(it, value);
 // * For read, the value type needs to be specified, e.g.:
-//     cpl::xdr::read_int32 (it);
-//     cpl::xdr::read_uint64(it);
-//     cpl::xdr::read_double(it);
+//     nanonet::xdr::read_int32 (it);
+//     nanonet::xdr::read_uint64(it);
+//     nanonet::xdr::read_double(it);
 //
 // We assume 2's complement representation for integers and IEEE for floats.
 //
@@ -55,7 +55,7 @@
 #include <type_traits>
 
 
-namespace cpl {
+namespace nanonet {
 
 namespace xdr {
 
@@ -216,6 +216,6 @@ template<typename IT> uint16_t read_u64(IT& it)
 
 } // namespace xdr
 
-} // namespace cpl
+} // namespace nanonet
 
 #endif // CPP_LIB_XDR_H

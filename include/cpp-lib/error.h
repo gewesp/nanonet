@@ -25,7 +25,7 @@
 
 #include <string>
 
-namespace cpl {
+namespace nanonet {
 
 namespace util {
 
@@ -43,6 +43,6 @@ void throw_parse_error(const std::string& message);
 
 } // namespace util
 
-} // namespace cpl
+} // namespace nanonet
 
 #endif // CPP_LIB_ERROR_H

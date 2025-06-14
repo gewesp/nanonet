@@ -36,13 +36,13 @@ constexpr int OPEN_FLAGS_NORMAL_FILE = 0;
 
 } // anonymous namespace
 
-using namespace cpl::detail_ ;
-using namespace cpl::util    ;
+using namespace nanonet::detail_ ;
+using namespace nanonet::util    ;
 
 
 // Errno is thread safe.
 // http://stackoverflow.com/questions/1694164/is-errno-thread-safe
-void cpl::detail_::strerror_exception
+void nanonet::detail_::strerror_exception
 ( std::string const& s , int const errnum ) {
 
   throw std::runtime_error
@@ -50,81 +50,81 @@ void cpl::detail_::strerror_exception
 
 }
 
-void cpl::util::file::chdir(std::string const& path) {
+void nanonet::util::file::chdir(std::string const& path) {
   int const res = ::chdir(path.c_str());
   if (0 != res) {
-    cpl::detail_::strerror_exception("chdir to " + path, errno);
+    nanonet::detail_::strerror_exception("chdir to " + path, errno);
   }
 }
 
-void cpl::util::file::mkdir(std::string const& path, 
+void nanonet::util::file::mkdir(std::string const& path, 
                             bool const allow_existing) {
-  if (allow_existing && cpl::util::file::exists(path)) {
+  if (allow_existing && nanonet::util::file::exists(path)) {
     return;
   }
 
   int const res = ::mkdir(path.c_str(), 0777);
   if (0 != res) {
-    cpl::detail_::strerror_exception("mkdir " + path, errno);
+    nanonet::detail_::strerror_exception("mkdir " + path, errno);
   }
 }
 
-std::string cpl::util::file::getcwd() {
+std::string nanonet::util::file::getcwd() {
   int constexpr size = 10000;
   char buf[size];
   if (NULL == ::getcwd(buf, size - 1)) {
-    cpl::detail_::strerror_exception("get working directory", errno);
+    nanonet::detail_::strerror_exception("get working directory", errno);
   }
   return buf;
 }
 
-bool cpl::util::file::exists( std::string const& name ) {
+bool nanonet::util::file::exists( std::string const& name ) {
   return 0 == ::access(name.c_str(), R_OK | F_OK);
 }
 
-void cpl::util::file::link(
+void nanonet::util::file::link(
     std::string const& src, std::string const& dest) {
   int const res = ::link(src.c_str(), dest.c_str());
   if (0 != res) {
-    cpl::detail_::strerror_exception("link " + src + " to " + dest, errno);
+    nanonet::detail_::strerror_exception("link " + src + " to " + dest, errno);
   }
 }
 
-void cpl::util::file::symlink(
+void nanonet::util::file::symlink(
     std::string const& src, std::string const& dest) {
   int const res = ::symlink(src.c_str(), dest.c_str());
   if (0 != res) {
-    cpl::detail_::strerror_exception("symlink " + src + " to " + dest, errno);
+    nanonet::detail_::strerror_exception("symlink " + src + " to " + dest, errno);
   }
 }
 
 
-void cpl::util::file::unlink(std::string const& path, bool ignore_missing) {
+void nanonet::util::file::unlink(std::string const& path, bool ignore_missing) {
   int const res = ::unlink(path.c_str());
   if (0 != res) {
     if (ignore_missing && ENOENT == errno) {
       return;
     }
-    cpl::detail_::strerror_exception("unlink (remove) " + path, errno);
+    nanonet::detail_::strerror_exception("unlink (remove) " + path, errno);
   }
 }
 
-void cpl::util::file::rename(
+void nanonet::util::file::rename(
     std::string const& src, std::string const& dest) {
   int const res = ::rename(src.c_str(), dest.c_str());
   if (0 != res) {
-    cpl::detail_::strerror_exception("rename " + src + " to " + dest, errno);
+    nanonet::detail_::strerror_exception("rename " + src + " to " + dest, errno);
   }
 }
 
-cpl::util::file::dir_sentry::dir_sentry()
-: stored{cpl::util::file::getcwd()} {}
+nanonet::util::file::dir_sentry::dir_sentry()
+: stored{nanonet::util::file::getcwd()} {}
 
-cpl::util::file::dir_sentry::~dir_sentry() {
-  cpl::util::file::chdir(stored);
+nanonet::util::file::dir_sentry::~dir_sentry() {
+  nanonet::util::file::chdir(stored);
 }
 
-std::string cpl::detail_::get_strerror_message( int const errnum ) {
+std::string nanonet::detail_::get_strerror_message( int const errnum ) {
   int constexpr OS_ERROR_BUFSIZE = 1024;
   char v[OS_ERROR_BUFSIZE] = {0};
 
@@ -159,7 +159,7 @@ std::string cpl::detail_::get_strerror_message( int const errnum ) {
 }
 
 
-double cpl::detail_::modification_time( int const fd ) {
+double nanonet::detail_::modification_time( int const fd ) {
 
   struct stat buf ;
 
@@ -170,7 +170,7 @@ double cpl::detail_::modification_time( int const fd ) {
 }
 
 
-int cpl::detail_::posix_open( 
+int nanonet::detail_::posix_open( 
   std::string             const& name ,
   std::ios_base::openmode const  om 
 ) {
@@ -194,7 +194,7 @@ int cpl::detail_::posix_open(
 }
 
 
-void cpl::util::sleep( double const& t ) {
+void nanonet::util::sleep( double const& t ) {
 
   assert( t >= 0 ) ;
 
@@ -206,7 +206,7 @@ void cpl::util::sleep( double const& t ) {
 }
 
 
-double cpl::util::time() {
+double nanonet::util::time() {
 
   ::timeval t ;
 
@@ -217,7 +217,7 @@ double cpl::util::time() {
 }
 
 
-::sigset_t cpl::detail_::block_signal( int const s ) {
+::sigset_t nanonet::detail_::block_signal( int const s ) {
 
   ::sigset_t ret ;
 
@@ -233,7 +233,7 @@ double cpl::util::time() {
 }
 
 
-long cpl::detail_::posix_reader_writer::read(char* const buf, long const n) {
+long nanonet::detail_::posix_reader_writer::read(char* const buf, long const n) {
   
   long ret ;
   do { ret = ::read( fd.get() , buf , n ) ; } 
@@ -247,7 +247,7 @@ long cpl::detail_::posix_reader_writer::read(char* const buf, long const n) {
 }
 
 
-long cpl::detail_::posix_reader_writer::write(
+long nanonet::detail_::posix_reader_writer::write(
     char const* const buf, long const n) {
   
   long ret ;
@@ -264,7 +264,7 @@ long cpl::detail_::posix_reader_writer::write(
 
 }
 
-::timespec const cpl::detail_::to_timespec( double const& t ) {
+::timespec const nanonet::detail_::to_timespec( double const& t ) {
 
   ::timespec ret ;
   to_fractional( t , 1000000000 , ret.tv_sec , ret.tv_nsec ) ;
@@ -272,7 +272,7 @@ long cpl::detail_::posix_reader_writer::write(
 
 }
 
-::timeval const cpl::detail_::to_timeval( double const& t ) {
+::timeval const nanonet::detail_::to_timeval( double const& t ) {
 
   ::timeval ret ;
   to_fractional( t , 1000000 , ret.tv_sec , ret.tv_usec ) ;

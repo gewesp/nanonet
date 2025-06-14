@@ -21,7 +21,7 @@
 
 #include <string>
 
-namespace cpl     {
+namespace nanonet {
 namespace util    {
 namespace network {
 
@@ -55,6 +55,6 @@ std::string any_ipv6();
 
 } // namespace network
 } // namespace util
-} // namespace cpl
+} // namespace nanonet
 
 #endif // CPP_LIB_NET_UTIL_H

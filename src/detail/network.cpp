@@ -21,8 +21,8 @@
 
 #include "cpp-lib/math-util.h"
 
-using cpl::detail_::socketfd_t;
-using cpl::detail_::invalid_socket;
+using nanonet::detail_::socketfd_t;
+using nanonet::detail_::invalid_socket;
 
 namespace {
 
@@ -34,7 +34,7 @@ int poll_one(
     const short events, 
     const double timeout, 
     const char* const msg) {
-  const int timeout_ms = cpl::math::round_to_integer<int>(timeout * 1e3);
+  const int timeout_ms = nanonet::math::round_to_integer<int>(timeout * 1e3);
 
   struct ::pollfd fds;
   fds.fd      = fd    ;
@@ -43,10 +43,10 @@ int poll_one(
 
   int res = 0;
   do { res = ::poll(&fds, 1, timeout_ms); }
-  while (cpl::detail_::EINTR_repeat(res));
+  while (nanonet::detail_::EINTR_repeat(res));
 
   if (-1 == res) {
-    cpl::detail_::throw_socket_error(std::string(msg) + ": " + "poll() failed");
+    nanonet::detail_::throw_socket_error(std::string(msg) + ": " + "poll() failed");
   }
 
   always_assert(res >= 0);
@@ -56,7 +56,7 @@ int poll_one(
 
 } // anonymous namespace
 
-void cpl::detail_::my_listen( socketfd_t const fd , int const backlog ) {
+void nanonet::detail_::my_listen( socketfd_t const fd , int const backlog ) {
 
   int ret ;
   do 
@@ -68,7 +68,7 @@ void cpl::detail_::my_listen( socketfd_t const fd , int const backlog ) {
 
 }
 
-void cpl::detail_::my_bind( socketfd_t const fd , const sockaddr* const a, const socklen_t len)
+void nanonet::detail_::my_bind( socketfd_t const fd , const sockaddr* const a, const socklen_t len)
 {
   int ret ;
   do { ret = ::bind( fd , a , len ) ; }
@@ -79,7 +79,7 @@ void cpl::detail_::my_bind( socketfd_t const fd , const sockaddr* const a, const
   
 }
 
-socketfd_t cpl::detail_::my_accept( socketfd_t const fd ) {
+socketfd_t nanonet::detail_::my_accept( socketfd_t const fd ) {
 
   // Don't care where the connection request comes from...
 
@@ -87,38 +87,38 @@ socketfd_t cpl::detail_::my_accept( socketfd_t const fd ) {
   do { ret = ::accept( fd , 0 , 0 ) ; } 
   while( EINTR_repeat( ret ) ) ;
 
-  if( cpl::detail_::invalid_socket() == ret ) { throw_socket_error( "accept" ) ; }
+  if( nanonet::detail_::invalid_socket() == ret ) { throw_socket_error( "accept" ) ; }
 
   return ret ;
 
 }
 
-socketfd_t cpl::detail_::my_accept(const socketfd_t fd, const double timeout) {
+socketfd_t nanonet::detail_::my_accept(const socketfd_t fd, const double timeout) {
   if (timeout < 0) {
-    return cpl::detail_::my_accept(fd);
+    return nanonet::detail_::my_accept(fd);
   }
 
-  cpl::detail_::bool_fcntl_option(fd, O_NONBLOCK, "Enabling nonblocking mode", true);
+  nanonet::detail_::bool_fcntl_option(fd, O_NONBLOCK, "Enabling nonblocking mode", true);
 
   const int poll_res = ::poll_one(
       fd, POLLIN, timeout, "accepting connections");
   if (0 == poll_res) {
-    cpl::util::throw_timeout_exception();
+    nanonet::util::throw_timeout_exception();
   }
 
   // OK, the poll() call succeeded and no timeout occurred.  This is the only
   // thing we're interested in, so we ignore the revents field.
 
   // May throw if it fails
-  const socketfd_t ret = cpl::detail_::my_accept(fd);
+  const socketfd_t ret = nanonet::detail_::my_accept(fd);
 
   // Ensure that the returned connected socket is blocking
-  cpl::detail_::bool_fcntl_option(ret, O_NONBLOCK, "Disabling nonblocking mode", false);
+  nanonet::detail_::bool_fcntl_option(ret, O_NONBLOCK, "Disabling nonblocking mode", false);
 
   return ret;
 }
  
-void cpl::detail_::my_connect(
+void nanonet::detail_::my_connect(
     socketfd_t const fd , const sockaddr* const a, const socklen_t len)
 {  
   int ret ;
@@ -130,17 +130,17 @@ void cpl::detail_::my_connect(
   { throw_socket_error( "connect" ) ; }
 }
 
-void cpl::detail_::my_connect(
+void nanonet::detail_::my_connect(
     socketfd_t const fd, 
     const sockaddr* const a, const socklen_t len, 
     const double timeout)
 {
   if (timeout < 0) {
-    cpl::detail_::my_connect(fd, a, len);
+    nanonet::detail_::my_connect(fd, a, len);
     return;
   }
 
-  cpl::detail_::bool_fcntl_option(fd, O_NONBLOCK, "Enabling nonblocking mode", true);
+  nanonet::detail_::bool_fcntl_option(fd, O_NONBLOCK, "Enabling nonblocking mode", true);
   
   // Socket is now non-blocking
   int ret = 0;
@@ -162,7 +162,7 @@ void cpl::detail_::my_connect(
   const int poll_res = ::poll_one(
       fd, POLLOUT, timeout, "connecting");
   if (0 == poll_res) {
-    cpl::util::throw_timeout_exception(timeout, "connecting");
+    nanonet::util::throw_timeout_exception(timeout, "connecting");
   }
 
   // man connect(2):
@@ -171,28 +171,28 @@ void cpl::detail_::my_connect(
   // connect() completed successfully (SO_ERROR is zero) or unsuccessfully 
   // (SO_ERROR is one of the usual error codes  listed  here, explaining 
   // the reason for the failure).
-  const int err = cpl::detail_::get_sockopt_error(fd);
+  const int err = nanonet::detail_::get_sockopt_error(fd);
 
   if (0 != err) {
-    cpl::detail_::strerror_exception("connect() after poll()", err);
+    nanonet::detail_::strerror_exception("connect() after poll()", err);
   }
 
   // All OK, switch back to blocking mode
-  cpl::detail_::bool_fcntl_option(
+  nanonet::detail_::bool_fcntl_option(
       fd, O_NONBLOCK, "Enabling nonblocking mode", false);
 }
 
-long cpl::detail_::my_send( socketfd_t const fd , char const* p , long n ) {
+long nanonet::detail_::my_send( socketfd_t const fd , char const* p , long n ) {
 
   long ret ;
   do { ret = ::send( fd , p , n , 0 ) ; }
-  while( cpl::detail_::EINTR_repeat( ret ) ) ;
+  while( nanonet::detail_::EINTR_repeat( ret ) ) ;
 
   return ret ;
 
 }
 
-long cpl::detail_::my_sendto( 
+long nanonet::detail_::my_sendto( 
     socketfd_t const fd , 
     const sockaddr* const a, const socklen_t len, 
     char const* p , long n ) 
@@ -200,7 +200,7 @@ long cpl::detail_::my_sendto(
 
   long ret ;
   do { ret = ::sendto( fd , p , n , 0 , a , len ) ; }
-  while( cpl::detail_::EINTR_repeat( ret ) ) ;
+  while( nanonet::detail_::EINTR_repeat( ret ) ) ;
 
   return ret ;
 

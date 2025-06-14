@@ -46,8 +46,8 @@ std::string const DAYTIME_PORT   = "daytime"       ;
 // Default send/receive timeout
 double const DEFAULT_TIMEOUT = 20;
 
-using namespace cpl::util::network ;
-using namespace cpl::util::log ;
+using namespace nanonet::util::network ;
+using namespace nanonet::util::log ;
 
 
 void usage( std::string const& name ) {
@@ -78,7 +78,7 @@ void usage( std::string const& name ) {
 
 
 void reverse_service_welcome(
-    std::ostream& os, const cpl::util::server_status& status) {
+    std::ostream& os, const nanonet::util::server_status& status) {
   os << "500 Welcome to " << status.name << "\n"
         "500 Thread ID: " << std::this_thread::get_id() << "\n"
         "500 Current number of connections: " << status.connections_current << "\n"
@@ -97,7 +97,7 @@ bool reverse_service_handle_line(
     std::istream& ins,
     std::ostream& ons,
     std::ostream& log,
-    const cpl::util::server_status& status) {
+    const nanonet::util::server_status& status) {
 
   static_cast<void>(ins);
   static_cast<void>(log);
@@ -122,7 +122,7 @@ bool reverse_service_handle_line(
       ons << "201 shutdown requested\n"
           << "201 please close this connection, then the server will exit"
           << std::endl;
-      throw cpl::util::shutdown_exception("Server shutdown requested: " + ss);
+      throw nanonet::util::shutdown_exception("Server shutdown requested: " + ss);
     }
 
     reverse( ss.begin() , ss.end() ) ; 
@@ -143,8 +143,8 @@ bool http_service_handle_line(
     std::istream& is,
     std::ostream& os,
     std::ostream& log,
-    const cpl::util::server_status& status) {
-  const auto request = cpl::http::parse_get_request(line, is, &log);
+    const nanonet::util::server_status& status) {
+  const auto request = nanonet::http::parse_get_request(line, is, &log);
 
   log << prio::NOTICE << "Handling GET request; "
                       << "Path: " << request.abs_path
@@ -153,23 +153,23 @@ bool http_service_handle_line(
                       << std::endl;
 
   try {
-    auto file = cpl::util::file::open_read("." + request.abs_path);
+    auto file = nanonet::util::file::open_read("." + request.abs_path);
     // Try to read one character
     file.peek();
     if (file.bad() or file.fail()) {
-      cpl::util::throw_error("Failed to open: " + request.abs_path);
+      nanonet::util::throw_error("Failed to open: " + request.abs_path);
     }
 
-    cpl::http::write_http_header_200(
-        os, cpl::http::content_type_from_file_name(request.abs_path));
+    nanonet::http::write_http_header_200(
+        os, nanonet::http::content_type_from_file_name(request.abs_path));
 
     // TODO: Handle read errors on file.  Not clear how HTTP handles
     // an error *during* transmission...
-    cpl::util::stream_copy(file, os);
+    nanonet::util::stream_copy(file, os);
   } catch (const std::exception& e) {
     log << prio::ERR << "GET request failed: " << e.what()
         << std::endl;
-    cpl::http::write_http_header_404(os, e.what());
+    nanonet::http::write_http_header_404(os, e.what());
   }
 
   // Only one request per connection, tell framework to please close it.
@@ -253,12 +253,12 @@ void run_datasource( std::string const& port ) {
     while (os && running) {
       if (send_data) {
         os << "{ id: foobar, time: " 
-           << std::setprecision(12) << cpl::util::utc() 
+           << std::setprecision(12) << nanonet::util::utc() 
            << ", data: [1,2,3,4] }"
            << std::endl ;
       }
 
-      cpl::util::sleep(2.0);
+      nanonet::util::sleep(2.0);
     }
 
     command_handler_thread.join();
@@ -289,7 +289,7 @@ void run_hello_server( std::string const& port ) {
 
 void run_reverse_server( std::ostream& sl, std::string const& port , const bool background ) {
 
-  cpl::util::server_parameters p;
+  nanonet::util::server_parameters p;
   p.service = port;
   p.n_listen_retries = 10;
   p.timeout = DEFAULT_TIMEOUT;
@@ -297,16 +297,16 @@ void run_reverse_server( std::ostream& sl, std::string const& port , const bool 
   p.log_connections = true;
   p.background = background;
 
-  cpl::util::running_flag running;
+  nanonet::util::running_flag running;
 
   std::cout << "Starting reverse server; background = " << background
             << std::endl;
 
-  const auto manager = cpl::util::run_server(
+  const auto manager = nanonet::util::run_server(
       reverse_service_handle_line,
       running,
       // Explicit cast necessary here because two steps are involved
-      cpl::util::os_writer{reverse_service_welcome}, p, &sl);
+      nanonet::util::os_writer{reverse_service_welcome}, p, &sl);
 
   // If server runs in foreground, return from run_server() means
   // that shutdown is complete.
@@ -336,16 +336,16 @@ void run_reverse_server( std::ostream& sl, std::string const& port , const bool 
 }
 
 void run_http_server(std::ostream& sl, const std::string& port) {
-  cpl::util::server_parameters p;
+  nanonet::util::server_parameters p;
   p.service = port;
-  p.server_name = cpl::http::default_server_identification();
+  p.server_name = nanonet::http::default_server_identification();
   p.background = false;
 
-  cpl::util::running_flag run;
+  nanonet::util::running_flag run;
   // Running in foreground, therefore we can ignore the 
   // returned server_manager (otherwise [[nodiscard]]).
-  cpl::util::mark_unused(
-      cpl::util::run_server(
+  nanonet::util::mark_unused(
+      nanonet::util::run_server(
           http_service_handle_line, run, std::nullopt, p, &sl));
 }
 
@@ -363,7 +363,7 @@ void receive_data( connection& c , std::ostream& os = std::cout ) {
   std::cerr << "Data received:" << std::endl ;
   
   instream is( c ) ;
-  cpl::util::stream_copy( is , os ) ;
+  nanonet::util::stream_copy( is , os ) ;
 
   std::cerr << "EOF from server." << std::endl ;
 
@@ -414,9 +414,9 @@ void telnet(
 // Download webmap tiles.  Needs port to a new configuration
 // infrastructure
 void tiles(std::ostream& sl, std::string const& config) {
-  cpl::util::registry const reg(config);
+  nanonet::util::registry const reg(config);
 
-  auto const tsp = cpl::map::tileset_parameters_from_registry(reg);
+  auto const tsp = nanonet::map::tileset_parameters_from_registry(reg);
   tsp.validate();
   auto const    url_pattern = reg.check_string("url_pattern");
   auto const  local_pattern = reg.check_string("local_pattern");
@@ -424,36 +424,36 @@ void tiles(std::ostream& sl, std::string const& config) {
   double const max_delay = reg.get_default("max_delay", 1.0);
   always_assert(max_delay >= 0);
 
-  cpl::map::tile_mapper const tm(tsp);
+  nanonet::map::tile_mapper const tm(tsp);
 
   std::minstd_rand rng;
   std::uniform_real_distribution<> U(0.0, max_delay);
 
-  cpl::util::file::mkdir(tsp.tile_directory, true);
+  nanonet::util::file::mkdir(tsp.tile_directory, true);
 
   for (int zoom = tsp.maxzoom; zoom >= tsp.minzoom; --zoom) {
   std::string const dir1 = tsp.tile_directory + "/" + std::to_string(zoom);
-  cpl::util::file::mkdir(dir1, true);
+  nanonet::util::file::mkdir(dir1, true);
 
   auto const se_tile = tm.get_tile_coordinates(zoom, tsp.south_east);
   auto const nw_tile = tm.get_tile_coordinates(zoom, tsp.north_west);
 
   long const dx = se_tile.x - nw_tile.x;
   long const dy = se_tile.y - nw_tile.y;
-  cpl::util::verify(dx >= 0, "assertion error");
-  cpl::util::verify(dy >= 0, "assertion error");
+  nanonet::util::verify(dx >= 0, "assertion error");
+  nanonet::util::verify(dy >= 0, "assertion error");
 
   sl << prio::INFO << "Zoom level " << zoom 
      << ": Downloading " << (dx + 1) * (dy + 1)
      << " tile(s)" << std::endl;
 
-  cpl::util::sleep(3.0);
+  nanonet::util::sleep(3.0);
 
 
   for (long x = nw_tile.x; x <= se_tile.x; ++x) {
 
   std::string const dir2 = dir1 + "/" + std::to_string(x);
-  cpl::util::file::mkdir(dir2, true);
+  nanonet::util::file::mkdir(dir2, true);
 
   for (long y = nw_tile.y; y <= se_tile.y; ++y) {
     char url  [1000] = "";
@@ -465,17 +465,17 @@ void tiles(std::ostream& sl, std::string const& config) {
 
     std::string const filename = dir2 + "/" + local;
 
-    if (cpl::util::file::exists(filename)) {
+    if (nanonet::util::file::exists(filename)) {
       sl << prio::INFO << "File " << filename << " exists, skipping"
          << std::endl;
       continue;
     }
 
-    auto localfile = cpl::util::file::open_write(filename);
+    auto localfile = nanonet::util::file::open_write(filename);
 
     // Download and write file
-    cpl::http::wget(sl, localfile, url);
-    cpl::util::sleep(U(rng));
+    nanonet::http::wget(sl, localfile, url);
+    nanonet::util::sleep(U(rng));
   }}
 
   }
@@ -483,7 +483,7 @@ void tiles(std::ostream& sl, std::string const& config) {
 #endif
 
 int main( int argc , char const* const* const argv ) {
-  cpl::util::log::syslogger sl;
+  nanonet::util::log::syslogger sl;
   sl.set_echo_stream(&std::cout);
   sl.set_echo_clock([] { return 539917123; });
 
@@ -564,7 +564,7 @@ int main( int argc , char const* const* const argv ) {
 
     {
       onstream os( c ) ;
-      cpl::util::stream_copy( std::cin , os ) ;
+      nanonet::util::stream_copy( std::cin , os ) ;
       // The onstream destructor shuts down write part of the connection.
     }
 
@@ -585,7 +585,7 @@ int main( int argc , char const* const* const argv ) {
   } else if( "wget" == command ) { 
 
     if( 3 != argc ) { usage( argv[ 0 ] ) ; return 1 ; }
-    cpl::http::wget( sl , std::cout , argv[ 2 ] ) ;
+    nanonet::http::wget( sl , std::cout , argv[ 2 ] ) ;
 
 #if 0
   } else if( "tiles" == command ) { 

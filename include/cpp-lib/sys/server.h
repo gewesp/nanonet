@@ -40,7 +40,7 @@
 #include <thread>
 
 
-namespace cpl {
+namespace nanonet {
 
 namespace util {
 
@@ -184,7 +184,7 @@ typedef std::function<
 struct server_parameters {
   server_parameters() {} 
 
-  std::string bind_address = cpl::util::network::any_ipv4();
+  std::string bind_address = nanonet::util::network::any_ipv4();
   std::string service    = "test:stdio";
   std::string server_name = "cpp-lib/generic";
   bool   log_connections = true ;
@@ -269,7 +269,7 @@ std::string this_thread_id_paren();
 // NOTE: You'll typically need to cast the welcome function to
 // the os_writer type, i.e.
 //   void welcome_func(std::ostream& os) { ... }
-//   cpl::util::run_server( ..., cpl::util::os_writer{welcome_func}, ...);
+//   nanonet::util::run_server( ..., nanonet::util::os_writer{welcome_func}, ...);
 //
 // If params.background is true, the function returns immediately
 // and the returned server_manager's destructor will wait until
@@ -287,6 +287,6 @@ std::string this_thread_id_paren();
 
 } // namespace util
 
-} // namespace cpl
+} // namespace nanonet
 
 #endif // CPP_LIB_UTIL_SYS_H

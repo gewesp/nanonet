@@ -19,7 +19,7 @@
 
 namespace {
 
-void thread_function(cpl::dispatch::thread_pool::queue_type& tasks) {
+void thread_function(nanonet::dispatch::thread_pool::queue_type& tasks) {
   do {
     auto tac = tasks.pop();
     if (!tac.second) {
@@ -37,10 +37,10 @@ void thread_function(cpl::dispatch::thread_pool::queue_type& tasks) {
 // Make sure that tasks is initialized before the thread is
 // started!
 // Initialize thread pool
-cpl::dispatch::thread_pool::thread_pool(int const n_threads)
+nanonet::dispatch::thread_pool::thread_pool(int const n_threads)
   : tasks(std::make_unique<queue_type>()) {
   assert(tasks.get());  
-  cpl::util::verify(n_threads >= 0, 
+  nanonet::util::verify(n_threads >= 0, 
       "thread pool: number of worker threads must be >= 0");
   workers.reserve(n_threads);
   for (int i = 0; i < n_threads; ++i) {
@@ -52,7 +52,7 @@ cpl::dispatch::thread_pool::thread_pool(int const n_threads)
 }
 
 // TODO: allow detaching?
-cpl::dispatch::thread_pool::~thread_pool() {
+nanonet::dispatch::thread_pool::~thread_pool() {
   // Have we been moved from?  std::unique_ptr<> is
   // guaranteed to be empty after a move operation.
   if (!tasks.get()) {
@@ -70,8 +70,8 @@ cpl::dispatch::thread_pool::~thread_pool() {
   }
 }
 
-void cpl::dispatch::thread_pool::dispatch(cpl::dispatch::task&& t) {
-  cpl::util::verify(tasks.get(), "using moved-from thread_pool");
+void nanonet::dispatch::thread_pool::dispatch(nanonet::dispatch::task&& t) {
+  nanonet::util::verify(tasks.get(), "using moved-from thread_pool");
   if (num_workers() > 0) {
     tasks->push(task_and_continue{std::move(t), true});
   } else {

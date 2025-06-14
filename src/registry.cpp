@@ -30,8 +30,8 @@
 #include "cpp-lib/util.h"
 
 
-using namespace cpl::util    ;
-using namespace cpl::detail_ ;
+using namespace nanonet::util    ;
+using namespace nanonet::detail_ ;
 
 
 namespace {
@@ -122,7 +122,7 @@ std::string defined_at_msg(
 } // end anon namespace
 
 
-void cpl::detail_::throw_should_have
+void nanonet::detail_::throw_should_have
 ( long const n , std::string const& thing ) {
 
   throw std::runtime_error
@@ -131,7 +131,7 @@ void cpl::detail_::throw_should_have
 }
 
 
-void cpl::util::registry::check_key( const key_type& key ) {
+void nanonet::util::registry::check_key( const key_type& key ) {
 
   if( kv_map.count( key ) )
   { throw std::runtime_error
@@ -141,7 +141,7 @@ void cpl::util::registry::check_key( const key_type& key ) {
 
 
 std::any const& 
-cpl::util::registry::get_any( key_type const& key ) const {
+nanonet::util::registry::get_any( key_type const& key ) const {
 
   map_type::const_iterator i = kv_map.find( key ) ;
 
@@ -154,7 +154,7 @@ cpl::util::registry::get_any( key_type const& key ) const {
 
 
 std::string const& 
-cpl::util::registry::defined_at( key_type const& key ) const {
+nanonet::util::registry::defined_at( key_type const& key ) const {
 
   map_type::const_iterator i = kv_map.find( key ) ;
 
@@ -167,13 +167,13 @@ cpl::util::registry::defined_at( key_type const& key ) const {
 
 
 std::string const
-cpl::util::registry::key_defined_at( key_type const& key ) const 
+nanonet::util::registry::key_defined_at( key_type const& key ) const 
 { return "key " + key + " " + defined_at( key ) ; }
 
 
 
 
-void cpl::util::registry::add_any(
+void nanonet::util::registry::add_any(
   key_type const& key ,
   std::any   const& value ,
   std::string  const& defined_at ,
@@ -189,7 +189,7 @@ void cpl::util::registry::add_any(
 
 
 double const& 
-cpl::util::registry::check_positive( key_type const& key ) const {
+nanonet::util::registry::check_positive( key_type const& key ) const {
 
   double const& ret = get< double >( key ) ;
 
@@ -202,7 +202,7 @@ cpl::util::registry::check_positive( key_type const& key ) const {
 
 
 double const& 
-cpl::util::registry::check_nonneg( key_type const& key ) const {
+nanonet::util::registry::check_nonneg( key_type const& key ) const {
 
   double const& ret = get< double >( key ) ;
 
@@ -215,11 +215,11 @@ cpl::util::registry::check_nonneg( key_type const& key ) const {
 
 
 long 
-cpl::util::registry::check_long( key_type const& key , double const& min , double const& max ) const {
+nanonet::util::registry::check_long( key_type const& key , double const& min , double const& max ) const {
 
   double const d = get< double >( key ) ;
 
-  try { return ::cpl::util::check_long( d , min , max ) ; }
+  try { return ::nanonet::util::check_long( d , min , max ) ; }
   catch( std::runtime_error const& e ) {
 
     throw std::runtime_error( 
@@ -236,11 +236,11 @@ cpl::util::registry::check_long( key_type const& key , double const& min , doubl
 
 
 long
-cpl::util::registry::check_port( key_type const& key ) const {
+nanonet::util::registry::check_port( key_type const& key ) const {
 
   double const& d = get< double >( key ) ;
 
-  try { return ::cpl::util::check_long( d , 0 , 65535 ) ; } 
+  try { return ::nanonet::util::check_long( d , 0 , 65535 ) ; } 
   catch( std::runtime_error const& e ) {
 
     throw std::runtime_error( 
@@ -258,7 +258,7 @@ cpl::util::registry::check_port( key_type const& key ) const {
 
 
 std::vector< std::vector< double > > const
-cpl::util::registry::check_vector_vector_double(
+nanonet::util::registry::check_vector_vector_double(
   key_type const& key ,
   long const rows ,
   long const columns
@@ -277,7 +277,7 @@ cpl::util::registry::check_vector_vector_double(
 }
 
 
-void cpl::util::convert(
+void nanonet::util::convert(
   std::any const& a ,
   std::vector< std::vector< double > >& ret ,
   long const rows ,
@@ -339,7 +339,7 @@ void cpl::util::convert(
 
 
 std::vector< std::string > const
-cpl::util::registry::check_vector_string
+nanonet::util::registry::check_vector_string
 ( key_type const& key , long n ) const {
 
   std::any const& a = get_any( key ) ;
@@ -356,7 +356,7 @@ cpl::util::registry::check_vector_string
 
 
 std::vector< double > const
-cpl::util::registry::check_vector_double
+nanonet::util::registry::check_vector_double
 ( key_type const& key , long n ) const {
 
   std::any const& a = get_any( key ) ;
@@ -372,7 +372,7 @@ cpl::util::registry::check_vector_double
 }
 
 std::vector< std::any > const&
-cpl::util::registry::check_vector_any
+nanonet::util::registry::check_vector_any
 ( key_type const& key , long const n ) const {
 
   assert( n >= -1 ) ;
@@ -395,7 +395,7 @@ cpl::util::registry::check_vector_any
 }
 
 
-bool cpl::util::registry::check_bool( key_type const& key ) const {
+bool nanonet::util::registry::check_bool( key_type const& key ) const {
 
   std::string const& s = get< std::string >( key ) ;
 
@@ -407,7 +407,7 @@ bool cpl::util::registry::check_bool( key_type const& key ) const {
 
 }
 
-bool cpl::util::registry::get_default( key_type const& key , 
+bool nanonet::util::registry::get_default( key_type const& key , 
                                        bool const default_value ) const {
   if( !is_defined( key ) ) {
     return default_value ;
@@ -416,7 +416,7 @@ bool cpl::util::registry::get_default( key_type const& key ,
   }
 }
 
-long cpl::util::registry::get_default( 
+long nanonet::util::registry::get_default( 
     key_type const& key , 
     long const default_value ,
     double const& min , 
@@ -428,7 +428,7 @@ long cpl::util::registry::get_default(
   }
 }
 
-void cpl::util::registry::read_from( 
+void nanonet::util::registry::read_from( 
   lexer& lex                 , 
    lexer_style_t const& ls   ,
   parser_style_t const& ps   ,
@@ -466,14 +466,14 @@ void cpl::util::registry::read_from(
 }
 
 
-void cpl::util::registry::read_from(
+void nanonet::util::registry::read_from(
   std::string const& filename_ ,
    lexer_style_t const& ls    ,
   parser_style_t const& ps    ,
   bool throw_on_redefinition
 ) {
 
-  auto is = cpl::util::file::open_read( filename_.c_str() ) ;
+  auto is = nanonet::util::file::open_read( filename_.c_str() ) ;
   lexer lex( is , filename_ ) ;
   read_from( lex , ls , ps , throw_on_redefinition ) ;
 
@@ -484,7 +484,7 @@ void cpl::util::registry::read_from(
 }
 
 
-std::ostream& cpl::util::operator<<
+std::ostream& nanonet::util::operator<<
 ( std::ostream& os , registry const& ) {
 
   os << "*** FIXME: registry output not yet implemented." << std::endl ;
@@ -493,7 +493,7 @@ std::ostream& cpl::util::operator<<
 }
 
 
-cpl::util::grammar const cpl::util::config_style() {
+nanonet::util::grammar const nanonet::util::config_style() {
 
   return grammar( 
 	parser_style_t( comma_optional , LB , LP ) ,
@@ -503,7 +503,7 @@ cpl::util::grammar const cpl::util::config_style() {
 }
 
 
-cpl::util::grammar const cpl::util::matlab_style() {
+nanonet::util::grammar const nanonet::util::matlab_style() {
 
   return grammar( 
 	parser_style_t( comma_optional , LBRACKET , LP ) ,
@@ -513,7 +513,7 @@ cpl::util::grammar const cpl::util::matlab_style() {
 }
 
 
-cpl::util::lexer::lexer
+nanonet::util::lexer::lexer
 ( std::istream& is , std::string const& filename , lexer_style_t const& s ) :
   is( is ) ,
   style( s ) ,
@@ -525,7 +525,7 @@ cpl::util::lexer::lexer
   state( true )
 {}
 
-token cpl::util::lexer::peek_token() {
+token nanonet::util::lexer::peek_token() {
   if (hold) {
     return current_token();
   } else {
@@ -535,7 +535,7 @@ token cpl::util::lexer::peek_token() {
   }
 }
 
-token cpl::util::lexer::get_token() {
+token nanonet::util::lexer::get_token() {
 
   if( hold ) {
 
@@ -608,7 +608,7 @@ restart:
       goto restart ;
 
     } else {
-      cpl::util::throw_runtime_error(
+      nanonet::util::throw_runtime_error(
           location() + "invalid start of C-style comment");
     }
 
@@ -697,7 +697,7 @@ restart:
 }
 
 
-void cpl::util::lexer::munch_till_asterisks_slash() {
+void nanonet::util::lexer::munch_till_asterisks_slash() {
 
 restart:
 
@@ -715,7 +715,7 @@ restart:
 }
 
 
-std::string cpl::util::lexer::location() const {
+std::string nanonet::util::lexer::location() const {
 
   std::ostringstream os ;
   os << filename() << ":" << line_no() << ": " ;
@@ -725,7 +725,7 @@ std::string cpl::util::lexer::location() const {
 }
 
 
-parser& cpl::util::parser::parse_pair(
+parser& nanonet::util::parser::parse_pair(
   key_type& key ,
   std::any  & val ,
   std::size_t & line_no ,
@@ -785,7 +785,7 @@ std::vector< std::any > parser::parse_list( token const close ) {
 }
 
 
-parser& cpl::util::parser::parse_term( std::any& val ) {
+parser& nanonet::util::parser::parse_term( std::any& val ) {
 
   lex.get_token() ;
 
@@ -829,7 +829,7 @@ parser& cpl::util::parser::parse_term( std::any& val ) {
 
 
 
-void cpl::util::expect( lexer& lex , token const t , bool read ) {
+void nanonet::util::expect( lexer& lex , token const t , bool read ) {
 
   token const tt = read ? lex.get_token() : lex.current_token() ;
 
@@ -843,7 +843,7 @@ void cpl::util::expect( lexer& lex , token const t , bool read ) {
 }
 
 
-void cpl::util::expect( lexer& lex , std::string const& s , bool read ) {
+void nanonet::util::expect( lexer& lex , std::string const& s , bool read ) {
 
   token const tt = read ? lex.get_token() : lex.current_token() ;
 
@@ -855,7 +855,7 @@ void cpl::util::expect( lexer& lex , std::string const& s , bool read ) {
 }
 
 
-double cpl::util::get_double( lexer& lex ) {
+double nanonet::util::get_double( lexer& lex ) {
 
   expect( lex , NUM ) ;
   return lex.num_value() ;
@@ -863,9 +863,9 @@ double cpl::util::get_double( lexer& lex ) {
 }
 
 
-double cpl::util::get_nonneg( lexer& lex ) {
+double nanonet::util::get_nonneg( lexer& lex ) {
 
-  double ret = cpl::util::get_double( lex ) ;
+  double ret = nanonet::util::get_double( lex ) ;
 
   if( ret < 0 ) throw std::runtime_error(
     lex.location() + "nonnegative number expected"
@@ -876,9 +876,9 @@ double cpl::util::get_nonneg( lexer& lex ) {
 }
 
 
-double cpl::util::get_positive( lexer& lex ) {
+double nanonet::util::get_positive( lexer& lex ) {
 
-  double ret = cpl::util::get_double( lex ) ;
+  double ret = nanonet::util::get_double( lex ) ;
 
   if( ret <= 0 ) throw std::runtime_error(
     lex.location() + "positive number expected"

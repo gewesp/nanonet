@@ -23,7 +23,7 @@
 #define CPP_LIB_RANDOM_H
 
 
-namespace cpl {
+namespace nanonet {
 
 namespace util {
 

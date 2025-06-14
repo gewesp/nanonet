@@ -35,31 +35,31 @@
 #include <cerrno>
 #include <climits>
 
-using namespace cpl::util::network ;
-using namespace cpl::util          ;
-using namespace cpl::detail_       ;
+using namespace nanonet::util::network ;
+using namespace nanonet::util          ;
+using namespace nanonet::detail_       ;
 
 namespace {
 
 template< int type >
 void my_bind( socketfd_t const fd , address< type > const& a ) {
-  cpl::detail_::my_bind(fd, a.sockaddr_pointer(), a.length());
+  nanonet::detail_::my_bind(fd, a.sockaddr_pointer(), a.length());
 }
 
 template< int type >
 void my_connect( socketfd_t const fd , address< type > const& a , const double timeout ) {
-  cpl::detail_::my_connect(fd, a.sockaddr_pointer(), a.length(), timeout);
+  nanonet::detail_::my_connect(fd, a.sockaddr_pointer(), a.length(), timeout);
 }
 
 template< int type >
 long my_sendto
 ( socketfd_t const fd , address< type > const& a , char const* p , long n ) {
-  return cpl::detail_::my_sendto(fd, a.sockaddr_pointer(), a.length(), p, n);
+  return nanonet::detail_::my_sendto(fd, a.sockaddr_pointer(), a.length(), p, n);
 }
 
 // Returns a socket bound to the first matching address in la
 // or throws.
-template< int type > cpl::detail_::socket< type >
+template< int type > nanonet::detail_::socket< type >
 bound_socket( std::vector< address< type > > const& la ) {
 
   std::string err ;
@@ -71,7 +71,7 @@ bound_socket( std::vector< address< type > > const& la ) {
 
     try {
 
-      cpl::detail_::socket< type > s( adr.family_detail_() ) ;
+      nanonet::detail_::socket< type > s( adr.family_detail_() ) ;
       ::my_bind( s.fd() , adr ) ;
       return s ;
 
@@ -85,39 +85,39 @@ bound_socket( std::vector< address< type > > const& la ) {
 
 } // end anonymous namespace
 
-int cpl::detail_::int_address_family( 
-    cpl::util::network::address_family_type const af ) {
+int nanonet::detail_::int_address_family( 
+    nanonet::util::network::address_family_type const af ) {
   switch( af ) {
-    case cpl::util::network::ipv4 :
+    case nanonet::util::network::ipv4 :
       return AF_INET ;
-    case cpl::util::network::ipv6 :
+    case nanonet::util::network::ipv6 :
       return AF_INET6 ;
-    case cpl::util::network::ip_unspec :
+    case nanonet::util::network::ip_unspec :
       return AF_UNSPEC ;
     default :
       throw std::runtime_error( "unknown address family type" ) ;
   }
 }
 
-cpl::util::network::address_family_type 
-cpl::detail_::from_int_address_family( int const afi ) {
+nanonet::util::network::address_family_type 
+nanonet::detail_::from_int_address_family( int const afi ) {
   switch( afi ) {
     case AF_INET  :
-      return cpl::util::network::ipv4 ;
+      return nanonet::util::network::ipv4 ;
     case AF_INET6 :
-      return cpl::util::network::ipv6 ;
+      return nanonet::util::network::ipv6 ;
     case AF_UNSPEC :
-      return cpl::util::network::ip_unspec ;
+      return nanonet::util::network::ip_unspec ;
     default       :
       throw std::runtime_error( "unknown integer address family" ) ;
   }
 }
 
 
-socketfd_t cpl::detail_::socket_resource_traits::invalid()
-{ return cpl::detail_::invalid_socket() ; }
+socketfd_t nanonet::detail_::socket_resource_traits::invalid()
+{ return nanonet::detail_::invalid_socket() ; }
 
-bool cpl::detail_::socket_resource_traits::valid( socketfd_t const s )
+bool nanonet::detail_::socket_resource_traits::valid( socketfd_t const s )
 { return invalid() != s && s >= 0; }
 
 
@@ -133,10 +133,10 @@ bool cpl::detail_::socket_resource_traits::valid( socketfd_t const s )
 // pattern.
 //
 
-void cpl::detail_::socket_resource_traits::initialize
+void nanonet::detail_::socket_resource_traits::initialize
 ( socketfd_t const ) { }
 
-void cpl::detail_::socket_resource_traits::dispose
+void nanonet::detail_::socket_resource_traits::dispose
 ( socketfd_t const s ) { 
   // The Linux man page close(2) has the following wisdome on close()
   // as of 6/2020:
@@ -153,12 +153,12 @@ void cpl::detail_::socket_resource_traits::dispose
   // 
   // So, we'd rather not retry.  This has worked perfectly for years now.
   if( socketclose( s ) < 0 ) {
-    cpl::util::log::log_oneoff(
+    nanonet::util::log::log_oneoff(
         "SOCKET-DESTRUCTOR",
-        cpl::util::log::prio::EMERG,
+        nanonet::util::log::prio::EMERG,
          "WTF: Close failed for socket descriptor " + std::to_string(s)
         + "; error: "
-        + cpl::detail_::get_strerror_message(errno));
+        + nanonet::detail_::get_strerror_message(errno));
   }
 }
 
@@ -167,26 +167,26 @@ void cpl::detail_::socket_resource_traits::dispose
 // Stream
 ////////////////////////////////////////////////////////////////////////
 
-cpl::util::network::acceptor::acceptor
+nanonet::util::network::acceptor::acceptor
 ( address_list_type const& la , int const bl )
 : s( bound_socket< SOCK_STREAM >( la ) ) ,
   local_( my_getsockname< SOCK_STREAM >( s.fd() ) )
-{ cpl::detail_::my_listen( s.fd() , bl ) ; }
+{ nanonet::detail_::my_listen( s.fd() , bl ) ; }
 
-cpl::util::network::acceptor::acceptor
+nanonet::util::network::acceptor::acceptor
 ( std::string const& ls , int const bl )
 : s( bound_socket< SOCK_STREAM >( resolve_stream( ls ) ) ) ,
   local_( my_getsockname< SOCK_STREAM >( s.fd() ) )
-{ cpl::detail_::my_listen( s.fd() , bl ) ; }
+{ nanonet::detail_::my_listen( s.fd() , bl ) ; }
 
-cpl::util::network::acceptor::acceptor
+nanonet::util::network::acceptor::acceptor
 ( std::string const& ln , std::string const& ls , int const bl )
 : s( bound_socket< SOCK_STREAM >( resolve_stream( ln , ls ) ) ) ,
   local_( my_getsockname< SOCK_STREAM >( s.fd() ) )
-{ cpl::detail_::my_listen( s.fd() , bl ) ; }
+{ nanonet::detail_::my_listen( s.fd() , bl ) ; }
 
 std::shared_ptr<stream_socket_reader_writer>
-cpl::util::network::connection::initialize( 
+nanonet::util::network::connection::initialize( 
   address_list_type const& ra ,
   address_list_type const& la ,
   const double timeout
@@ -267,7 +267,7 @@ cpl::util::network::connection::initialize(
 }
  
 
-cpl::util::network::connection::connection
+nanonet::util::network::connection::connection
 ( std::string const& n , std::string const& serv , const double timeout )
 : s( initialize( resolve_stream( n , serv ) , address_list_type() , timeout ) ) ,
   local_( my_getsockname< SOCK_STREAM >( fd() ) ) , 
@@ -275,7 +275,7 @@ cpl::util::network::connection::connection
 { }
 
 
-cpl::util::network::connection::connection( 
+nanonet::util::network::connection::connection( 
   address_list_type const& ra ,
   address_list_type const& la ,
   const double timeout )
@@ -284,37 +284,37 @@ cpl::util::network::connection::connection(
   peer_ ( my_getpeername< SOCK_STREAM >( fd() ) )
 { }
 
-cpl::util::network::connection::connection
+nanonet::util::network::connection::connection
 ( acceptor& a , const double timeout )
 : s( std::make_shared<stream_socket_reader_writer>(
-         4711 , cpl::detail_::my_accept( a.fd() , timeout ) ) ) ,
+         4711 , nanonet::detail_::my_accept( a.fd() , timeout ) ) ) ,
   local_( my_getsockname< SOCK_STREAM >( fd() ) ) , 
   peer_ ( my_getpeername< SOCK_STREAM >( fd() ) )
 { }
 
-void cpl::util::network::connection::no_delay( bool b )
+void nanonet::util::network::connection::no_delay( bool b )
 { bool_sockopt( fd() , TCP_NODELAY , b ) ; }
 
-void cpl::util::network::connection::   send_timeout( const double t )
-{ cpl::detail_::time_sockopt( fd() , SO_SNDTIMEO , t ) ; }
+void nanonet::util::network::connection::   send_timeout( const double t )
+{ nanonet::detail_::time_sockopt( fd() , SO_SNDTIMEO , t ) ; }
 
-void cpl::util::network::connection::receive_timeout( const double t )
-{ cpl::detail_::time_sockopt( fd() , SO_RCVTIMEO , t ) ; }
+void nanonet::util::network::connection::receive_timeout( const double t )
+{ nanonet::detail_::time_sockopt( fd() , SO_RCVTIMEO , t ) ; }
 
-void cpl::util::network::connection::timeout( const double t ) {
+void nanonet::util::network::connection::timeout( const double t ) {
      send_timeout( t ) ;
   receive_timeout( t ) ;
 }
 
 #if 0
 // Dangerous ... not possible after shutdown().  Cf. comments in header.
-cpl::util::network::stream_address
-cpl::util::network::peer( cpl::util::network::onstream const& ons ) {
+nanonet::util::network::stream_address
+nanonet::util::network::peer( nanonet::util::network::onstream const& ons ) {
   return my_getpeername< SOCK_STREAM >( ons.buffer().reader_writer().fd() ) ;
 }
 
-cpl::util::network::stream_address
-cpl::util::network::peer( cpl::util::network::instream const& ins ) {
+nanonet::util::network::stream_address
+nanonet::util::network::peer( nanonet::util::network::instream const& ins ) {
   return my_getpeername< SOCK_STREAM >( ins.buffer().reader_writer().fd() ) ;
 }
 #endif
@@ -323,60 +323,60 @@ cpl::util::network::peer( cpl::util::network::instream const& ins ) {
 // Datagram
 ////////////////////////////////////////////////////////////////////////
 
-void cpl::util::network::datagram_socket::initialize() {
+void nanonet::util::network::datagram_socket::initialize() {
   bool_sockopt( s.fd() , SO_BROADCAST ) ;
   bool_sockopt( s.fd() , SO_REUSEADDR ) ;
 }
 
 // TODO: Use delegating constructors
-cpl::util::network::datagram_socket::datagram_socket(
-    cpl::util::network::address_family_type const af )
+nanonet::util::network::datagram_socket::datagram_socket(
+    nanonet::util::network::address_family_type const af )
   : s( datagram_socket_reader_writer( int_address_family( af ) ) )
 { initialize() ; }
 
 // TODO: A bit messy.  Another wrapper around my_getaddrinfo()?
-cpl::util::network::datagram_socket::datagram_socket( 
-    cpl::util::network::address_family_type const af ,
+nanonet::util::network::datagram_socket::datagram_socket( 
+    nanonet::util::network::address_family_type const af ,
     std::string const& ls ) 
 : s( bound_socket< SOCK_DGRAM >( 
-      cpl::detail_::my_getaddrinfo< SOCK_DGRAM >( 
+      nanonet::detail_::my_getaddrinfo< SOCK_DGRAM >( 
         NULL , /* name */
         ls.c_str() , /* service */
         int_address_family( af ) ) ) )
 { initialize() ; }
 
-cpl::util::network::datagram_socket::datagram_socket( 
+nanonet::util::network::datagram_socket::datagram_socket( 
     std::string const& ln,
     std::string const& ls ) 
 : s( bound_socket< SOCK_DGRAM >( resolve_datagram( ln , ls ) ) )
 { initialize() ; }
 
-cpl::util::network::datagram_socket::datagram_socket(
+nanonet::util::network::datagram_socket::datagram_socket(
   address_list_type const& la 
 ) : s( bound_socket< SOCK_DGRAM >( la ) )
 { initialize() ; }
 
 
-cpl::util::network::datagram_socket
-cpl::util::network::datagram_socket::connected(
+nanonet::util::network::datagram_socket
+nanonet::util::network::datagram_socket::connected(
     std::string const& name ,
     std::string const& service ,
-    cpl::util::network::address_family_type const family ) {
+    nanonet::util::network::address_family_type const family ) {
   // resolve_datagram() either throws or returns at least one address.
-  return cpl::util::network::datagram_socket::connected(
-      cpl::util::network::resolve_datagram(
+  return nanonet::util::network::datagram_socket::connected(
+      nanonet::util::network::resolve_datagram(
           name , service , family ).at( 0 ) ) ; 
 }
 
-cpl::util::network::datagram_socket
-cpl::util::network::datagram_socket::connected(
-    cpl::util::network::datagram_socket::address_type const& destination ) {
-  cpl::util::network::datagram_socket ret( destination.family() ) ;
+nanonet::util::network::datagram_socket
+nanonet::util::network::datagram_socket::connected(
+    nanonet::util::network::datagram_socket::address_type const& destination ) {
+  nanonet::util::network::datagram_socket ret( destination.family() ) ;
   ret.connect( destination ) ;
   return ret ;
 }
 
-void cpl::util::network::datagram_socket::connect(
+void nanonet::util::network::datagram_socket::connect(
     std::string const& name ,
     std::string const& service ) {
   address_list_type const& candidates = resolve_datagram( name , service ) ;

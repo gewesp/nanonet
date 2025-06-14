@@ -27,7 +27,7 @@
 #include <stdexcept>
 
 
-namespace cpl {
+namespace nanonet {
 
 namespace util {
  
@@ -146,6 +146,6 @@ private:
 
 } // namespace util
 
-} // namespace cpl
+} // namespace nanonet
 
 #endif // CPP_LIB_SAFE_QUEUE_H

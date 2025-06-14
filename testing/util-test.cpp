@@ -34,8 +34,8 @@
 
 #include "cpp-lib/sys/util.h"
 
-using namespace cpl::util            ;
-using namespace cpl::util::container ;
+using namespace nanonet::util            ;
+using namespace nanonet::util::container ;
 
 template<bool is_signed, int bits> void test_xdr(std::ostream& os) {
   os << "Testing marshalling, "
@@ -45,7 +45,7 @@ template<bool is_signed, int bits> void test_xdr(std::ostream& os) {
      << "signed"
      << std::endl;
 
-  typedef typename cpl::xdr::integer<is_signed, bits>::type inttype;
+  typedef typename nanonet::xdr::integer<is_signed, bits>::type inttype;
   static_assert(bits / 8 == sizeof(inttype),
       "integer size mismatch");
 
@@ -63,8 +63,8 @@ template<bool is_signed, int bits> void test_xdr(std::ostream& os) {
 
     char* p = &buf[0];
     char const* pp = &buf[0];
-    cpl::xdr::write(p, v);
-    auto const vv = cpl::xdr::read_integer<is_signed, bits>(pp);
+    nanonet::xdr::write(p, v);
+    auto const vv = nanonet::xdr::read_integer<is_signed, bits>(pp);
     always_assert( p == &buf[0] + bits / 8);
     always_assert(pp == &buf[0] + bits / 8);
     if (v != vv) {
@@ -95,8 +95,8 @@ void test_xdr_float(std::ostream& os) {
 
     char* p = &buf[0];
     char const* pp = &buf[0];
-    cpl::xdr::write(p, v);
-    auto const vv = cpl::xdr::read_raw<T>(pp);
+    nanonet::xdr::write(p, v);
+    auto const vv = nanonet::xdr::read_raw<T>(pp);
     always_assert(p  == &buf[0] + bits / 8);
     always_assert(pp == &buf[0] + bits / 8);
     if (v != vv) {
@@ -110,8 +110,8 @@ void test_xdr_float_ieee(
     std::ostream& os, std::vector<unsigned char> const& hex, double const x) {
   auto it = hex.begin();
   double const decoded = hex.size() == 4 ? 
-      cpl::xdr::read_float (it)
-    : cpl::xdr::read_double(it) ;
+      nanonet::xdr::read_float (it)
+    : nanonet::xdr::read_double(it) ;
   always_assert(hex.end() == it);
 
   double const diff = std::fabs(decoded / x - 1);
@@ -160,14 +160,14 @@ void test_xdr_string(std::ostream& os) {
   char buf[400];
 
   for (int i = 0; i < 100000; ++i) {
-    std::string const s = cpl::util::random_sequence<std::string>(
+    std::string const s = nanonet::util::random_sequence<std::string>(
         mstd, sd, vd);
 
     char      * p  = &buf[0];
     char const* pp = &buf[0];
-    cpl::xdr::write(p, s);
+    nanonet::xdr::write(p, s);
 
-    auto const ss = cpl::xdr::read_string(pp, s.size());
+    auto const ss = nanonet::xdr::read_string(pp, s.size());
     always_assert(pp == p);
     always_assert((p - &buf[0]) % 4 == 0);
     always_assert(static_cast<long>(s.size()) <= p - &buf[0]);
@@ -194,7 +194,7 @@ void test_xdr(std::ostream& os) {
 }
 
 void test_increment_sentry() {
-  using int_is = cpl::util::increment_sentry<int>;
+  using int_is = nanonet::util::increment_sentry<int>;
 
   int x = 0;
 
@@ -231,16 +231,16 @@ void test_increment_sentry() {
 
 template <typename T>
 void is_container_test(const bool expected) {
-  if (::cpl::util::is_container<T>::value != expected) {
-    ::cpl::util::throw_error(
+  if (::nanonet::util::is_container<T>::value != expected) {
+    ::nanonet::util::throw_error(
         std::string("is_container<> failed for ") + typeid(T).name());
   }
 }
 
 template <typename T>
 void is_pair_test(const bool expected) {
-  if (::cpl::util::is_pair<T>::value != expected) {
-    ::cpl::util::throw_error(
+  if (::nanonet::util::is_pair<T>::value != expected) {
+    ::nanonet::util::throw_error(
         std::string("is_pair<> failed for ") + typeid(T).name());
   }
 }
@@ -269,7 +269,7 @@ void testChop(int i) {
   std::string s("...X ");
   std::size_t n = s.size();
   s[3] = i;
-  cpl::util::chop(s);
+  nanonet::util::chop(s);
   if (i == ' ' || i == '\t' || i == '\n' || i == '\v' || i == '\f' || i == '\r')
     always_assert(s.size() == n-2);
   else
@@ -278,7 +278,7 @@ void testChop(int i) {
 
 void test_getline() {
   std::string s;
-  while (cpl::util::getline(std::cin, s, 10)) {
+  while (nanonet::util::getline(std::cin, s, 10)) {
     std::cout << "string size: " << s.size() << "; string: " << s << std::endl;
   }
 }
@@ -389,16 +389,16 @@ void test_datetime() {
 
   for (int i = 0; i < 100; ++i) {
     double const t = r(mstd);
-    std::string const s = cpl::util::format_datetime(t);
-    double const tt = cpl::util::parse_datetime(s);
-    double const ttt = cpl::util::parse_datetime(s.substr(0, 10), "%F");
+    std::string const s = nanonet::util::format_datetime(t);
+    double const tt = nanonet::util::parse_datetime(s);
+    double const ttt = nanonet::util::parse_datetime(s.substr(0, 10), "%F");
     std::cout << s << " " 
-              << cpl::util::format_date(tt) << " "
-              << cpl::util::format_time_no_z(tt) << " "
+              << nanonet::util::format_date(tt) << " "
+              << nanonet::util::format_time_no_z(tt) << " "
               << std::fmod(t, 60) 
               << std::endl;
     always_assert(std::fabs(t - tt) <= 1);
-    always_assert(std::fabs(t - ttt) <= cpl::units::day());
+    always_assert(std::fabs(t - ttt) <= nanonet::units::day());
   }
 
   std::cout << format_date(r(mstd)) << std::endl;
@@ -407,8 +407,8 @@ void test_datetime() {
   std::cout << format_datetime(-1) << std::endl;
   // Things still work, but get a bit imprecise 100
   // years back...
-  std::cout << format_datetime(-100 * cpl::units::year()) << std::endl;
-  std::cout << format_datetime(-2000 * cpl::units::year()) << std::endl;
+  std::cout << format_datetime(-100 * nanonet::units::year()) << std::endl;
+  std::cout << format_datetime(-2000 * nanonet::units::year()) << std::endl;
   std::cout << format_datetime(-100, default_datetime_format(), 0, "too old")
             << std::endl;
 }
@@ -442,8 +442,8 @@ void test_verify() {
 }
 
 void test_capped_vector() {
-  cpl::util::capped_vector<int, 0> v0;
-  cpl::util::capped_vector<int, 5> v5;
+  nanonet::util::capped_vector<int, 0> v0;
+  nanonet::util::capped_vector<int, 5> v5;
 
   always_assert(0 == v0.size());
   always_assert(0 == v5.size());
@@ -476,7 +476,7 @@ void test_capped_vector() {
 using sv = std::vector<std::string>;
 void test_split(std::ostream& os, std::string const& s, sv const& expected) {
   sv actual;
-  cpl::util::split(actual, s);
+  nanonet::util::split(actual, s);
   if (actual != expected) {
     os << "split failed on: " << s << std::endl;
     os << "results:" << std::endl;
@@ -485,7 +485,7 @@ void test_split(std::ostream& os, std::string const& s, sv const& expected) {
     }
   }
 
-  const sv actual2 = cpl::util::split(s);
+  const sv actual2 = nanonet::util::split(s);
   if (actual2 != expected) {
     os << "splitter failed on: " << s << std::endl;
     os << "results:" << std::endl;
@@ -494,30 +494,30 @@ void test_split(std::ostream& os, std::string const& s, sv const& expected) {
     }
   }
 
-  cpl::util::verify(actual  == expected, "Split failed: " + s);
-  cpl::util::verify(actual2 == expected, "Splitter failed: " + s);
+  nanonet::util::verify(actual  == expected, "Split failed: " + s);
+  nanonet::util::verify(actual2 == expected, "Splitter failed: " + s);
 }
 
 void test_stringutils(std::ostream& os) {
   // tolower(), toupper()
   std::string h = "Hello World!";
-  cpl::util::toupper(h);
-  cpl::util::tolower(h);
+  nanonet::util::toupper(h);
+  nanonet::util::tolower(h);
   always_assert("hello world!" == h);
 
   // verify_alnum()
-  cpl::util::verify_alnum("");
-  cpl::util::verify_alnum("abc1234");
-  cpl::util::verify_alnum("abc1234+.", "+.,");
-  cpl::util::verify_alnum("abc1234\"+.", "\"+.,");
-  cpl::util::verify_alnum("abc1234\"+.", "\"+.,");
+  nanonet::util::verify_alnum("");
+  nanonet::util::verify_alnum("abc1234");
+  nanonet::util::verify_alnum("abc1234+.", "+.,");
+  nanonet::util::verify_alnum("abc1234\"+.", "\"+.,");
+  nanonet::util::verify_alnum("abc1234\"+.", "\"+.,");
 
   // canonical()
-  always_assert("" == cpl::util::canonical(""));
-  always_assert("" == cpl::util::canonical("", "-+"));
-  always_assert("HB1234" == cpl::util::canonical("hB-12 34"));
-  always_assert("HB1234" == cpl::util::canonical("HB12.34"));
-  always_assert("HB-1234" == cpl::util::canonical("HB-12.34", "-"));
+  always_assert("" == nanonet::util::canonical(""));
+  always_assert("" == nanonet::util::canonical("", "-+"));
+  always_assert("HB1234" == nanonet::util::canonical("hB-12 34"));
+  always_assert("HB1234" == nanonet::util::canonical("HB12.34"));
+  always_assert("HB-1234" == nanonet::util::canonical("HB-12.34", "-"));
 
   test_split(os, "", sv{""});
   test_split(os, "1", sv{"1"});
@@ -526,63 +526,63 @@ void test_stringutils(std::ostream& os) {
   test_split(os, ", 2", sv{"", " 2"});
   test_split(os, ", ,", sv{"", " ", ""});
 
-  verify_throws("invalid", cpl::util::verify_alnum, "adsf+", "", true);
-  verify_throws("invalid", cpl::util::verify_alnum, "adsf+", "-", true);
+  verify_throws("invalid", nanonet::util::verify_alnum, "adsf+", "", true);
+  verify_throws("invalid", nanonet::util::verify_alnum, "adsf+", "-", true);
 
   using namespace std::string_literals;
-  always_assert(std::pair("k"s, "v"s) == cpl::util::split_colon_blank("k: v"));
-  always_assert(std::pair("k"s, "v"s) == cpl::util::split_colon_blank("k:v"));
-  always_assert(std::pair("k"s, "v"s) == cpl::util::split_colon_blank("k:  v"));
-  always_assert(std::pair("k"s, "v"s) == cpl::util::split_colon_blank("k:     v"));
-  always_assert(std::pair("k"s, "v "s) == cpl::util::split_colon_blank("k:     v "));
-  always_assert(std::pair("k "s, "v"s) == cpl::util::split_colon_blank("k :v"));
-  always_assert(std::pair(" k "s, "v"s) == cpl::util::split_colon_blank(" k :v"));
-  always_assert(std::pair(""s, "v"s) == cpl::util::split_colon_blank(":v"));
-  always_assert(std::pair(""s, ""s) == cpl::util::split_colon_blank(":"));
-  always_assert(std::pair(""s, ""s) == cpl::util::split_colon_blank(":  "));
-  always_assert(std::pair(" "s, ""s) == cpl::util::split_colon_blank(" :  "));
+  always_assert(std::pair("k"s, "v"s) == nanonet::util::split_colon_blank("k: v"));
+  always_assert(std::pair("k"s, "v"s) == nanonet::util::split_colon_blank("k:v"));
+  always_assert(std::pair("k"s, "v"s) == nanonet::util::split_colon_blank("k:  v"));
+  always_assert(std::pair("k"s, "v"s) == nanonet::util::split_colon_blank("k:     v"));
+  always_assert(std::pair("k"s, "v "s) == nanonet::util::split_colon_blank("k:     v "));
+  always_assert(std::pair("k "s, "v"s) == nanonet::util::split_colon_blank("k :v"));
+  always_assert(std::pair(" k "s, "v"s) == nanonet::util::split_colon_blank(" k :v"));
+  always_assert(std::pair(""s, "v"s) == nanonet::util::split_colon_blank(":v"));
+  always_assert(std::pair(""s, ""s) == nanonet::util::split_colon_blank(":"));
+  always_assert(std::pair(""s, ""s) == nanonet::util::split_colon_blank(":  "));
+  always_assert(std::pair(" "s, ""s) == nanonet::util::split_colon_blank(" :  "));
 
-  verify_throws("No colon found", cpl::util::split_colon_blank, "k;v");
-  verify_throws("No colon found", cpl::util::split_colon_blank, "k v");
-  verify_throws("No colon found", cpl::util::split_colon_blank, "");
+  verify_throws("No colon found", nanonet::util::split_colon_blank, "k;v");
+  verify_throws("No colon found", nanonet::util::split_colon_blank, "k v");
+  verify_throws("No colon found", nanonet::util::split_colon_blank, "");
 
   {
     std::string s;
-    always_assert(0 == cpl::util::update_if_nontrivial(s, "-"));
+    always_assert(0 == nanonet::util::update_if_nontrivial(s, "-"));
     always_assert("" == s);
-    always_assert(2 == cpl::util::update_if_nontrivial(s, "s"));
+    always_assert(2 == nanonet::util::update_if_nontrivial(s, "s"));
     always_assert("s" == s);
-    always_assert(0 == cpl::util::update_if_nontrivial(s, "-"));
+    always_assert(0 == nanonet::util::update_if_nontrivial(s, "-"));
     always_assert("s" == s);
-    always_assert(0 == cpl::util::update_if_nontrivial(s, ""));
+    always_assert(0 == nanonet::util::update_if_nontrivial(s, ""));
     always_assert("s" == s);
-    always_assert(-1 == cpl::util::update_if_nontrivial(s, "new_s"));
+    always_assert(-1 == nanonet::util::update_if_nontrivial(s, "new_s"));
     always_assert("new_s" == s);
-    always_assert(1 == cpl::util::update_if_nontrivial(s, "new_s"));
+    always_assert(1 == nanonet::util::update_if_nontrivial(s, "new_s"));
     always_assert("new_s" == s);
-    always_assert(-1 == cpl::util::update_if_nontrivial(s, "even_newer_s"));
+    always_assert(-1 == nanonet::util::update_if_nontrivial(s, "even_newer_s"));
     always_assert("even_newer_s" == s);
   }
 }
 
 #if 0
 void test_utf8_canonical() {
-  always_assert(u8"" == cpl::util::utf8_canonical(u8""));
-  always_assert(u8"" == cpl::util::utf8_canonical(u8"", "-+"));
-  always_assert(u8"hÖ1234" == cpl::util::utf8_canonical(u8"hÖ-12 34"));
-  always_assert(u8"HB1234" == cpl::util::utf8_canonical(u8"HB12.34"));
+  always_assert(u8"" == nanonet::util::utf8_canonical(u8""));
+  always_assert(u8"" == nanonet::util::utf8_canonical(u8"", "-+"));
+  always_assert(u8"hÖ1234" == nanonet::util::utf8_canonical(u8"hÖ-12 34"));
+  always_assert(u8"HB1234" == nanonet::util::utf8_canonical(u8"HB12.34"));
 
   // To upper, to lower
   always_assert(u8"HÜ-1234" ==
-      cpl::util::utf8_canonical(u8"Hü-12.34", "-", 1));
+      nanonet::util::utf8_canonical(u8"Hü-12.34", "-", 1));
   always_assert(u8"hü-1234" ==
-      cpl::util::utf8_canonical(u8"Hü-12.34", "-", -1));
+      nanonet::util::utf8_canonical(u8"Hü-12.34", "-", -1));
 
   always_assert(u8"CHÜCK YÄGER" == 
-      cpl::util::utf8_canonical(u8"chü.-\"'ck Yä&^,gEr...", " ", 1));
+      nanonet::util::utf8_canonical(u8"chü.-\"'ck Yä&^,gEr...", " ", 1));
 
   always_assert(u8"fritz jäger-müller" ==
-      cpl::util::utf8_canonical(u8"Fritz. Jäger-+Müller", "- ", -1));
+      nanonet::util::utf8_canonical(u8"Fritz. Jäger-+Müller", "- ", -1));
 }
 
 void test_utf8(std::ostream& os) {
@@ -595,23 +595,23 @@ void test_utf8(std::ostream& os) {
 
   os << "Original " << grussen   << std::endl;
 
-  os << "Upper " << cpl::util::utf8_toupper(grussen) << std::endl
-     << "Lower " << cpl::util::utf8_tolower(grussen) << std::endl
+  os << "Upper " << nanonet::util::utf8_toupper(grussen) << std::endl
+     << "Lower " << nanonet::util::utf8_tolower(grussen) << std::endl
   ;
 
   os << "Upper: " << std::endl;
-  os << cpl::util::utf8_toupper("foO" ) << std::endl;
-  os << cpl::util::utf8_toupper("#foO") << std::endl;
-  os << cpl::util::utf8_toupper("ßfoO") << std::endl;
-  os << cpl::util::utf8_toupper("ÉfoO") << std::endl;
-  os << cpl::util::utf8_toupper("ÉfoO") << std::endl;
+  os << nanonet::util::utf8_toupper("foO" ) << std::endl;
+  os << nanonet::util::utf8_toupper("#foO") << std::endl;
+  os << nanonet::util::utf8_toupper("ßfoO") << std::endl;
+  os << nanonet::util::utf8_toupper("ÉfoO") << std::endl;
+  os << nanonet::util::utf8_toupper("ÉfoO") << std::endl;
 
   os << "Lower: " << std::endl;
-  os << cpl::util::utf8_tolower("foO" ) << std::endl;
-  os << cpl::util::utf8_tolower("#foO") << std::endl;
-  os << cpl::util::utf8_tolower("ßfoO") << std::endl;
-  os << cpl::util::utf8_tolower("ÉfoO") << std::endl;
-  os << cpl::util::utf8_tolower("ÉfoO") << std::endl;
+  os << nanonet::util::utf8_tolower("foO" ) << std::endl;
+  os << nanonet::util::utf8_tolower("#foO") << std::endl;
+  os << nanonet::util::utf8_tolower("ßfoO") << std::endl;
+  os << nanonet::util::utf8_tolower("ÉfoO") << std::endl;
+  os << nanonet::util::utf8_tolower("ÉfoO") << std::endl;
 }
 #endif
 
@@ -626,8 +626,8 @@ struct heartbeat_tester {
 void test_pacemaker(std::ostream& os) {
   heartbeat_tester tester(os);
 
-  cpl::util::pacemaker<heartbeat_tester> hb(tester, 1.0);
-  cpl::util::sleep(5);
+  nanonet::util::pacemaker<heartbeat_tester> hb(tester, 1.0);
+  nanonet::util::sleep(5);
   // Destructor should join the thread
 }
 
@@ -638,8 +638,8 @@ int main(int argc, const char* const* const argv) {
   }
 
   test_datetime();
-  test_format_time(cpl::util::format_time_hh_mmt, std::cout);
-  test_format_time(cpl::util::format_time_hh_mm , std::cout);
+  test_format_time(nanonet::util::format_time_hh_mmt, std::cout);
+  test_format_time(nanonet::util::format_time_hh_mm , std::cout);
   test_verify();
   test_capped_vector();
 
@@ -662,9 +662,9 @@ int main(int argc, const char* const* const argv) {
                 int a1[20];
                 int a2[1];
                 int a3[0];
-                always_assert(20 == cpl::util::size(a1));
-                always_assert(1  == cpl::util::size(a2));
-                always_assert(0  == cpl::util::size(a3));
+                always_assert(20 == nanonet::util::size(a1));
+                always_assert(1  == nanonet::util::size(a2));
+                always_assert(0  == nanonet::util::size(a3));
         }
 
         {

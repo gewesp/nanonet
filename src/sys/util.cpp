@@ -22,10 +22,10 @@
 #include "cpp-lib/detail/platform_wrappers.h"
 
 
-using namespace cpl::util ;
+using namespace nanonet::util ;
 
 
-double cpl::util::sleep_scheduler::wait_next() {
+double nanonet::util::sleep_scheduler::wait_next() {
 
   double const n = ( this->time() - t_0 ) * hz ;
 
@@ -34,7 +34,7 @@ double cpl::util::sleep_scheduler::wait_next() {
 
   assert( n_next >= n ) ;
 
-  cpl::util::sleep( dt * ( n_next - n ) ) ;
+  nanonet::util::sleep( dt * ( n_next - n ) ) ;
 
   return t_0 + dt * n_next ;
 

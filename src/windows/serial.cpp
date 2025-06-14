@@ -27,7 +27,7 @@
 #include "cpp-lib/windows/wrappers.h"
 #include "cpp-lib/serial.h"
 
-using namespace cpl::detail_ ;
+using namespace nanonet::detail_ ;
 
 namespace {
 
@@ -56,7 +56,7 @@ void configure_device
   cto.WriteTotalTimeoutConstant    = MAXDWORD ;
 
   if( !SetCommTimeouts( fd.get() , &cto ) )
-  { cpl::detail_::last_error_exception( "SetCommTimeouts" ) ; }
+  { nanonet::detail_::last_error_exception( "SetCommTimeouts" ) ; }
   
 
   DCB dcb ;
@@ -65,24 +65,24 @@ void configure_device
   // SetCommState() documentation says that we should call
   // GetCommState() first to get a reasonably initialized DCB...
   if( !GetCommState( fd.get() , &dcb ) )
-  { cpl::detail_::last_error_exception( "GetCommState" ) ; }
+  { nanonet::detail_::last_error_exception( "GetCommState" ) ; }
 
   if( !BuildCommDCB( config.c_str() , &dcb ) ) 
-  { cpl::detail_::last_error_exception( "BuildCommDCB" ) ; }
+  { nanonet::detail_::last_error_exception( "BuildCommDCB" ) ; }
 
   if( !SetCommState( fd.get() , &dcb ) )
-  { cpl::detail_::last_error_exception( "SetCommState" ) ; }
+  { nanonet::detail_::last_error_exception( "SetCommState" ) ; }
 
 
   // if( !SetupComm( fd.get() , in_queue , out_queue ) )
-  // { cpl::detail_::last_error_exception( "SetupComm" ) ; }
+  // { nanonet::detail_::last_error_exception( "SetupComm" ) ; }
 
 }
 
 } // end anon namespace
 
 
-void cpl::serial::configure_device
+void nanonet::serial::configure_device
 ( std::string const& name , std::string const& config ) {
 
   auto_handle const fd( windows_open( name ) ) ;
@@ -92,7 +92,7 @@ void cpl::serial::configure_device
 }
 
 
-cpl::serial::tty::tty
+nanonet::serial::tty::tty
 ( std::string const& name , std::string const& config , int const n ) 
 : impl( new tty_impl( windows_open( name ) , n ) ) ,
   in ( &impl->ibuf ) ,

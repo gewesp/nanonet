@@ -38,7 +38,7 @@
 #include <atomic>
 #include <thread>
 
-namespace cpl {
+namespace nanonet {
 
 namespace util {
 
@@ -78,14 +78,14 @@ void poweroff() ;
 // A scheduler that uses 10ms-precision sleeps to achive firings
 // at defined intervals relative to t_0.
 //
-// Clock base: cpl::util::time() (10ms precision since 1970)
+// Clock base: nanonet::util::time() (10ms precision since 1970)
 //
 
 struct sleep_scheduler {
 
   // Fire at t_0 + i * dt.
   sleep_scheduler( double const& dt , 
-                   double const& t_0 = cpl::util::time() )
+                   double const& t_0 = nanonet::util::time() )
   : dt    ( dt     ) ,
     hz    ( 1 / dt ) ,
     t_0   ( t_0    ) ,
@@ -96,7 +96,7 @@ struct sleep_scheduler {
   // for an integer k.
   double wait_next() ;
 
-  double time() const { return cpl::util::time() ; }
+  double time() const { return nanonet::util::time() ; }
 
 private:
 
@@ -118,7 +118,7 @@ template<typename OBJ> struct pacemaker {
   pacemaker(
     OBJ& o,
     const double& dt,
-    const double& t0 = cpl::util::time()) 
+    const double& t0 = nanonet::util::time()) 
   : active_(true),
     t_([this, dt, t0, &o] {
       sleep_scheduler ss(dt, t0);
@@ -160,7 +160,7 @@ struct watched_registry : registry {
     ls =  lexer_style ;
     ps = parser_style ;
 
-    w.reset( new cpl::util::file::file_name_watcher( name ) ) ;
+    w.reset( new nanonet::util::file::file_name_watcher( name ) ) ;
 
     registry::read_from
     ( name , lexer_style , parser_style , throw_on_redefinition ) ;
@@ -219,14 +219,14 @@ private:
    lexer_style_t ls ;
   parser_style_t ps ;
 
-  std::unique_ptr< cpl::util::file::file_name_watcher > w ;
+  std::unique_ptr< nanonet::util::file::file_name_watcher > w ;
 
 } ;
 
 
 } // namespace util
 
-} // namespace cpl
+} // namespace nanonet
 
 
 #endif // CPP_LIB_UTIL_SYS_H

@@ -30,7 +30,7 @@
 #include <cmath>
 
 
-namespace cpl {
+namespace nanonet {
 
 namespace math {
 
@@ -132,7 +132,7 @@ INTEGER round_to_integer(const double x) {
 
 } // namespace math
 
-} // namespace cpl
+} // namespace nanonet
 
 
 #endif // CPP_LIB_MATH_UTIL_H

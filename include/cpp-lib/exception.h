@@ -34,7 +34,7 @@ struct type : base {                                                  \
 #include <stdexcept>
 #include <string>
 
-namespace cpl {
+namespace nanonet {
 
 namespace util {
 
@@ -61,7 +61,7 @@ CPP_LIB_DETAIL_DECLARE_EXCEPTION(unrecoverable_error, std::logic_error)
 
 } // namespace util
 
-} // namespace cpl
+} // namespace nanonet
 
 
 #endif // CPP_LIB_EXCEPTION_H

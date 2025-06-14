@@ -76,7 +76,7 @@ void iowait(
 ) ;
 
 
-using namespace cpl::util::network ;
+using namespace nanonet::util::network ;
 
 
 void usage( std::string const& name ) {
@@ -212,6 +212,6 @@ int main( int argc , char const* const* const argv ) {
 
   } // end global try
   catch( std::exception const& e ) 
-  { cpl::util::die( e.what() ) ; }
+  { nanonet::util::die( e.what() ) ; }
 
 }

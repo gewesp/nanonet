@@ -27,7 +27,7 @@
 #include "cpp-lib/util.h"
 
 
-namespace cpl {
+namespace nanonet {
 
 namespace util {
 
@@ -55,12 +55,12 @@ void read_encrypted_configuration(
   bool                const  throw_on_redefinition = true
 ) {
 
-  using namespace cpl::util::file ;
+  using namespace nanonet::util::file ;
 
   try {
 
     std::string const cname = name + suffix ;
-    auto is = cpl::crypt::open_read( bc , iv , cname ) ;
+    auto is = nanonet::crypt::open_read( bc , iv , cname ) ;
 
     lexer lex( is , cname ) ;
 
@@ -91,6 +91,6 @@ void read_encrypted_configuration(
 
 } // namespace util
 
-} // namespace cpl
+} // namespace nanonet
 
 #endif // CPP_LIB_REGISTRY_CRYPT_H

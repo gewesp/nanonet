@@ -76,7 +76,7 @@
 #include <utility>
 #include <future>
 
-namespace cpl {
+namespace nanonet {
 
 namespace dispatch {
 
@@ -102,7 +102,7 @@ struct thread_pool {
   // If num_workers() >= 1, adds a new task for execution execution by the 
   // next available thread.  If num_workers() == 0, executes t in the
   // calling thread. FIFO order is guaranteed if num_workers() <= 1
-  // Note: cpl::dispatch::task constructors are explicit!
+  // Note: nanonet::dispatch::task constructors are explicit!
   //
   // WARNING: if num_workers() >= 1, thisfunction returns immediately.
   // Thus, do *not* pass any objects that may go out of scope before
@@ -133,7 +133,7 @@ struct thread_pool {
 
   // Second argument: Whether another task will follow this one.
   typedef std::pair<task, bool> task_and_continue;
-  typedef cpl::util::safe_queue<task_and_continue> queue_type;
+  typedef nanonet::util::safe_queue<task_and_continue> queue_type;
 
 private:
   // We use a unique_ptr<> here to allow for move semantics of
@@ -151,7 +151,7 @@ using dispatch_queue = thread_pool;
 
 } // namespace dispatch
 
-} // namespace cpl
+} // namespace nanonet
 
 //
 // The only possible exceptions from packaged_task::operator() 
@@ -167,17 +167,17 @@ using dispatch_queue = thread_pool;
 //
 
 template<typename T> 
-T cpl::dispatch::thread_pool::dispatch_returning(returning_task<T>&& t) {
+T nanonet::dispatch::thread_pool::dispatch_returning(returning_task<T>&& t) {
   auto tfut = t.get_future();
   if (0 == num_workers()) {
     // Synchronous execution
     t();
   } else {
     // Asynchronous execution via wrapper task
-    // cpl::dispatch::task wrapper([t_inner = std::move(t)] { t_inner(); });
+    // nanonet::dispatch::task wrapper([t_inner = std::move(t)] { t_inner(); });
     // t() should theoretically not throw---the exception should appear
     // in the get() below.
-    cpl::dispatch::task wrapper([&t] { t(); });
+    nanonet::dispatch::task wrapper([&t] { t(); });
 
     // Get the future before we give the wrapper away.
     auto wfut = wrapper.get_future();
@@ -188,13 +188,13 @@ T cpl::dispatch::thread_pool::dispatch_returning(returning_task<T>&& t) {
     try {
       wfut.get();
     } catch (std::exception const& e) {
-      cpl::util::log::syslogger sl;
-      sl << cpl::util::log::prio::ERR
+      nanonet::util::log::syslogger sl;
+      sl << nanonet::util::log::prio::ERR
          << "DISPATCH: Error in wrapper task: " << e.what()
          << std::endl;
     } catch (...) {
-      cpl::util::log::syslogger sl;
-      sl << cpl::util::log::prio::ERR
+      nanonet::util::log::syslogger sl;
+      sl << nanonet::util::log::prio::ERR
          << "DISPATCH: Unknown error in wrapper task"
          << std::endl;
     }
@@ -203,13 +203,13 @@ T cpl::dispatch::thread_pool::dispatch_returning(returning_task<T>&& t) {
   try {
     return tfut.get();
   } catch (std::exception const& e) {
-    cpl::util::log::syslogger sl;
-    sl << cpl::util::log::prio::ERR
+    nanonet::util::log::syslogger sl;
+    sl << nanonet::util::log::prio::ERR
        << "DISPATCH: Error in returning task: " << e.what()
        << std::endl;
   } catch (...) {
-    cpl::util::log::syslogger sl;
-    sl << cpl::util::log::prio::ERR
+    nanonet::util::log::syslogger sl;
+    sl << nanonet::util::log::prio::ERR
        << "DISPATCH: Unknown error in returning task"
        << std::endl;
   }

@@ -27,7 +27,7 @@ int main() {
   try {
     // Next line is line 29, see the assert() below!
     always_assert(5 == 2 + 2);
-  } catch (const cpl::util::assertion_failure& e) {
+  } catch (const nanonet::util::assertion_failure& e) {
     // Don't include path name b/c it is different on CI pipeline
     std::cout << "expected assertion failure was caught" << std::endl;
     always_assert(std::string(e.what()).find("Assertion failed: 5 == 2 + 2") == 0);

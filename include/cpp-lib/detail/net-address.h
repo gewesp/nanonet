@@ -28,16 +28,16 @@
 #include <iostream>
 
 
-namespace cpl {
+namespace nanonet {
 
 namespace detail_ {
 
 // Returns AF_INET, AF_INET6 or AF_UNSPEC or throws in case of invalid value
-int int_address_family( cpl::util::network::address_family_type ) ;
+int int_address_family( nanonet::util::network::address_family_type ) ;
 
 // Returns ipv4, ipv6 or ip_unspec (on input AF_INET, AF_INET6, ...) or throws
 // in case of invalid value
-cpl::util::network::address_family_type from_int_address_family( int ) ;
+nanonet::util::network::address_family_type from_int_address_family( int ) ;
 
 
 /// A safety wrapper around struct sockaddr_storage, templatized on
@@ -68,8 +68,8 @@ struct address {
   bool dgram() const { return SOCK_DGRAM == type ; }
 
   // Returns the address family type (ipv4 or ipv6)
-  cpl::util::network::address_family_type family() const {
-    return cpl::detail_::from_int_address_family( family_detail_() ) ;
+  nanonet::util::network::address_family_type family() const {
+    return nanonet::detail_::from_int_address_family( family_detail_() ) ;
   }
   socklen_t length() const { return addrlen ; }
 
@@ -126,7 +126,7 @@ bool operator!=( address< type > const& a1 , address< type > const& a2 ) {
   } else {
     return    a1.as_sockaddr_in6().sin6_port
            != a2.as_sockaddr_in6().sin6_port
-        ||    !cpl::util::mem_equal(a1.as_sockaddr_in6().sin6_addr,
+        ||    !nanonet::util::mem_equal(a1.as_sockaddr_in6().sin6_addr,
                                     a2.as_sockaddr_in6().sin6_addr)
     ;
   }
@@ -168,22 +168,22 @@ std::vector< address< type > >
 my_getaddrinfo( char const* n , char const* s , 
                 int family_hint = AF_UNSPEC ) ;
 
-template< int type > std::vector< cpl::detail_::address< type > >
+template< int type > std::vector< nanonet::detail_::address< type > >
 inline resolve( 
     std::string const& n , std::string const& s ,
-    cpl::util::network::address_family_type const hint = 
-        cpl::util::network::ip_unspec ) {
-  return cpl::detail_::my_getaddrinfo< type >( 
-      n.c_str() , s.c_str() , cpl::detail_::int_address_family( hint ) ) ;
+    nanonet::util::network::address_family_type const hint = 
+        nanonet::util::network::ip_unspec ) {
+  return nanonet::detail_::my_getaddrinfo< type >( 
+      n.c_str() , s.c_str() , nanonet::detail_::int_address_family( hint ) ) ;
 }
 
-template< int type > std::vector< cpl::detail_::address< type > >
+template< int type > std::vector< nanonet::detail_::address< type > >
 inline resolve(
     std::string const& s ,
-    cpl::util::network::address_family_type const hint =
-        cpl::util::network::ip_unspec ) {
-  return cpl::detail_::my_getaddrinfo< type >( 
-      nullptr , s.c_str() , cpl::detail_::int_address_family( hint ) ) ;
+    nanonet::util::network::address_family_type const hint =
+        nanonet::util::network::ip_unspec ) {
+  return nanonet::detail_::my_getaddrinfo< type >( 
+      nullptr , s.c_str() , nanonet::detail_::int_address_family( hint ) ) ;
 }
 
 template< int type >
@@ -244,8 +244,8 @@ inline const char* notnull( const char* const s ) {
 }
 
 template< int type >
-std::vector< cpl::detail_::address< type > >
-cpl::detail_::my_getaddrinfo(
+std::vector< nanonet::detail_::address< type > >
+nanonet::detail_::my_getaddrinfo(
   char const* const n ,
   char const* const s ,
   int const family_hint
@@ -309,7 +309,7 @@ cpl::detail_::my_getaddrinfo(
 
   }
 
-  std::vector< cpl::detail_::address< type > > ret ;
+  std::vector< nanonet::detail_::address< type > > ret ;
 
   for( addrinfo const* p = res ; p ; p = p->ai_next ) { 
 
@@ -342,8 +342,8 @@ cpl::detail_::my_getaddrinfo(
 
 template< int type >
 std::string const 
-cpl::detail_::my_getnameinfo( 
-  cpl::detail_::address< type > const& a ,
+nanonet::detail_::my_getnameinfo( 
+  nanonet::detail_::address< type > const& a ,
   bool             const node    ,
   bool             const numeric ,
   bool             const fqdn
@@ -383,50 +383,50 @@ cpl::detail_::my_getnameinfo(
 
 template< int type >
 std::string const
-cpl::detail_::address< type >::fqdn() const {
+nanonet::detail_::address< type >::fqdn() const {
 
-  cpl::detail_::check_family( family_detail_() ) ;
+  nanonet::detail_::check_family( family_detail_() ) ;
 
-  return cpl::detail_::my_getnameinfo< type >( *this , true , false , true ) ;
+  return nanonet::detail_::my_getnameinfo< type >( *this , true , false , true ) ;
 
 }
 
 
 template< int type >
 std::string const
-cpl::detail_::address< type >::host_name() const {
+nanonet::detail_::address< type >::host_name() const {
 
-  cpl::detail_::check_family( family_detail_() ) ;
+  nanonet::detail_::check_family( family_detail_() ) ;
 
-  return cpl::detail_::my_getnameinfo< type >( *this , true , false , false ) ;
-
-}
-
-template< int type >
-std::string const
-cpl::detail_::address< type >::port_name() const {
-
-  cpl::detail_::check_family( family_detail_() ) ;
-
-  return cpl::detail_::my_getnameinfo< type >( *this , false , false , false ) ;
+  return nanonet::detail_::my_getnameinfo< type >( *this , true , false , false ) ;
 
 }
 
 template< int type >
 std::string const
-cpl::detail_::address< type >::host() const {
+nanonet::detail_::address< type >::port_name() const {
 
-  cpl::detail_::check_family( family_detail_() ) ;
+  nanonet::detail_::check_family( family_detail_() ) ;
 
-  return cpl::detail_::my_getnameinfo< type >( *this , true , true , false ) ;
+  return nanonet::detail_::my_getnameinfo< type >( *this , false , false , false ) ;
 
 }
 
 template< int type >
 std::string const
-cpl::detail_::address< type >::port() const {
+nanonet::detail_::address< type >::host() const {
 
-  return cpl::detail_::my_getnameinfo< type >( *this , false , true , false ) ;
+  nanonet::detail_::check_family( family_detail_() ) ;
+
+  return nanonet::detail_::my_getnameinfo< type >( *this , true , true , false ) ;
+
+}
+
+template< int type >
+std::string const
+nanonet::detail_::address< type >::port() const {
+
+  return nanonet::detail_::my_getnameinfo< type >( *this , false , true , false ) ;
 
 }
 

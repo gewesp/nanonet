@@ -30,11 +30,11 @@
 #include <string>
 #include <thread>
 
-using namespace cpl::util          ;
-using namespace cpl::util::log     ;
-using namespace cpl::util::network ;
+using namespace nanonet::util          ;
+using namespace nanonet::util::log     ;
+using namespace nanonet::util::network ;
 
-std::string cpl::util::this_thread_id_paren() {
+std::string nanonet::util::this_thread_id_paren() {
   // TODO: Replace by std::format(); requires full C++23 support
   std::ostringstream oss;
   oss << "(thread " << std::this_thread::get_id() << ")";
@@ -43,7 +43,7 @@ std::string cpl::util::this_thread_id_paren() {
 
 namespace {
 
-using count_sentry = cpl::util::increment_sentry<std::atomic_long>;
+using count_sentry = nanonet::util::increment_sentry<std::atomic_long>;
 
 // A thread for each incoming connection
 struct connection_thread {
@@ -53,13 +53,13 @@ struct connection_thread {
   connection_thread& operator=(connection_thread&&) = default;
 
   connection_thread(
-      std::unique_ptr<cpl::util::network::connection> c,
+      std::unique_ptr<nanonet::util::network::connection> c,
       count_sentry sentry_in,
       server_parameters const& params,
       input_handler_type const& handler,
       std::optional<os_writer> const welcome,
-      std::reference_wrapper<cpl::util::running_flag> running_in,
-      std::reference_wrapper<cpl::util::server_status> status_in)
+      std::reference_wrapper<nanonet::util::running_flag> running_in,
+      std::reference_wrapper<nanonet::util::server_status> status_in)
     : c{std::move(c)},
       sentry(std::move(sentry_in)),
       params{params},
@@ -80,8 +80,8 @@ private:
   server_parameters params;
   input_handler_type handler;
   std::optional<os_writer> welcome;
-  std::reference_wrapper<cpl::util::running_flag> running;
-  std::reference_wrapper<cpl::util::server_status> status;
+  std::reference_wrapper<nanonet::util::running_flag> running;
+  std::reference_wrapper<nanonet::util::server_status> status;
 };
 
 
@@ -97,28 +97,28 @@ struct connection_rates {
   void update_status(server_status&) const;
 
 private:
-  cpl::math::rate_estimator re_slow  ;
-  cpl::math::rate_estimator re_medium;
-  cpl::math::rate_estimator re_fast  ;
+  nanonet::math::rate_estimator re_slow  ;
+  nanonet::math::rate_estimator re_medium;
+  nanonet::math::rate_estimator re_fast  ;
 };
 
 
 void handle_connection(
     std::ostream& sl, 
     const server_parameters& params,
-    const cpl::util::server_status& status,
+    const nanonet::util::server_status& status,
     std::optional<os_writer> const welcome,
     input_handler_type const& handler,
     std::istream& is,
     std::ostream& os,
-    cpl::util::running_flag& running) {
+    nanonet::util::running_flag& running) {
 
   if (welcome) {
     (welcome.value())(os, status);
   }
 
   std::string line;
-  while (running.running() and cpl::util::getline(is, line, params.max_line_length)) {
+  while (running.running() and nanonet::util::getline(is, line, params.max_line_length)) {
     if (not handler(line, is, os, sl, status)) {
       break;
     }
@@ -155,7 +155,7 @@ void connection_thread::operator()() {
   }
 
   // Inner try
-  } catch (cpl::util::shutdown_exception const& e) {
+  } catch (nanonet::util::shutdown_exception const& e) {
     running.get().shutdown();
     sl << prio::NOTICE << "Shutdown requested in connection from: " 
        << c->peer() << std::endl;
@@ -192,7 +192,7 @@ struct server_thread {
       input_handler_type const& handler_in,
       std::optional<os_writer> const welcome_in,
       const server_parameters& params_in,
-      std::reference_wrapper<cpl::util::running_flag> running_in)
+      std::reference_wrapper<nanonet::util::running_flag> running_in)
   : a(std::move(a_in)),
     handler(handler_in),
     welcome(welcome_in),
@@ -207,7 +207,7 @@ private:
   input_handler_type handler;
   std::optional<os_writer> welcome;
   server_parameters params;
-  std::reference_wrapper<cpl::util::running_flag> running;
+  std::reference_wrapper<nanonet::util::running_flag> running;
 };
 
 void log_params(
@@ -238,7 +238,7 @@ void server_thread::operator()() {
                      << std::endl;
 
   // Status for this server
-  cpl::util::server_status status(params);
+  nanonet::util::server_status status(params);
 
   // Connection rate estimators
   ::connection_rates re(params);
@@ -253,7 +253,7 @@ void server_thread::operator()() {
     // Set connection timeout and pass it to the handler thread
     c->timeout(params.timeout);
     
-    re.update(cpl::util::utc());
+    re.update(nanonet::util::utc());
     re.update_status(status);
     ++status.connections_total;
     connection_thread ct(std::move(c), count_sentry(status.connections_current), params, handler, welcome, running, status);
@@ -273,7 +273,7 @@ void server_thread::operator()() {
     // join them.  However, the solution with count_sentry seems to be
     // sound as well.
     t.detach();
-  } catch (const cpl::util::timeout_exception&) {
+  } catch (const nanonet::util::timeout_exception&) {
     // Just continue...
     // sl << prio::NOTICE
     //    << "No connection came in during " 
@@ -281,10 +281,10 @@ void server_thread::operator()() {
     //    << "checking running flag and continuing..."
     //    << std::endl;
   } catch (std::exception const& e) {
-    cpl::util::log::log_error(
+    nanonet::util::log::log_error(
         sl, "Failed to handle incoming connection", e.what());
     // Avoid busy loop in case of persistent errors
-    cpl::util::sleep(1);
+    nanonet::util::sleep(1);
   }
 
   } // while (running)
@@ -310,7 +310,7 @@ void server_thread::operator()() {
          << std::endl;
     }
 
-    cpl::util::sleep(1);
+    nanonet::util::sleep(1);
   }
 }
 
@@ -335,9 +335,9 @@ void ::connection_rates::update_status(server_status& s) const {
   s.cps_estimate_fast   = re_fast  .estimate();
 }
 
-cpl::util::server_manager cpl::util::run_server(
+nanonet::util::server_manager nanonet::util::run_server(
     input_handler_type const& handler,
-    cpl::util::running_flag& running,
+    nanonet::util::running_flag& running,
     std::optional<os_writer> const welcome,
     server_parameters const& params,
     std::ostream* sl) {
@@ -348,17 +348,17 @@ cpl::util::server_manager cpl::util::run_server(
     assert(sl);
     try {
       log_params(*sl, params, false);
-      cpl::util::server_status status(params);
+      nanonet::util::server_status status(params);
       ::handle_connection(
           std::cout, params, status, welcome, handler,
           std::cin, std::cout, running);
-    } catch (cpl::util::shutdown_exception const& e) {
-      cpl::util::log::log_error(
+    } catch (nanonet::util::shutdown_exception const& e) {
+      nanonet::util::log::log_error(
           *sl, 
             "Shutdown requested in synchronous test mode service " 
           + params.server_name, e.what());
     } catch (std::exception const& e) {
-      cpl::util::log::log_error(
+      nanonet::util::log::log_error(
           *sl, 
             "Aborting synchronous test mode service " 
           + params.server_name, e.what());
@@ -390,7 +390,7 @@ cpl::util::server_manager cpl::util::run_server(
               << "Starting service in background..." 
               << std::endl;
           std::thread t(std::move(st));
-          return cpl::util::server_manager(params.server_name, sl, std::move(t));
+          return nanonet::util::server_manager(params.server_name, sl, std::move(t));
         } else {
           *sl << prio::NOTICE 
               << "Starting service in foreground and looping "
@@ -400,7 +400,7 @@ cpl::util::server_manager cpl::util::run_server(
         }
         break;
       } catch (std::exception const& e) {
-        cpl::util::log::log_error(
+        nanonet::util::log::log_error(
             *sl, "Failed to accept connections on " + params.service
                 + " (retrying in " + std::to_string(params.listen_retry_time)
                 + "s)",
@@ -408,7 +408,7 @@ cpl::util::server_manager cpl::util::run_server(
 
         if (   params.n_listen_retries < 0 
             or ++listen_retries <= params.n_listen_retries) {
-          cpl::util::sleep(params.listen_retry_time);
+          nanonet::util::sleep(params.listen_retry_time);
           continue;
         } else {
           *sl << prio::ERR << "Maximum number of retries ("
@@ -422,10 +422,10 @@ cpl::util::server_manager cpl::util::run_server(
 
   // Returns a server_manager whose destructor will finish
   // instantly.
-  return cpl::util::server_manager(params.server_name, sl);
+  return nanonet::util::server_manager(params.server_name, sl);
 }
 
-cpl::util::server_manager::~server_manager() {
+nanonet::util::server_manager::~server_manager() {
   if (thread_.joinable()) {
     if (logstream_) {
       *logstream_ << prio::NOTICE

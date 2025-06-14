@@ -31,7 +31,7 @@ namespace {
 
 template<bool BOUNDED>
 void producer(
-    std::reference_wrapper<cpl::util::safe_queue<int, BOUNDED>> out_ref,
+    std::reference_wrapper<nanonet::util::safe_queue<int, BOUNDED>> out_ref,
     int const N_NUMBERS) {
   auto& out = out_ref.get();
   for (int i = 0; i < N_NUMBERS; ++i) {
@@ -42,8 +42,8 @@ void producer(
 
 template<bool BOUNDED>
 void worker(
-    std::reference_wrapper<cpl::util::safe_queue<int, BOUNDED>>  in_ref,
-    std::reference_wrapper<cpl::util::safe_queue<int, BOUNDED>> out_ref) {
+    std::reference_wrapper<nanonet::util::safe_queue<int, BOUNDED>>  in_ref,
+    std::reference_wrapper<nanonet::util::safe_queue<int, BOUNDED>> out_ref) {
   auto& in  =  in_ref.get();
   auto& out = out_ref.get();
   int i;
@@ -54,7 +54,7 @@ void worker(
 
 template<bool BOUNDED>
 void consumer(
-    cpl::util::safe_queue<int, BOUNDED>& in,
+    nanonet::util::safe_queue<int, BOUNDED>& in,
     std::ostream& os,
     const long N_PRODUCERS,
     const long N_NUMBERS) {
@@ -104,8 +104,8 @@ void test_safe_queue(
   std::vector<std::thread> producer_threads;
   std::vector<std::thread>   worker_threads;
 
-  cpl::util::safe_queue<int, BOUNDED> producer_worker  (QUEUE_SIZE);
-  cpl::util::safe_queue<int, BOUNDED>   worker_consumer(QUEUE_SIZE);
+  nanonet::util::safe_queue<int, BOUNDED> producer_worker  (QUEUE_SIZE);
+  nanonet::util::safe_queue<int, BOUNDED>   worker_consumer(QUEUE_SIZE);
 
   for (int i = 0; i < N_PRODUCERS; ++i) {
     producer_threads.push_back(
@@ -179,20 +179,20 @@ void test_safe_queue(std::ostream& os) {
 
 void test_dispatch() {
   // Also tests move semantics
-  cpl::dispatch::thread_pool tp1;
+  nanonet::dispatch::thread_pool tp1;
 
   for (int i = 0; i < 25; ++i) {
-    cpl::dispatch::task t([i]{ std::cout << i << std::endl; });
+    nanonet::dispatch::task t([i]{ std::cout << i << std::endl; });
     tp1.dispatch(std::move(t));
   }
 
   auto tp2 = std::move(tp1);
 
-  auto fun = [&tp1] { tp1.dispatch(cpl::dispatch::task([] {})); } ;
-  cpl::util::verify_throws("moved-from", fun);
+  auto fun = [&tp1] { tp1.dispatch(nanonet::dispatch::task([] {})); } ;
+  nanonet::util::verify_throws("moved-from", fun);
 
   for (int i = 25; i < 50; ++i) {
-    cpl::dispatch::task t([i]{ std::cout << i << std::endl; });
+    nanonet::dispatch::task t([i]{ std::cout << i << std::endl; });
     tp2.dispatch(std::move(t));
   }
 }
@@ -215,10 +215,10 @@ void test_dispatch_n(std::ostream& os, int const w, int const n, int const m,
   {
 
   // One single worker handling themap
-  cpl::dispatch::thread_pool themap_manager;
+  nanonet::dispatch::thread_pool themap_manager;
 
   // w workers, all dispatching tasks to themap_manager
-  cpl::dispatch::thread_pool workers(w);
+  nanonet::dispatch::thread_pool workers(w);
 
   for (int j = 0; j < n; ++j) {
     auto worker_func = 
@@ -226,12 +226,12 @@ void test_dispatch_n(std::ostream& os, int const w, int const n, int const m,
       int total = 0;
       for (int i = 0; i < m; ++i) {
         if (!return_value) {
-          cpl::dispatch::task t([&themap, i]() { ++themap[i]; });
+          nanonet::dispatch::task t([&themap, i]() { ++themap[i]; });
                    themap_manager.dispatch(std::move(t));
         } else             {
           // std::cout << "push " << i << std::endl;
           total += themap_manager.dispatch_returning<int>(
-              cpl::dispatch::returning_task<int>([&themap, i]() { ++themap[i]; return i; }));
+              nanonet::dispatch::returning_task<int>([&themap, i]() { ++themap[i]; return i; }));
         }
 
       }
@@ -251,7 +251,7 @@ void test_dispatch_n(std::ostream& os, int const w, int const n, int const m,
       }
     };
 
-    workers.dispatch(cpl::dispatch::task(worker_func));
+    workers.dispatch(nanonet::dispatch::task(worker_func));
   }
 
   }
@@ -260,7 +260,7 @@ void test_dispatch_n(std::ostream& os, int const w, int const n, int const m,
 
   for (int i = 0; i < m; ++i) {
     // n tasks incremented each element by 1
-    cpl::util::verify(n == themap[i], 
+    nanonet::util::verify(n == themap[i], 
         "error in thread_pool test: wrong map element");
   }
   os << "test ok" << std::endl;

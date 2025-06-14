@@ -28,11 +28,11 @@
 #include "cpp-lib/windows/wrappers.h"
 
 
-using namespace cpl::detail_ ;
-using namespace cpl::util    ;
+using namespace nanonet::detail_ ;
+using namespace nanonet::util    ;
 
 
-std::string const cpl::detail_::last_error_message() {
+std::string const nanonet::detail_::last_error_message() {
 
   long const code = GetLastError() ;
 
@@ -68,11 +68,11 @@ std::string const cpl::detail_::last_error_message() {
 }
 
 
-void cpl::detail_::last_error_exception( std::string const& msg ) 
+void nanonet::detail_::last_error_exception( std::string const& msg ) 
 { throw std::runtime_error( msg + ": " + last_error_message() ) ; }
 
 
-double const cpl::detail_::pc_frequency() {
+double const nanonet::detail_::pc_frequency() {
 
   LARGE_INTEGER f ;
   QueryPerformanceFrequency( &f ) ;
@@ -81,7 +81,7 @@ double const cpl::detail_::pc_frequency() {
 }
 
 
-LARGE_INTEGER const cpl::detail_::to_large_integer( double const& x ) {
+LARGE_INTEGER const nanonet::detail_::to_large_integer( double const& x ) {
 
   always_assert( x >= 0 ) ;
 
@@ -97,7 +97,7 @@ LARGE_INTEGER const cpl::detail_::to_large_integer( double const& x ) {
 }
 
 
-double const cpl::detail_::windows_time() {
+double const nanonet::detail_::windows_time() {
 
   static double const f = pc_frequency() ;
 
@@ -109,10 +109,10 @@ double const cpl::detail_::windows_time() {
 }
 
 
-double cpl::util::time() { return windows_time() ; }
+double nanonet::util::time() { return windows_time() ; }
 
 
-double const cpl::detail_::modification_time( HANDLE const fd ) {
+double const nanonet::detail_::modification_time( HANDLE const fd ) {
 
   FILETIME tt ;
 
@@ -128,7 +128,7 @@ double const cpl::detail_::modification_time( HANDLE const fd ) {
 }
 
 
-long cpl::detail_::windows_reader_writer::read
+long nanonet::detail_::windows_reader_writer::read
 ( char      * const buf , long const n ) {
 
   assert( n >= 1 ) ;
@@ -145,7 +145,7 @@ long cpl::detail_::windows_reader_writer::read
 }
 
 
-long cpl::detail_::windows_reader_writer::write
+long nanonet::detail_::windows_reader_writer::write
 ( char const* const buf , long const n ) {
   
   assert( n >= 1 ) ;
@@ -162,7 +162,7 @@ long cpl::detail_::windows_reader_writer::write
 }
 
 
-HANDLE cpl::detail_::windows_open( 
+HANDLE nanonet::detail_::windows_open( 
   std::string             const& name ,
   std::ios_base::openmode const  om 
 ) {
@@ -195,7 +195,7 @@ HANDLE cpl::detail_::windows_open(
 }
 
 
-void cpl::util::sleep( double const& t ) {
+void nanonet::util::sleep( double const& t ) {
 
   assert( t >= 0 ) ;
 
@@ -205,7 +205,7 @@ void cpl::util::sleep( double const& t ) {
 
 
 // TODO: This is actually the same implementation as for POSIX.
-::timeval const cpl::detail_::to_timeval( double const& t ) { 
+::timeval const nanonet::detail_::to_timeval( double const& t ) { 
 
   ::timeval ret ; 
   to_fractional( t , 1000000 , ret.tv_sec , ret.tv_usec ) ; 

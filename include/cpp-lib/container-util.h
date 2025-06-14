@@ -28,7 +28,7 @@
 
 #include "cpp-lib/util.h"
 
-namespace cpl {
+namespace nanonet {
 
 namespace util {
 
@@ -68,7 +68,7 @@ template< typename T > struct rvector {
 private :
 
   void check_index( size_type const i ) const { 
-    cpl::util::mark_unused( i ) ;
+    nanonet::util::mark_unused( i ) ;
     assert( i < v.size() ) ; 
   }
 
@@ -133,7 +133,7 @@ template< typename T , std::size_t max_size > struct capped_vector {
 private :
 
   void check_index( size_type const i ) const { 
-    cpl::util::mark_unused( i ) ;
+    nanonet::util::mark_unused( i ) ;
     assert( i < size() ) ;
   }
 
@@ -170,7 +170,7 @@ void append( C1& c1 , C2 const& c2 ) ;
 
 /// C must be a container of containers, e.g. a
 /// std::vector< std::vector< double > >.  The function repeatedly
-/// calls cpl::util::append().
+/// calls nanonet::util::append().
 ///
 /// \return All elements of c joined in ``row-major'' sequence in a
 /// container of C::value_type.
@@ -408,7 +408,7 @@ void erase_if( C& items, P const& predicate ) {
 
 } // namespace util
 
-} // namespace cpl
+} // namespace nanonet
 
 
 
@@ -431,7 +431,7 @@ void erase_if( C& items, P const& predicate ) {
 
 
 template< class it >
-void cpl::util::container::write_sequence(
+void nanonet::util::container::write_sequence(
     std::ostream& os,
     it const begin, it const end,
     char const open, 
@@ -461,7 +461,7 @@ void cpl::util::container::write_sequence(
 
 
 template< typename C1 , typename C2 >
-void cpl::util::container::append( C1& c1 , C2 const& c2 ) {
+void nanonet::util::container::append( C1& c1 , C2 const& c2 ) {
 
   c1.insert( c1.end() , c2.begin() , c2.end() ) ;
 
@@ -469,7 +469,7 @@ void cpl::util::container::append( C1& c1 , C2 const& c2 ) {
 
 
 template< typename C >
-typename C::value_type cpl::util::container::flatten( C const& c ) {
+typename C::value_type nanonet::util::container::flatten( C const& c ) {
 
   typename C::value_type ret ;
 
@@ -486,16 +486,16 @@ typename C::value_type cpl::util::container::flatten( C const& c ) {
 }
 
 template< typename S >
-std::string cpl::util::container::string_from_sequence( S const& s ) {
+std::string nanonet::util::container::string_from_sequence( S const& s ) {
   return std::string( begin( s ) , end( s ) ) ;
 }
 
 template< typename C, typename S > C 
-cpl::util::container::convert_to( S const& s ) {
+nanonet::util::container::convert_to( S const& s ) {
   return C( begin( s ) , end( s ) ) ;
 }
 
-namespace cpl {
+namespace nanonet {
 namespace detail_  {
 
 template< typename it >
@@ -526,23 +526,23 @@ inline void safe_advance(
 }
 
 } // namespace detail_
-} // namespace cpl
+} // namespace nanonet
 
 
 template< typename it >
-inline void cpl::util::container::safe_advance
+inline void nanonet::util::container::safe_advance
 ( it& i , it const& end , std::size_t const d ) { 
 
   assert( d >= 1 ) ;
 
-  cpl::detail_::safe_advance
+  nanonet::detail_::safe_advance
   ( i , end , d , typename std::iterator_traits< it >::iterator_category() ) ; 
   
 }
 
 
 template< typename it >
-inline void cpl::util::container::check_strictly_ascending
+inline void nanonet::util::container::check_strictly_ascending
 ( it i , it const& end , std::size_t const d ) {
 
   if( i == end ) { return ; }

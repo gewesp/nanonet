@@ -64,7 +64,7 @@
 
 #include <cstdlib>
 
-namespace cpl {
+namespace nanonet {
 
 namespace util {
 
@@ -78,8 +78,8 @@ struct connection ;
 // Proposed standard interface.
 ////////////////////////////////////////////////////////////////////////
 
-typedef cpl::detail_::address< SOCK_STREAM >   stream_address ;
-typedef cpl::detail_::address< SOCK_DGRAM  > datagram_address ;
+typedef nanonet::detail_::address< SOCK_STREAM >   stream_address ;
+typedef nanonet::detail_::address< SOCK_DGRAM  > datagram_address ;
 
 typedef std::vector<   stream_address >   stream_address_list ;
 typedef std::vector< datagram_address > datagram_address_list ;
@@ -108,17 +108,17 @@ typedef std::vector< datagram_address > datagram_address_list ;
 //
 
 template< typename ... ARG >
-inline cpl::util::network::stream_address_list 
+inline nanonet::util::network::stream_address_list 
 resolve_stream( ARG&& ... arg ) {
-  return cpl::detail_::resolve< SOCK_STREAM >(
+  return nanonet::detail_::resolve< SOCK_STREAM >(
       std::forward< ARG >( arg ) ... 
   ) ;
 }
 
 template< typename ... ARG >
-inline cpl::util::network::datagram_address_list 
+inline nanonet::util::network::datagram_address_list 
 resolve_datagram( ARG&& ... arg ) {
-  return cpl::detail_::resolve< SOCK_DGRAM >(
+  return nanonet::detail_::resolve< SOCK_DGRAM >(
       std::forward< ARG >( arg ) ... 
   ) ;
 }
@@ -227,7 +227,7 @@ struct datagram_socket {
   // Connect to peer address.  Packets sent by send() will
   // be sent to this address.
   void connect( address_type const& destination ) {
-    cpl::detail_::my_connect( s.fd() , destination.sockaddr_pointer() , destination.length() ) ;
+    nanonet::detail_::my_connect( s.fd() , destination.sockaddr_pointer() , destination.length() ) ;
   }
 
   // Receive a packet with timeout t [s].
@@ -293,7 +293,7 @@ struct datagram_socket {
   // or after at least one send() call.
   // If the socket is not bound, may throw or return an all-zero address.
   address_type local() const { 
-    return cpl::detail_::my_getsockname< SOCK_DGRAM >( fd() ) ;
+    return nanonet::detail_::my_getsockname< SOCK_DGRAM >( fd() ) ;
   }
 
   // Returns the remote (peer) address.
@@ -301,7 +301,7 @@ struct datagram_socket {
   // to connect().
   // If the socket is not connected, may throw or return an all-zero address.
   address_type peer () const {
-    return cpl::detail_::my_getpeername< SOCK_DGRAM >( fd() ) ;
+    return nanonet::detail_::my_getpeername< SOCK_DGRAM >( fd() ) ;
   }
 
 private:
@@ -316,8 +316,8 @@ private:
   // Enables broadcasting
   void initialize();
 
-  cpl::detail_::datagram_socket_reader_writer s ;
-  cpl::detail_::socketfd_t fd() const { return s.fd() ; }
+  nanonet::detail_::datagram_socket_reader_writer s ;
+  nanonet::detail_::socketfd_t fd() const { return s.fd() ; }
 
 } ;
 
@@ -331,19 +331,19 @@ private:
 // sockets.
 //
 
-typedef cpl::util::istreambuf< cpl::detail_::stream_socket_reader_writer > 
+typedef nanonet::util::istreambuf< nanonet::detail_::stream_socket_reader_writer > 
 instreambuf ;
 
-typedef cpl::util::ostreambuf< cpl::detail_::stream_socket_reader_writer > 
+typedef nanonet::util::ostreambuf< nanonet::detail_::stream_socket_reader_writer > 
 onstreambuf ;
 
 } // namespace network
 
 namespace file {
 
-template<> struct buffer_maker_traits< ::cpl::util::network::connection > {
-  typedef cpl::util::network::instreambuf istreambuf_type ;
-  typedef cpl::util::network::onstreambuf ostreambuf_type ;
+template<> struct buffer_maker_traits< ::nanonet::util::network::connection > {
+  typedef nanonet::util::network::instreambuf istreambuf_type ;
+  typedef nanonet::util::network::onstreambuf ostreambuf_type ;
 } ;
 
 } // namespace file
@@ -353,7 +353,7 @@ namespace network {
 // A TCP connection endpoint, for incoming or outgoing connections.
 // See tcp-test.cpp for examples.  Use instream/onstream for sending and
 // receiving data.
-struct connection : cpl::util::file::buffer_maker< connection > {
+struct connection : nanonet::util::file::buffer_maker< connection > {
 
   // Moveable, but not copyable
   connection           (connection&&) = default;
@@ -420,11 +420,11 @@ struct connection : cpl::util::file::buffer_maker< connection > {
 
   // Returns the internal socket object
   // TODO: This should be private.
-  std::shared_ptr<cpl::detail_::stream_socket_reader_writer> socket() 
+  std::shared_ptr<nanonet::detail_::stream_socket_reader_writer> socket() 
   { return s ; }
 
   // Returns the low-level socket descriptor
-  cpl::detail_::socketfd_t fd() { return s->fd() ; }
+  nanonet::detail_::socketfd_t fd() { return s->fd() ; }
 
   // Implementation of buffer_maker<> interface
   instreambuf make_istreambuf() { return instreambuf( socket() ) ; }
@@ -432,8 +432,8 @@ struct connection : cpl::util::file::buffer_maker< connection > {
 
 private:
 
-  void shutdown_read () { cpl::detail_::socket_shutdown_read ( fd() ); }
-  void shutdown_write() { cpl::detail_::socket_shutdown_write( fd() ); }
+  void shutdown_read () { nanonet::detail_::socket_shutdown_read ( fd() ); }
+  void shutdown_write() { nanonet::detail_::socket_shutdown_write( fd() ); }
 
   // *************** IMPORTANT ******************
   // This *must* be a shared pointer to share with the streambuf
@@ -441,11 +441,11 @@ private:
   // Therefore we can:
   // * Have both instream and onstream on one connection
   // * Continue to use the streams after connection goes out of scope.
-  std::shared_ptr< cpl::detail_::stream_socket_reader_writer > s ;
+  std::shared_ptr< nanonet::detail_::stream_socket_reader_writer > s ;
 
   // Tries to find a matching pair from remote address and local
   // address and returns an accordingly initialized socket.
-  std::shared_ptr< cpl::detail_::stream_socket_reader_writer > initialize(
+  std::shared_ptr< nanonet::detail_::stream_socket_reader_writer > initialize(
     address_list_type const& ra , 
     address_list_type const& la ,
     double timeout
@@ -489,13 +489,13 @@ struct acceptor {
   address_type const& local() const { return local_ ; }
 
   // Returns the low-level file descriptor
-  cpl::detail_::socketfd_t fd() const { return s.fd() ; }
+  nanonet::detail_::socketfd_t fd() const { return s.fd() ; }
 
 private:
 
   // Socket read/write interface, but the acceptor will only use 
   // accept().
-  cpl::detail_::stream_socket_reader_writer s ;
+  nanonet::detail_::stream_socket_reader_writer s ;
 
   address_type local_ ;
 
@@ -523,8 +523,8 @@ private:
 // by appropriate scoping, see the compact telnet example in tcp-test.cpp.
 //
 
-typedef cpl::util::file::owning_istream<instreambuf> instream ;
-typedef cpl::util::file::owning_ostream<onstreambuf> onstream ;
+typedef nanonet::util::file::owning_istream<instreambuf> instream ;
+typedef nanonet::util::file::owning_ostream<onstreambuf> onstream ;
 
 inline instream make_instream( connection& c )
 { return instream( c ) ; }
@@ -568,7 +568,7 @@ private:
 
 } // namespace util
 
-} // namespace cpl
+} // namespace nanonet
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -578,8 +578,8 @@ private:
 // TODO: This should be done with timeout socket options, not select?!
 // At the very least, use poll or ppoll, not select!
 template< typename for_it >
-cpl::util::network::datagram_socket::size_type 
-cpl::util::network::datagram_socket::receive_internal( 
+nanonet::util::network::datagram_socket::size_type 
+nanonet::util::network::datagram_socket::receive_internal( 
   address_type* const source_ret ,
   for_it const& begin ,
   double const& t , 
@@ -596,7 +596,7 @@ cpl::util::network::datagram_socket::receive_internal(
 
     // Do not wait.
 
-    ::timeval tv = cpl::detail_::to_timeval( t ) ;
+    ::timeval tv = nanonet::detail_::to_timeval( t ) ;
 
     int const nfds = fd() + 1 ;     // Size of array containing sockets 
                                     // up to and including the one we set.
@@ -604,10 +604,10 @@ cpl::util::network::datagram_socket::receive_internal(
     int err ;
     do 
     { err = ::select( nfds , &rfds , 0 , 0 , &tv ) ; } 
-    while( cpl::detail_::EINTR_repeat( err ) ) ;  
+    while( nanonet::detail_::EINTR_repeat( err ) ) ;  
     // Some platforms including Linux update timeout.
 
-    if( err < 0 ) { cpl::detail_::throw_socket_error( "select" ) ; }
+    if( err < 0 ) { nanonet::detail_::throw_socket_error( "select" ) ; }
 
     if( err == 0 ) { return timeout() ; }
 
@@ -633,10 +633,10 @@ cpl::util::network::datagram_socket::receive_internal(
       *source_ret = source ;
     }
 
-  } while( cpl::detail_::EINTR_repeat( err ) ) ;
+  } while( nanonet::detail_::EINTR_repeat( err ) ) ;
 
   if( err < 0 )
-  { cpl::detail_::throw_socket_error( "recvfrom" ) ; }
+  { nanonet::detail_::throw_socket_error( "recvfrom" ) ; }
 
   assert( static_cast< size_type >( err ) <= buffer.size() ) ;
 
@@ -649,7 +649,7 @@ cpl::util::network::datagram_socket::receive_internal(
 // TODO: Factor out common code from send(begin, end) and 
 // send(begin, end, dest).
 template< typename for_it >
-void cpl::util::network::datagram_socket::send(
+void nanonet::util::network::datagram_socket::send(
   for_it const& begin ,
   for_it const& end
 ) {
@@ -657,11 +657,11 @@ void cpl::util::network::datagram_socket::send(
   std::vector< char > const buffer( begin , end ) ;
 
   long const result = 
-      cpl::detail_::my_send( fd() , &buffer[ 0 ] , buffer.size() ) ;
+      nanonet::detail_::my_send( fd() , &buffer[ 0 ] , buffer.size() ) ;
 
   if( result < 0 ) {
     if( errno == ECONNREFUSED ) { return ; }
-    cpl::detail_::throw_socket_error( "send" ) ;
+    nanonet::detail_::throw_socket_error( "send" ) ;
   }
 
   always_assert( result == static_cast< long >( buffer.size() ) ) ;
@@ -669,7 +669,7 @@ void cpl::util::network::datagram_socket::send(
 }
 
 template< typename for_it >
-void cpl::util::network::datagram_socket::send(
+void nanonet::util::network::datagram_socket::send(
   for_it const& begin ,
   for_it const& end   ,
   address_type const& d
@@ -684,12 +684,12 @@ void cpl::util::network::datagram_socket::send(
 
   std::vector< char > const buffer( begin , end ) ;
 
-  const long result = cpl::detail_::my_sendto(
+  const long result = nanonet::detail_::my_sendto(
       fd() , d.sockaddr_pointer() , d.length() , &buffer[ 0 ] , buffer.size() ) ;
 
   if( result < 0 ) {
     if( errno == ECONNREFUSED ) { return ; }
-    cpl::detail_::throw_socket_error( "send to " + d.host() + ":" + d.port() ) ; 
+    nanonet::detail_::throw_socket_error( "send to " + d.host() + ":" + d.port() ) ; 
   }
 
   always_assert( result == static_cast< long >( buffer.size() ) ) ;
@@ -697,7 +697,7 @@ void cpl::util::network::datagram_socket::send(
 }
  
 template< typename for_it >
-void cpl::util::network::datagram_socket::send( 
+void nanonet::util::network::datagram_socket::send( 
   for_it      const& begin   ,
   for_it      const& end     ,
   std::string const& node    , 

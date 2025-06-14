@@ -33,10 +33,10 @@
 #include "cpp-lib/util.h"
 #include "cpp-lib/assert.h"
 
-namespace cpl { namespace detail_ { struct file_impl ; } }
+namespace nanonet { namespace detail_ { struct file_impl ; } }
 
 
-namespace cpl {
+namespace nanonet {
 
 namespace util {
 
@@ -107,7 +107,7 @@ private:
 
   File( File const& ) ;
 
-  std::unique_ptr< cpl::detail_::file_impl > impl ;
+  std::unique_ptr< nanonet::detail_::file_impl > impl ;
 
 } ;
 
@@ -160,7 +160,7 @@ private:
 
 } // namespace util
 
-} // namespace cpl
+} // namespace nanonet
 
 
 

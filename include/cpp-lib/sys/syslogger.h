@@ -28,7 +28,7 @@
 #include <vector>
 
 // TODO: Reduce levels of namespaces
-namespace cpl {
+namespace nanonet {
 
 namespace util {
 
@@ -77,7 +77,7 @@ namespace detail_ {
 
 struct prio_setter {
   // The priority to set
-  cpl::util::log::prio const p;
+  nanonet::util::log::prio const p;
   // Set SYSLOG, ECHO or both priorities
   unsigned short const which;
 };
@@ -104,12 +104,12 @@ struct syslog_writer {
   void shutdown_write() {}
 
   // Minimum level to log on syslog
-  cpl::util::log::prio minlevel_syslog;
+  nanonet::util::log::prio minlevel_syslog;
   // Minimum level to log on echo stream
-  cpl::util::log::prio minlevel_echo  ;
+  nanonet::util::log::prio minlevel_echo  ;
 
-  // Currently set log level (e.g. os << cpl::util::CRIT;)
-  cpl::util::log::prio currlevel;
+  // Currently set log level (e.g. os << nanonet::util::CRIT;)
+  nanonet::util::log::prio currlevel;
 
   // The tag, NULL-terminated character array
   char const* tag() const { return &tag_[0]; }
@@ -154,10 +154,10 @@ namespace log {
 // http://www.boost.org/doc/libs/1_47_0/libs/utility/base_from_member.html
 //
 // It is needed because the syslog_writer needs to be initialized before
-// the 'real' base class cpl::util::ostreambuf<>.
+// the 'real' base class nanonet::util::ostreambuf<>.
 //
 
-typedef cpl::util::ostreambuf< cpl::detail_::syslog_writer > syslogstreambuf ;
+typedef nanonet::util::ostreambuf< nanonet::detail_::syslog_writer > syslogstreambuf ;
 
 
 //
@@ -172,7 +172,7 @@ typedef cpl::util::ostreambuf< cpl::detail_::syslog_writer > syslogstreambuf ;
 // inheritance complications etc.
 //
 
-struct syslogger : cpl::util::file::owning_ostream<syslogstreambuf> { 
+struct syslogger : nanonet::util::file::owning_ostream<syslogstreambuf> { 
 
   //
   // Pass "" for no tag.  Pass &std::cout or similar to echo
@@ -184,10 +184,10 @@ struct syslogger : cpl::util::file::owning_ostream<syslogstreambuf> {
   //
 
   syslogger(const std::string& tag, std::ostream* echo = NULL,
-      std::function<double()> const& echo_clock = cpl::util::utc)
-    : cpl::util::file::owning_ostream<syslogstreambuf>(
+      std::function<double()> const& echo_clock = nanonet::util::utc)
+    : nanonet::util::file::owning_ostream<syslogstreambuf>(
          syslogstreambuf(
-             std::make_shared<cpl::detail_::syslog_writer>(
+             std::make_shared<nanonet::detail_::syslog_writer>(
                  tag, echo)))
   { buffer().reader_writer().set_echo_clock(echo_clock); }
 
@@ -205,7 +205,7 @@ struct syslogger : cpl::util::file::owning_ostream<syslogstreambuf> {
   }
 
   // Selects the minimum Log level on *this, the echo stream, or both.
-  void set_minlevel(cpl::detail_::prio_setter const& ps) {
+  void set_minlevel(nanonet::detail_::prio_setter const& ps) {
     if (ps.which & SYSLOG) 
     { buffer().reader_writer().minlevel_syslog = ps.p; }
     if (ps.which & ECHO  ) 
@@ -215,16 +215,16 @@ struct syslogger : cpl::util::file::owning_ostream<syslogstreambuf> {
 
 // Sets minimal log priority, e.g.
 // sl << setminprio(prio::ERR) to log only important messages.
-inline cpl::detail_::prio_setter setminprio(
+inline nanonet::detail_::prio_setter setminprio(
     prio const p, unsigned short const which = BOTH) {
-  return cpl::detail_::prio_setter{p, which};
+  return nanonet::detail_::prio_setter{p, which};
 }
 
 // Sets priority for current message
 std::ostream& operator<<(std::ostream&, prio);
 
 // Sets min prio, use setminprio() above.
-std::ostream& operator<<(std::ostream&, cpl::detail_::prio_setter const&);
+std::ostream& operator<<(std::ostream&, nanonet::detail_::prio_setter const&);
 
 // Logs an error, format:
 // ERROR: msg: what
@@ -262,6 +262,6 @@ struct testmode_sentry {
 
 } // namespace util
 
-} // namespace cpl
+} // namespace nanonet
 
 #endif // CPP_LIB_SYSLOGGER_H

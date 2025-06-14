@@ -26,9 +26,9 @@
 #include "boost/algorithm/string.hpp"
 
 
-using namespace cpl::util;
-using namespace cpl::util::network;
-using namespace cpl::util::log;
+using namespace nanonet::util;
+using namespace nanonet::util::network;
+using namespace nanonet::util::log;
 
 namespace {
 
@@ -44,7 +44,7 @@ bool blank( std::string const& s ) {
 }
 
 void throw_get_parse_error(const std::string& what) {
-  cpl::util::throw_error("CPL HTTP GET request parser: " + what);
+  nanonet::util::throw_error("CPL HTTP GET request parser: " + what);
 }
 
 std::string default_user_agent() {
@@ -77,7 +77,7 @@ void wget1(
       // Important: Don't miss the last (second!) newline
       << newline;
     
-  log << cpl::util::log::prio::INFO 
+  log << nanonet::util::log::prio::INFO 
       << "Requesting " << path << " from " << host << std::endl;
   
   onstream ons( c ) ;
@@ -89,12 +89,12 @@ void wget1(
   while( std::getline( ins , line ) ) {
 
     if( blank( line ) ) { break ; }
-    log << cpl::util::log::prio::INFO 
+    log << nanonet::util::log::prio::INFO 
         << "Server HTTP header: " << line << std::endl ;
   
   }
 
-  cpl::util::stream_copy( ins , os ) ;
+  nanonet::util::stream_copy( ins , os ) ;
 
 }
 
@@ -104,35 +104,35 @@ void wget1(
 // https://www.w3.org/Protocols/rfc2616/rfc2616-sec2.html#sec2.2
 // "HTTP/1.1 defines the sequence CR LF as the end-of-line marker 
 // for all protocol elements except the entity-body"
-const char* const cpl::http::endl = "\r\n";
+const char* const nanonet::http::endl = "\r\n";
 
-std::string cpl::http::default_server_identification() {
+std::string nanonet::http::default_server_identification() {
   return "KISS/CPL httpd/0.9.1 (Linux)";
 }
 
-void cpl::http::write_content_type(
+void nanonet::http::write_content_type(
     std::ostream& os, const std::string& ct, const std::string& cs) {
   os << "Content-Type: " << ct
      << "; charset="     << cs
-     << cpl::http::endl;
+     << nanonet::http::endl;
 }
 
-void cpl::http::write_content_type_json(
+void nanonet::http::write_content_type_json(
     std::ostream& os, const std::string& cs) {
-  cpl::http::write_content_type(os, "application/json", cs);
+  nanonet::http::write_content_type(os, "application/json", cs);
 }
 
-void cpl::http::write_content_type_text(
+void nanonet::http::write_content_type_text(
     std::ostream& os, const std::string& cs) {
-  cpl::http::write_content_type(os, "text/plain", cs);
+  nanonet::http::write_content_type(os, "text/plain", cs);
 }
 
-void cpl::http::write_content_type_csv(
+void nanonet::http::write_content_type_csv(
     std::ostream& os, const std::string& cs) {
-  cpl::http::write_content_type(os, "text/csv", cs);
+  nanonet::http::write_content_type(os, "text/csv", cs);
 }
 
-std::string cpl::http::content_type_from_file_name(const std::string& name) {
+std::string nanonet::http::content_type_from_file_name(const std::string& name) {
          if (boost::ends_with(name, ".html")) {
     return "text/html";
   } else if (boost::ends_with(name, ".txt")) {
@@ -142,51 +142,51 @@ std::string cpl::http::content_type_from_file_name(const std::string& name) {
   }
 }
 
-void cpl::http::write_date(std::ostream& os, double now) {
+void nanonet::http::write_date(std::ostream& os, double now) {
   if (now < 0) {
-    now = cpl::util::utc();
+    now = nanonet::util::utc();
   }
 
-  os << "Date: " << cpl::util::format_datetime(now)
-     << cpl::http::endl;
+  os << "Date: " << nanonet::util::format_datetime(now)
+     << nanonet::http::endl;
 }
 
-void cpl::http::write_connection(std::ostream& os, const std::string& what) {
-  os << "Connection: " << what << cpl::http::endl;
+void nanonet::http::write_connection(std::ostream& os, const std::string& what) {
+  os << "Connection: " << what << nanonet::http::endl;
 }
 
-void cpl::http::write_server(std::ostream& os, const std::string& server) {
-  os << "Server: " << server << cpl::http::endl;
+void nanonet::http::write_server(std::ostream& os, const std::string& server) {
+  os << "Server: " << server << nanonet::http::endl;
 }
 
-void cpl::http::write_http_header_200(
+void nanonet::http::write_http_header_200(
     std::ostream& os,
     const std::string& ct,
     double now,
     const std::string& server_id) {
-  os << "HTTP/1.1 200 OK" << cpl::http::endl;
-  cpl::http::write_date        (os, now      );
-  cpl::http::write_server      (os, server_id);
-  cpl::http::write_connection  (os, "close"  );
-  cpl::http::write_content_type(os, ct       );
+  os << "HTTP/1.1 200 OK" << nanonet::http::endl;
+  nanonet::http::write_date        (os, now      );
+  nanonet::http::write_server      (os, server_id);
+  nanonet::http::write_connection  (os, "close"  );
+  nanonet::http::write_content_type(os, ct       );
 
-  os << cpl::http::endl;
+  os << nanonet::http::endl;
 }
 
-void cpl::http::write_http_header_404(
+void nanonet::http::write_http_header_404(
     std::ostream& os,
     const std::string& reason,
     double now,
     const std::string& server_id) {
-  os << "HTTP/1.1 404 Not Found (" << reason << ")" << cpl::http::endl;
-  cpl::http::write_date        (os, now      );
-  cpl::http::write_server      (os, server_id);
-  cpl::http::write_connection  (os, "close"  );
+  os << "HTTP/1.1 404 Not Found (" << reason << ")" << nanonet::http::endl;
+  nanonet::http::write_date        (os, now      );
+  nanonet::http::write_server      (os, server_id);
+  nanonet::http::write_connection  (os, "close"  );
 
-  os << cpl::http::endl;
+  os << nanonet::http::endl;
 }
 
-void cpl::http::wget( std::ostream& log, std::ostream& os , std::string url ,
+void nanonet::http::wget( std::ostream& log, std::ostream& os , std::string url ,
                       double const timeout ) {
 
   if( "http://" != url.substr( 0 , 7 ) )
@@ -233,12 +233,12 @@ void cpl::http::wget( std::ostream& log, std::ostream& os , std::string url ,
 
 }
 
-cpl::http::get_request
-cpl::http::parse_get_request(
+nanonet::http::get_request
+nanonet::http::parse_get_request(
     const std::string& first_line,
     std::istream& is,
     std::ostream* log) {
-  cpl::http::get_request ret;
+  nanonet::http::get_request ret;
   std::string line = first_line;
   boost::trim(line);
   {
@@ -255,7 +255,7 @@ cpl::http::parse_get_request(
 
     // Parse HTTP/x.y
     std::vector<std::string> ver1;
-    cpl::util::split(ver1, ver, "/");
+    nanonet::util::split(ver1, ver, "/");
 
     if (2 != ver1.size() or "HTTP" != ver1.at(0)) {
       ::throw_get_parse_error("Bad version: " + ver);
@@ -270,7 +270,7 @@ cpl::http::parse_get_request(
       break;
     }
 
-    const auto hh = cpl::util::split_colon_blank(line);
+    const auto hh = nanonet::util::split_colon_blank(line);
 
            if ("User-Agent" == hh.first) {
       ret.user_agent = hh.second;

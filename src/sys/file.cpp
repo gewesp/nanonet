@@ -19,20 +19,20 @@
 #include "cpp-lib/detail/platform_wrappers.h"
 
 
-using namespace cpl::util::file ;
-using namespace cpl::detail_ ;
+using namespace nanonet::util::file ;
+using namespace nanonet::detail_ ;
 
 
-cpl::util::file::File::File( std::string const& name )
+nanonet::util::file::File::File( std::string const& name )
 : impl( new file_impl( name ) ) {}
 
-cpl::util::file::File::~File() {}
+nanonet::util::file::File::~File() {}
 
-double cpl::util::file::File::modification_time()
+double nanonet::util::file::File::modification_time()
 { return impl->modification_time() ; }
 
 
-bool cpl::util::file::file_name_watcher::modified() {
+bool nanonet::util::file::file_name_watcher::modified() {
 
   double tt = 0 ;
   try {
@@ -49,7 +49,7 @@ bool cpl::util::file::file_name_watcher::modified() {
 }
 
 
-bool cpl::util::file::file_watcher::modified() {
+bool nanonet::util::file::file_watcher::modified() {
 
   double const tt = f.modification_time() ;
 

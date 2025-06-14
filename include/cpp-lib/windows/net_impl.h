@@ -16,7 +16,7 @@
 // TODO: As of 2020, this needs serious rework
 //
 
-namespace cpl {
+namespace nanonet {
 
 namespace detail_ {
 
@@ -28,7 +28,7 @@ inline socketfd_t invalid_socket() { return INVALID_SOCKET ; }
 
 } // namespace detail_
 
-} // namespace cpl
+} // namespace nanonet
 
 // 
 // Stuff existing on UNIX but not on Windows.
@@ -38,7 +38,7 @@ inline socketfd_t invalid_socket() { return INVALID_SOCKET ; }
 // #define ECONNREFUSED WSAECONNREFUSED
 
 
-namespace cpl {
+namespace nanonet {
 
 namespace detail_ {
 
@@ -52,7 +52,7 @@ struct winsock_initializer {
 	// std::cout << "WSAStartup()\n" ;
 
     if( WSAStartup( wVersionRequested, &wsaData ) )
-    { cpl::util::die( "couldn't find suitable winsock.dll" ) ; }
+    { nanonet::util::die( "couldn't find suitable winsock.dll" ) ; }
 
   }
 
@@ -67,4 +67,4 @@ struct winsock_initializer {
 
 } // namespace detail_
 
-} // namespace cpl
+} // namespace nanonet

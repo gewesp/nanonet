@@ -23,7 +23,7 @@
 
 #include "cpp-lib/exception.h"
 
-namespace cpl {
+namespace nanonet {
 
 namespace util {
 
@@ -46,23 +46,23 @@ void assertion(
 void verify( bool expression , std::string const& message ) ;
 
 
-/// Throws a cpl::util::timeout_exception with empty message.
+/// Throws a nanonet::util::timeout_exception with empty message.
 [[noreturn]] void throw_timeout_exception();
 
-/// Throws a cpl::util::timeout_exception with a message saying that 
+/// Throws a nanonet::util::timeout_exception with a message saying that 
 /// op timed out after t seconds.
 [[noreturn]] void throw_timeout_exception(double t, const std::string& op);
 
-/// Throws a cpl::util::shutdown_exception with given message.
+/// Throws a nanonet::util::shutdown_exception with given message.
 [[noreturn]] void throw_shutdown_exception(const std::string& what);
 
-/// Throws an cpl::util::assertion_failure with given message.
+/// Throws an nanonet::util::assertion_failure with given message.
 [[noreturn]] void throw_assertion_failure(const std::string& what);
 
 /// Throws a std::runtime_error with given message.
 [[noreturn]] void throw_runtime_error(const std::string& what);
 
-/// Throws a cpl::util::unrecoverable_error with given message.
+/// Throws a nanonet::util::unrecoverable_error with given message.
 [[noreturn]] void throw_unrecoverable_error(const std::string& what);
 
 //
@@ -93,7 +93,7 @@ template< typename F , typename... ARGs > void verify_throws(
 
 } // namespace util
 
-} // namespace cpl
+} // namespace nanonet
 
 
 /// Always assert that \a expr is true.
@@ -101,12 +101,12 @@ template< typename F , typename... ARGs > void verify_throws(
 /// This works like the standard assert() macro, except that:
 /// * It can't be switched off by \c -DNDEBUG.
 /// * Instead of aborting the process, it throws a
-///   cpl::util::assertion_failure.
+///   nanonet::util::assertion_failure.
 #define always_assert( expr )                                       \
   (                                                                 \
     ( expr )      ?                                                 \
     ( void( 0 ) ) :                                                 \
-    cpl::util::assertion( false , #expr , __FILE__ , __LINE__ )     \
+    nanonet::util::assertion( false , #expr , __FILE__ , __LINE__ )     \
   )
 
 

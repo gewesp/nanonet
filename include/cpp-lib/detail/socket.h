@@ -23,16 +23,16 @@
 #include "cpp-lib/detail/platform_wrappers.h"
 #include "cpp-lib/detail/socket_lowlevel.h"
 
-namespace cpl {
+namespace nanonet {
 
 namespace detail_ {
 
 // Returns AF_INET, AF_INET6 or AF_UNSPEC or throws in case of invalid value
-int int_address_family( cpl::util::network::address_family_type ) ;
+int int_address_family( nanonet::util::network::address_family_type ) ;
 
 // Returns ipv4, ipv6 or ip_unspec (on input AF_INET, AF_INET6, ...) or throws
 // in case of invalid value
-cpl::util::network::address_family_type from_int_address_family( int ) ;
+nanonet::util::network::address_family_type from_int_address_family( int ) ;
 
 struct socket_resource_traits {
 
@@ -45,7 +45,7 @@ struct socket_resource_traits {
 
 
 typedef 
-cpl::util::auto_resource< socketfd_t , socket_resource_traits > 
+nanonet::util::auto_resource< socketfd_t , socket_resource_traits > 
 auto_socket_resource ;
 
 /// Checks socket type (SOCK_DGRAM or SOCK_STREAM) and returns it
@@ -122,7 +122,7 @@ typedef socket< SOCK_STREAM >   stream_socket_reader_writer ;
 ////////////////////////////////////////////////////////////////////////
 
 template< int type >
-long cpl::detail_::socket< type >::read
+long nanonet::detail_::socket< type >::read
 ( char      * const buf , long const n ) {
 
   long ret ;
@@ -137,13 +137,13 @@ long cpl::detail_::socket< type >::read
 }
 
 template< int type >
-long cpl::detail_::socket< type >::write
+long nanonet::detail_::socket< type >::write
 ( char const* const buf , long const n ) {
 
   long ret ;
 
   // TODO: Handle partial send
-  do { ret = cpl::detail_::socketsend( fd() , buf , n ) ; }
+  do { ret = nanonet::detail_::socketsend( fd() , buf , n ) ; }
   while( EINTR_repeat( ret ) ) ;
 
   if( ret < 0 || n != ret )

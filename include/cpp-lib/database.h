@@ -22,7 +22,7 @@
 #include <iosfwd>
 #include <string>
 
-namespace cpl {
+namespace nanonet {
 
 namespace db {
 

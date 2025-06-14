@@ -35,7 +35,7 @@
 #include "cpp-lib/util.h"
 
 
-namespace cpl {
+namespace nanonet {
 
 namespace detail_ {
 
@@ -300,7 +300,7 @@ struct lexer {
   token current_token() const { return current_token_ ; }
 
   /// \return String value of current token if it is a quoted string or
-  /// identifier.  We assert() that current_token() == cpl::util::STRING.
+  /// identifier.  We assert() that current_token() == nanonet::util::STRING.
 
   std::string const& string_value() const
   { assert( current_token() == STRING || current_token() == IDENT ) ;
@@ -413,14 +413,14 @@ private:
 ///
 //@{
 
-/// Get next token using cpl::util::expect() and try to extract a double.
+/// Get next token using nanonet::util::expect() and try to extract a double.
 
 /// A std::runtime_error is thrown if the operation fails.
 /// \return The extracted value.
 
 double get_double( lexer& ) ;
 
-/// Call cpl::util::get_double() and check that the value is nonnegative.
+/// Call nanonet::util::get_double() and check that the value is nonnegative.
 
 /// An exception is thrown if the operation fails or
 /// if the extracted value is negative.  This
@@ -430,7 +430,7 @@ double get_double( lexer& ) ;
 
 double get_nonneg( lexer& ) ;
 
-/// Call cpl::util::get_double() and check that the value is positive.
+/// Call nanonet::util::get_double() and check that the value is positive.
 
 /// An exception is thrown if the operation fails or
 /// if the extracted value is <= 0.  This
@@ -457,7 +457,7 @@ void expect( lexer& , token t , bool get_next = true ) ;
 /// \param s The expected identifier.
 /// \param get_next If true, check against get_token().  Otherwise,
 /// check against current_token().
-/// If the token read is unequal to cpl::util::IDENT or the identifier is
+/// If the token read is unequal to nanonet::util::IDENT or the identifier is
 /// unequal to the given one, throw a std::runtime_error
 /// containing an appropriate message.
 
@@ -941,7 +941,7 @@ void convert(
     convert< std::vector< std::any > >( a ) ;
 
   if( n >= 0 && v.size() != static_cast< unsigned long >( n ) )
-  { cpl::detail_::throw_should_have( n , "element(s)" ) ; }
+  { nanonet::detail_::throw_should_have( n , "element(s)" ) ; }
 
   ret.resize( v.size() ) ;
 
@@ -959,7 +959,7 @@ void convert(
     catch( std::runtime_error const& e ) {
 
       throw std::runtime_error
-      ( "element " + cpl::util::string_cast( i + 1 ) + e.what() ) ;
+      ( "element " + nanonet::util::string_cast( i + 1 ) + e.what() ) ;
 
     }
 
@@ -997,7 +997,7 @@ inline std::string const hr_type< std::string >()
 { return "string"     ; }
 
 template<>
-inline std::string const hr_type< cpl::util::expression >()
+inline std::string const hr_type< nanonet::util::expression >()
 { return "expression" ; }
 
 template<>
@@ -1029,19 +1029,19 @@ inline std::string const hr_type< std::vector< std::string > >()
 
 
 template< typename T >
-T const& cpl::util::convert( std::any const& a ) {
+T const& nanonet::util::convert( std::any const& a ) {
 
   T const* ret = std::any_cast< T >( &a ) ;
 
   if( !ret )
-  { throw std::runtime_error( "should be a " + cpl::util::detail_::hr_type< T >() ) ; }
+  { throw std::runtime_error( "should be a " + nanonet::util::detail_::hr_type< T >() ) ; }
 
   return *ret ;
 
 }
 
 template< typename T >
-T const& cpl::util::registry::get_default_internal(
+T const& nanonet::util::registry::get_default_internal(
     key_type const& key , T const& default_value ) const {
 
   if( !is_defined( key ) ) {
@@ -1054,7 +1054,7 @@ T const& cpl::util::registry::get_default_internal(
 
 
 template< typename T >
-T const& cpl::util::registry::get( key_type const& key ) const {
+T const& nanonet::util::registry::get( key_type const& key ) const {
 
   std::any const& a = get_any( key ) ;
 
@@ -1074,8 +1074,8 @@ T const& cpl::util::registry::get( key_type const& key ) const {
 
 
 template< typename for_it >
-void cpl::util::read_numbers
-( cpl::util::lexer& lex , for_it begin , for_it end ) {
+void nanonet::util::read_numbers
+( nanonet::util::lexer& lex , for_it begin , for_it end ) {
 
   typedef typename std::iterator_traits< for_it >::value_type value_type ;
 

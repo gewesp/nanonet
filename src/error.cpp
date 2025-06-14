@@ -20,18 +20,18 @@
 
 #include <string>
 
-void cpl::util::throw_error(const char* const message) {
+void nanonet::util::throw_error(const char* const message) {
   throw std::runtime_error(message);
 }
 
-void cpl::util::throw_error(const std::string& message) {
+void nanonet::util::throw_error(const std::string& message) {
   throw std::runtime_error(message);
 }
 
-void cpl::util::throw_parse_error(const char* const message) {
-  cpl::util::throw_parse_error(std::string("Parse error: ") + message);
+void nanonet::util::throw_parse_error(const char* const message) {
+  nanonet::util::throw_parse_error(std::string("Parse error: ") + message);
 }
 
-void cpl::util::throw_parse_error(const std::string& message) {
-  throw cpl::util::parse_error("Parse error: " + message);
+void nanonet::util::throw_parse_error(const std::string& message) {
+  throw nanonet::util::parse_error("Parse error: " + message);
 }

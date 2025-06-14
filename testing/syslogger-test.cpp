@@ -23,10 +23,10 @@
 #include "cpp-lib/sys/syslogger.h"
 
 
-using namespace cpl::util::log;
+using namespace nanonet::util::log;
 
 double testclock() {
-  return cpl::util::parse_datetime("2015-02-14T09:43:48Z");
+  return nanonet::util::parse_datetime("2015-02-14T09:43:48Z");
 }
 
 void loop(std::ostream& l, const int n) {

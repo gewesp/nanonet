@@ -29,7 +29,7 @@
 #include "cpp-lib/windows/wrappers.h"
   
 
-using namespace cpl::detail_ ;
+using namespace nanonet::detail_ ;
 
 
 namespace {
@@ -70,5 +70,5 @@ void exit_windows( bool reboot ) {
 } // anonymous namespace
 
 
-void cpl::util::reboot  () { exit_windows( true  ) ; }
-void cpl::util::poweroff() { exit_windows( false ) ; }
+void nanonet::util::reboot  () { exit_windows( true  ) ; }
+void nanonet::util::poweroff() { exit_windows( false ) ; }

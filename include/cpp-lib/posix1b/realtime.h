@@ -38,7 +38,7 @@
 #include <signal.h>
 
 
-namespace cpl {
+namespace nanonet {
 
 namespace util {
 
@@ -72,4 +72,4 @@ private:
 
 } // namespace util
 
-} // namespace cpl
+} // namespace nanonet

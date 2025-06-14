@@ -23,7 +23,7 @@
 #include <iosfwd>
 #include <string>
 
-namespace cpl {
+namespace nanonet {
 
 namespace http {
 
@@ -73,7 +73,7 @@ std::string content_type_from_file_name(const std::string& name);
 
 /// Writes an HTTP 'Date:' header
 /// @param time Time since UNIX epoch [s] (UTC.)
-/// If < 0, uses cpl::util::utc().
+/// If < 0, uses nanonet::util::utc().
 void write_date(std::ostream& os, double now = -1);
 
 /// Writes an HTTP 'Connection:' header, e.g. 'Connection: close'
@@ -151,7 +151,7 @@ get_request parse_get_request(
 
 } // namespace http
 
-} // namespace cpl
+} // namespace nanonet
 
 
 #endif // CPP_LIB_HTTP_H

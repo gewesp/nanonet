@@ -36,7 +36,6 @@ set(TESTS
 
 set(public-headers
     include/cpp-lib/assert.h
-    include/cpp-lib/command_line.h
     include/cpp-lib/container-util.h
     include/cpp-lib/dispatch.h
     include/cpp-lib/error.h
@@ -57,7 +56,6 @@ set(private-headers)
 
 set(sources
     src/assert.cpp
-    src/command_line.cpp
     src/dispatch.cpp
     src/error.cpp
     src/http.cpp

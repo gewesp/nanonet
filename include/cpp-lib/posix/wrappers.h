@@ -67,10 +67,10 @@
   ( ( expr ) >= 0 ) ?           \
   void( 0 )                     \
   :                             \
-  cpl::detail_::strerror_exception( #expr ) ;
+  nanonet::detail_::strerror_exception( #expr ) ;
 
 
-namespace cpl {
+namespace nanonet {
 
 
 // 
@@ -140,7 +140,7 @@ template<> struct auto_resource_traits< int > {
 // auto_resource<> specialization for POSIX file descriptors.
 //
 
-typedef cpl::util::auto_resource< int > auto_fd ;
+typedef nanonet::util::auto_resource< int > auto_fd ;
 
 
 //
@@ -181,7 +181,7 @@ struct file_impl {
 
   // Return last access time [s] (since some fixed epoch).
   double modification_time() 
-  { return ::cpl::detail_::modification_time( fd.get() ) ; }
+  { return ::nanonet::detail_::modification_time( fd.get() ) ; }
 
 private:
 
@@ -210,10 +210,10 @@ struct posix_reader_writer {
 // istreambuf<> and ostreambuf<> specializations for POSIX files.
 //
 
-typedef cpl::util::istreambuf< posix_reader_writer > 
+typedef nanonet::util::istreambuf< posix_reader_writer > 
 posix_istreambuf ;
 
-typedef cpl::util::ostreambuf< posix_reader_writer > 
+typedef nanonet::util::ostreambuf< posix_reader_writer > 
 posix_ostreambuf ;
 
 
@@ -255,7 +255,7 @@ inline void socket_shutdown_write(const socketfd_t s)
 
 } // namespace detail_
 
-} // namespace cpl
+} // namespace nanonet
 
 
 #endif // CPP_LIB_POSIX_WRAPPERS

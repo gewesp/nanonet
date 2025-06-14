@@ -27,7 +27,7 @@
 #include "cpp-lib/util.h"
 
 
-using namespace cpl::util::log ;
+using namespace nanonet::util::log ;
 
 namespace {
 
@@ -46,16 +46,16 @@ std::array<const char*, 8> prionames = {{
 
 } // anonymous namespace
 
-const char* cpl::util::log::to_string(cpl::util::log::prio const p) {
-  assert(cpl::util::log::prio::EMERG <= p);
-  assert(                          p <= cpl::util::log::prio::DEBUG);
+const char* nanonet::util::log::to_string(nanonet::util::log::prio const p) {
+  assert(nanonet::util::log::prio::EMERG <= p);
+  assert(                          p <= nanonet::util::log::prio::DEBUG);
   return prionames[static_cast<int>(p)];
 }
 
-cpl::util::log::prio cpl::util::log::prio_from_string(std::string const& s) {
+nanonet::util::log::prio nanonet::util::log::prio_from_string(std::string const& s) {
   for (unsigned i = 0; i < prionames.size(); ++i) {
     if (s == prionames.at(i)) {
-      return static_cast<cpl::util::log::prio>(i);
+      return static_cast<nanonet::util::log::prio>(i);
     }
   }
 
@@ -63,8 +63,8 @@ cpl::util::log::prio cpl::util::log::prio_from_string(std::string const& s) {
 }
 
 // Set log priority for next message
-std::ostream& cpl::util::log::operator<<(
-    std::ostream& os, cpl::util::log::prio const p) {
+std::ostream& nanonet::util::log::operator<<(
+    std::ostream& os, nanonet::util::log::prio const p) {
   auto const ptr = dynamic_cast<syslogger*>(&os);
  
   // For non-sysloggers, we write a textual representation
@@ -77,8 +77,8 @@ std::ostream& cpl::util::log::operator<<(
 }
 
 // No-op for non-sysloggers
-std::ostream& cpl::util::log::operator<<(
-    std::ostream& os, cpl::detail_::prio_setter const& ps) {
+std::ostream& nanonet::util::log::operator<<(
+    std::ostream& os, nanonet::detail_::prio_setter const& ps) {
   auto const ptr = dynamic_cast<syslogger*>(&os);
   if (ptr) {
     ptr->set_minlevel(ps);
@@ -86,12 +86,12 @@ std::ostream& cpl::util::log::operator<<(
   return os;
 }
  
-cpl::detail_::syslog_writer::syslog_writer(
+nanonet::detail_::syslog_writer::syslog_writer(
     std::string const& tag,
     std::ostream* const echo)
-  : minlevel_syslog(::cpl::util::log::default_prio()),
-    minlevel_echo  (::cpl::util::log::default_prio()),
-    currlevel      (::cpl::util::log::default_prio()),
+  : minlevel_syslog(::nanonet::util::log::default_prio()),
+    minlevel_echo  (::nanonet::util::log::default_prio()),
+    currlevel      (::nanonet::util::log::default_prio()),
     echo_(echo) {
   // If we have a tag, make it "<tag> ", else ""
   if (tag.size() > 0) {
@@ -104,7 +104,7 @@ cpl::detail_::syslog_writer::syslog_writer(
 }
  
 
-int cpl::detail_::syslog_writer::write(char const* const buf, int const n) {
+int nanonet::detail_::syslog_writer::write(char const* const buf, int const n) {
   int last = n;
   // Trim whitespace at end of line, typically from use of
   // std::endl
@@ -123,7 +123,7 @@ int cpl::detail_::syslog_writer::write(char const* const buf, int const n) {
     // Time values < 0 disable the echo clock
     const double now = echo_clock_();
     if (now >= 0) {
-      *echo_ << cpl::util::format_datetime(echo_clock_()) << ' ';
+      *echo_ << nanonet::util::format_datetime(echo_clock_()) << ' ';
     }
 
     *echo_ << tag() << '(' << to_string(currlevel) << ") ";
@@ -138,14 +138,14 @@ int cpl::detail_::syslog_writer::write(char const* const buf, int const n) {
   return n;
 }
 
-void cpl::util::log::log_error(
+void nanonet::util::log::log_error(
     std::ostream& os,
     std::string const& msg,
     std::string const& what) {
   os << prio::ERR << msg << ": " << what << std::endl;
 }
 
-void cpl::util::log::log_oneoff(
+void nanonet::util::log::log_oneoff(
     std::string const& tag,
     const prio p,
     const std::string& message) {

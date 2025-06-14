@@ -54,7 +54,7 @@
 #endif
 
 
-namespace cpl {
+namespace nanonet {
 
 
 // 
@@ -154,7 +154,7 @@ template<> struct auto_resource_traits< HANDLE > {
 // auto_resource<> specialization for Windoze handles.
 //
 
-typedef cpl::util::auto_resource< HANDLE > auto_handle ;
+typedef nanonet::util::auto_resource< HANDLE > auto_handle ;
 
 
 //
@@ -178,8 +178,8 @@ struct windows_reader_writer {
 // istreambuf<> and ostreambuf<> specializations for Windoze files.
 //
 
-typedef cpl::util::istreambuf< windows_reader_writer > windows_istreambuf ;
-typedef cpl::util::ostreambuf< windows_reader_writer > windows_ostreambuf ;
+typedef nanonet::util::istreambuf< windows_reader_writer > windows_istreambuf ;
+typedef nanonet::util::ostreambuf< windows_reader_writer > windows_ostreambuf ;
 
 
 //
@@ -212,7 +212,7 @@ struct file_impl {
 
   // Return last access time [s] (since some fixed epoch).
   double const modification_time() 
-  { return ::cpl::detail_::modification_time( fd.get() ) ; }
+  { return ::nanonet::detail_::modification_time( fd.get() ) ; }
 
 private:
 
@@ -273,7 +273,7 @@ inline void socket_shutdown_write(const socketfd_t s)
 
 } // namespace detail_
 
-} // namespace cpl
+} // namespace nanonet
 
 
 #endif // CPP_LIB_WINDOWS_WRAPPERS

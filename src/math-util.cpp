@@ -17,14 +17,14 @@
 #include "cpp-lib/math-util.h"
 
 
-cpl::math::rate_estimator::rate_estimator(
+nanonet::math::rate_estimator::rate_estimator(
     const double C, const double initial_estimate)
 : avg_(C),
   dt_estimate_(1 / initial_estimate) {
   always_assert(initial_estimate > 0);
 }
 
-bool cpl::math::rate_estimator::update(const double now) {
+bool nanonet::math::rate_estimator::update(const double now) {
   if (now != now) {
     return false;
   }
@@ -44,12 +44,12 @@ bool cpl::math::rate_estimator::update(const double now) {
   }
 }
 
-double cpl::math::rate_estimator::estimate() const {
+double nanonet::math::rate_estimator::estimate() const {
   return 1 / dt_estimate_;
 }
 
-double cpl::math::rate_estimator::estimate(const double now) const {
-  cpl::math::rate_estimator copy = *this;
+double nanonet::math::rate_estimator::estimate(const double now) const {
+  nanonet::math::rate_estimator copy = *this;
   copy.update(now);
   return copy.estimate();
 }

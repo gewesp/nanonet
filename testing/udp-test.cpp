@@ -34,8 +34,8 @@
 // Timeout for ping replies [s]
 long const TIMEOUT = 5;
 
-using namespace cpl::util::network ;
-using namespace cpl::util          ;
+using namespace nanonet::util::network ;
+using namespace nanonet::util          ;
 
 
 namespace {
@@ -224,7 +224,7 @@ int main( int argc , char const* const* const argv ) {
         std::cerr << "Data: " << std::flush ;
         size = r.receive( 
             source , std::ostreambuf_iterator< char >( std::cout ) ) ;
-        time = cpl::util::utc();
+        time = nanonet::util::utc();
         std::cout << std::endl ;
 
       } else {
@@ -237,7 +237,7 @@ int main( int argc , char const* const* const argv ) {
 
         size = r.receive( 
             source , std::ostreambuf_iterator< char >( os ) ) ;
-        time = cpl::util::utc();
+        time = nanonet::util::utc();
 
         always_assert( os ) ;
 
@@ -246,7 +246,7 @@ int main( int argc , char const* const* const argv ) {
       ++n ;
       
       std::cerr 
-        << cpl::util::format_datetime(time)
+        << nanonet::util::format_datetime(time)
         << ": "
         << "#" << n 
         << ", size: " 
