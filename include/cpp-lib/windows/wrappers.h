@@ -202,26 +202,6 @@ double const modification_time( HANDLE const fd ) ;
 
 
 //
-// A struct wrapping a windows file.
-//
-
-struct file_impl {
-
-  file_impl( std::string const& name ) 
-  : fd( windows_open( name , std::ios_base::in ) ) {}
-
-  // Return last access time [s] (since some fixed epoch).
-  double const modification_time() 
-  { return ::nanonet::detail_::modification_time( fd.get() ) ; }
-
-private:
-
-  auto_handle fd ;
-
-} ;
-
-
-//
 // Round a nonnegative time [s] to nearest nanosecond/microsecond and 
 // return the respective timeval structure.
 //

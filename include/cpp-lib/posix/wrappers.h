@@ -171,26 +171,6 @@ double modification_time( int const fd ) ;
 
 
 //
-// A struct wrapping a POSIX file.
-//
-
-struct file_impl {
-
-  file_impl( std::string const& name ) 
-  : fd( posix_open( name , std::ios_base::in ) ) {}
-
-  // Return last access time [s] (since some fixed epoch).
-  double modification_time() 
-  { return ::nanonet::detail_::modification_time( fd.get() ) ; }
-
-private:
-
-  auto_fd fd ;
-
-} ;
-
-
-//
 // Streambuf traits for POSIX files, forwarding to read(2), write(2).
 //
 

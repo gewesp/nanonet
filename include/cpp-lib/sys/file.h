@@ -33,7 +33,6 @@
 #include "cpp-lib/util.h"
 #include "cpp-lib/assert.h"
 
-namespace nanonet { namespace detail_ { struct file_impl ; } }
 
 
 namespace nanonet {
