@@ -93,25 +93,6 @@ private:
 };
 
 
-struct File {
-
-  // Open the file.  Subsequent opens are possible during our lifetime.
-  File( std::string const& name ) ;
-
-  // Return last access time [s] (since some fixed epoch).
-  double modification_time() ;
-
-  ~File() ;
-
-private:
-
-  File( File const& ) ;
-
-  std::unique_ptr< nanonet::detail_::file_impl > impl ;
-
-} ;
-
-
 } // namespace file
 
 } // namespace util

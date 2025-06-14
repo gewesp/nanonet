@@ -68,7 +68,6 @@ set(sources
     src/detail/socket.cpp
     src/detail/socket_lowlevel.cpp
 
-    src/sys/file.cpp
     src/sys/net-util.cpp
     src/sys/server.cpp
     src/sys/syslogger.cpp
