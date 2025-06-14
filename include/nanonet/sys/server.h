@@ -186,7 +186,7 @@ struct server_parameters {
 
   std::string bind_address = nanonet::util::network::any_ipv4();
   std::string service    = "test:stdio";
-  std::string server_name = "cpp-lib/generic";
+  std::string server_name = "nanonet/generic";
   bool   log_connections = true ;
   long   n_listen_retries = -1  ;
   double listen_retry_time = 1.0;

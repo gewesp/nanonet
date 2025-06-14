@@ -95,7 +95,7 @@ void test(std::ostream& sl) {
 
   sl << setminprio(prio::EMERG, SYSLOG);
   sl << prio::ALERT
-     << "Hi there.  Don't worry, it's just a cpp-lib/syslogger test!"
+     << "Hi there.  Don't worry, it's just a nanonet::syslogger test!"
      << std::endl;
 
   sl << prio::NOTICE << "Very long lines get split." << std::endl;
